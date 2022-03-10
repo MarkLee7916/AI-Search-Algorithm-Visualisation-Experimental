@@ -1,0 +1,95 @@
+<div class="page" [style.opacity]="modalDisplayed === Modal.None ? '1' : '0.1'">
+  <div class="screen-wide-menu">
+    <app-dropdown
+      *ngIf="isUsingForwardChecking()"
+      [currentItem]="valHeuristicItem"
+      [items]="valHeuristicItems"
+      commentary="The heuristics used to decide which column to select next."
+      (itemChangedEmitter)="setValHeuristicItem($event)"
+    ></app-dropdown>
+    <app-dropdown
+      [currentItem]="checkingItem"
+      [items]="checkingItems"
+      commentary="The type of checking the algorithm does."
+      (itemChangedEmitter)="setCheckingItem($event)"
+    ></app-dropdown>
+    <app-dropdown
+      *ngIf="isUsingForwardChecking()"
+      [currentItem]="pruningAlgoItem"
+      [items]="pruningAlgoItems"
+      commentary="The algorithm used to forward check."
+      (itemChangedEmitter)="setPruningAlgoItem($event)"
+    ></app-dropdown>
+    <app-dropdown
+      *ngIf="isUsingForwardChecking()"
+      [currentItem]="varHeuristicItem"
+      [items]="varHeuristicItems"
+      commentary="The heuristics used to decide which row to select next."
+      (itemChangedEmitter)="setVarHeuristicItem($event)"
+    ></app-dropdown>
+    <app-dropdown
+      *ngIf="isUsingForwardChecking()"
+      [currentItem]="domainDisplayItem"
+      [items]="domainDisplayItems"
+      commentary="The setting for which domains are displayed during the animation."
+      (itemChangedEmitter)="setDomainDisplayItem($event)"
+    ></app-dropdown>
+    <div class="range-container">
+      <p>Set Board Size</p>
+      <input
+        type="range"
+        class="range"
+        id="change-board-size"
+        [defaultValue]="boardSize"
+        min="3"
+        [max]="10"
+        (input)="setBoardSize($event)"
+      />
+      <p>{{ boardSize }}</p>
+    </div>
+  </div>
+
+  <div class="screen-wide-menu">
+    <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
+
+    <app-animation
+      [isAnimationRunning]="isAnimationRunning"
+      (setAnimationRunningEmitter)="setAnimationRunning($event)"
+      [animationIndex]="animationIndex"
+      (setAnimationIndexEmitter)="setAnimationIndex($event)"
+      [animationFrames]="animationFrames"
+      [updateAnimationFramesIfNeeded]="updateAnimationFramesIfNeeded.bind(this)"
+      [needToUpdateAnimationFrames]="needToUpdateAnimationFrames"
+    >
+    </app-animation>
+
+    <button>Quiz</button>
+  </div>
+
+  <p class="commentary">{{ getCurrentAnimationFrame().commentary }}</p>
+  <div class="board">
+    <div
+      [class]="getRowClass(rowIndex)"
+      *ngFor="let row of getCurrentAnimationFrame().board; let rowIndex = index"
+    >
+      <app-tile
+        *ngFor="let hasQueen of row; let colIndex = index"
+        [sizeInPx]="BOARD_SIZE_IN_PX / boardSize"
+        [hasQueen]="hasQueen"
+        [isPrunedFromDomainHighlighted]="
+          isTilePrunedFromDomainHighlighted(rowIndex, colIndex)
+        "
+        [isDomainHighlighted]="isTileDomainHighlighted(rowIndex, colIndex)"
+        [row]="rowIndex"
+        [col]="colIndex"
+      >
+      </app-tile>
+    </div>
+  </div>
+</div>
+
+<app-tutorial-modal
+  *ngIf="modalDisplayed === Modal.Tutorial"
+  [slides]="tutorialModalSlides"
+  (hideEmitter)="hideModal()"
+></app-tutorial-modal>

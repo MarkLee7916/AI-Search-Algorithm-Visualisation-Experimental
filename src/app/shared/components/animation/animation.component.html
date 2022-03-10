@@ -1,0 +1,58 @@
+<div id="animation-menu">
+  <div class="range-container">
+    <p>Set Animation Delay</p>
+    <input
+      type="range"
+      id="set-animation-delay"
+      class="range"
+      [defaultValue]="animationDelayMs"
+      min="0"
+      max="2000"
+      (input)="updateAnimationDelayMs($event)"
+    />
+    <p>{{ animationDelayMs }}ms</p>
+  </div>
+
+  <div id="media-control-container">
+    <button class="media-control-symbol" (click)="decrementAnimationIndex()">
+      ◀
+    </button>
+
+    <button
+      class="media-control-symbol"
+      (click)="prepareToAnimateAlgo()"
+      *ngIf="!isAnimationRunning"
+    >
+      ⏯
+    </button>
+
+    <button
+      class="media-control-symbol"
+      (click)="setAnimationRunningEmitter.emit(false)"
+      *ngIf="isAnimationRunning"
+    >
+      ⏸
+    </button>
+
+    <button class="media-control-symbol" (click)="incrementAnimationIndex()">
+      ▶
+    </button>
+  </div>
+
+  <div class="range-container">
+    <p>Step Through Animation Frames</p>
+    <input
+      id="step-through-animation-frames"
+      type="range"
+      class="range"
+      [value]="safeGetAnimationIndex()"
+      min="0"
+      [max]="animationFrames.length - 1"
+      (input)="updateAnimationFrameIndex($event)"
+    />
+    <p>
+      {{ safeGetAnimationIndex() + 1 }} /
+      {{ needToUpdateAnimationFrames ? "?" : animationFrames.length }}
+    </p>
+  </div>
+</div>

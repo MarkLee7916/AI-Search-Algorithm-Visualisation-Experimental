@@ -1,0 +1,133 @@
+<div class="page" [style.opacity]="modalDisplayed === Modal.None ? '1' : '0.1'">
+  <div class="screen-wide-menu">
+    <app-dropdown
+      [currentItem]="algoItem"
+      (itemChangedEmitter)="setAlgoItem($event)"
+      [items]="isInQuizMode() ? quizzableAlgoItems : algoItems"
+      commentary="The algorithm being visualised."
+    ></app-dropdown>
+
+    <app-dropdown
+      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+      [currentItem]="tilePlaceItem"
+      (itemChangedEmitter)="setTilePlaceItem($event)"
+      [items]="tilePlaceItems"
+      commentary="The type of item that's placed when clicking a tile."
+    ></app-dropdown>
+
+    <app-dropdown
+      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+      [currentItem]="neighboursItem"
+      (itemChangedEmitter)="setNeighboursItem($event)"
+      [items]="neighboursItems"
+      commentary="The directions a tile will add its neighbours in."
+    ></app-dropdown>
+
+    <app-dropdown
+      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+      [currentItem]="mazeGenItem"
+      (itemChangedEmitter)="setMazeGenItem($event)"
+      [items]="mazeGenItems"
+      commentary="The type of maze being generated."
+    ></app-dropdown>
+
+    <button
+      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+      (click)="generateMaze()"
+    >
+      Generate Maze
+    </button>
+
+    <app-dropdown
+      [currentItem]="tileDisplayItem"
+      (itemChangedEmitter)="setTileDisplayItem($event)"
+      [items]="tileDisplayItems"
+      commentary="The type of information displayed on a tile."
+    ></app-dropdown>
+
+    <button
+      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+      (click)="clearBarriersAndWeights()"
+    >
+      Clear Barriers and Weights
+    </button>
+  </div>
+
+  <div class="screen-wide-menu">
+    <app-dropdown
+      [currentItem]="userInteractionModeItem"
+      [items]="userInteractionModeItems"
+      commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm on a specific grid and asks you to predict what it will do next. Note only some algorithms are available in Quiz mode."
+      (itemChangedEmitter)="setUserInteractionModeItem($event)"
+    >
+    </app-dropdown>
+
+    <app-animation
+      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+      [isAnimationRunning]="isAnimationRunning"
+      (setAnimationRunningEmitter)="setAnimationRunning($event)"
+      [animationIndex]="animationIndex"
+      (setAnimationIndexEmitter)="setAnimationIndex($event)"
+      [animationFrames]="animationFrames"
+      [updateAnimationFramesIfNeeded]="updateAnimationFramesIfNeeded.bind(this)"
+      [needToUpdateAnimationFrames]="needToUpdateAnimationFrames"
+    >
+    </app-animation>
+
+    <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
+  </div>
+
+  <p class="commentary">{{ getCommentary() }}</p>
+  <div class="grid-legend-container screen-wide-menu">
+    <div class="legend-container">
+      <p>🟦 Expanded</p>
+      <p>🟥 In Agenda</p>
+      <p>🟨 Final Path</p>
+      <p>⬛ Barrier</p>
+      <p>⬜ Empty space</p>
+      <p>Number on tile - its weight</p>
+      <p>Tile with no number - weight of 1</p>
+      <p>⇒ Start tile</p>
+      <p>🎯 Goal tile</p>
+    </div>
+    <div class="grid" cellspacing="0" cellpadding="0">
+      <div
+        class="row"
+        *ngFor="
+          let row of gridPositions;
+          let rowIndex = index;
+          trackBy: trackByRow
+        "
+      >
+        <app-tile
+          *ngFor="let pos of row; let colIndex = index; trackBy: trackByPos"
+          [isMouseDown]="isMouseDown"
+          [isStart]="isStartPos(pos)"
+          [isGoal]="isGoalPos(pos)"
+          [isBarrier]="gridBarriers[rowIndex][colIndex]"
+          [weight]="gridWeights[rowIndex][colIndex]"
+          [dist]="getCurrentAnimationFrame().gridDists[rowIndex][colIndex]"
+          [heuristicDist]="getHeuristicDist(pos)"
+          [displayItem]="tileDisplayItem"
+          [willDisplayTooltipOnMouseOver]="safeGetAnimationIndex() !== 0"
+          [animationFrame]="getCurrentAnimationFrame().grid[rowIndex][colIndex]"
+          [pos]="pos"
+          [isInQuizMode]="isInQuizMode()"
+          (dragEmitter)="handleTileDrag($event)"
+          (dropEmitter)="handleTileDrop($event.pos)"
+          (clickEmitter)="handleTileClick($event.pos)"
+        >
+        </app-tile>
+      </div>
+    </div>
+    <div class="invisible legend-container">
+      <p>Tile with no number - weight of 1</p>
+    </div>
+  </div>
+</div>
+
+<app-tutorial-modal
+  *ngIf="modalDisplayed === Modal.Tutorial"
+  [slides]="tutorialModalSlides"
+  (hideEmitter)="hideModal()"
+></app-tutorial-modal>

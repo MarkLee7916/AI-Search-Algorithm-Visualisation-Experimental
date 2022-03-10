@@ -1,0 +1,22 @@
+.dropdown-button {
+  display: block;
+  border-radius: 0;
+  margin: 0;
+}
+
+.dropdown-items {
+  position: absolute;
+  display: block;
+}
+
+.dropdown-tooltip {
+  position: absolute;
+  width: calc((25vw + 25vh) / 2);
+  font-size: calc((1.2vw + 1.2vh) / 2);
+  text-align: center;
+  background-color: white;
+  border: 2px solid var(--secondary-color);
+  margin-left: 8vh;
+  padding: 10px;
+  margin-top: 0.3vh;
+}

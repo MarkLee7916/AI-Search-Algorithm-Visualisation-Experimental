@@ -1,0 +1,24 @@
+<div>
+  <button
+    class="dropdown-button"
+    (click)="toggleDropdown()"
+    (mouseenter)="displayTooltip()"
+    (mouseleave)="hideTooltip()"
+  >
+    {{ currentItem + (isDropdownDisplayed ? " ▲" : " ▼") }}
+  </button>
+
+  <div class="dropdown-items" *ngIf="isDropdownDisplayed">
+    <button
+      *ngFor="let item of items"
+      class="dropdown-button"
+      (click)="handleDropdownItemClick(item)"
+    >
+      {{ item }}
+    </button>
+  </div>
+
+  <div class="dropdown-tooltip" *ngIf="isTooltipDisplayed">
+    {{ commentary }}
+  </div>
+</div>

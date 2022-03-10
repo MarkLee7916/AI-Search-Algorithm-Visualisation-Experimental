@@ -1,0 +1,102 @@
+<div class="page" [style.opacity]="modalDisplayed === Modal.None ? '1' : '0.1'">
+  <div class="screen-wide-menu">
+    <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
+
+    <app-dropdown
+      [currentItem]="pruningHeuristicItem"
+      [items]="pruningHeuristicItems"
+      commentary="The type of pruning used"
+      (itemChangedEmitter)="setPruningHeuristicItem($event)"
+    >
+    </app-dropdown>
+
+    <app-dropdown
+      [currentItem]="userInteractionModeItem"
+      [items]="userInteractionModeItems"
+      commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode hides some values of nodes and asks you to predict what the values will be."
+      (itemChangedEmitter)="setUserInteractionModeItem($event)"
+    >
+    </app-dropdown>
+
+    <button (click)="updateLeafValuesWithGeneratedList()">New Tree</button>
+
+    <button
+      (mouseenter)="toggleLegendDisplay()"
+      (mouseleave)="toggleLegendDisplay()"
+    >
+      Show Legend
+    </button>
+
+    <div class="legend-tooltip" *ngIf="isLegendDisplayed">
+      <p>🟥 - Not Considered</p>
+      <p>🟦 - Considered</p>
+      <p>v - Node Value</p>
+      <p>α - Alpha Value</p>
+      <p>β - Beta Value</p>
+    </div>
+
+    <button (click)="setModalDisplayed(Modal.EnterLeafValues)">
+      Add Custom Leaf Values
+    </button>
+  </div>
+
+  <app-animation
+    [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+    [isAnimationRunning]="isAnimationRunning"
+    (setAnimationRunningEmitter)="setAnimationRunning($event)"
+    [animationIndex]="animationIndex"
+    (setAnimationIndexEmitter)="setAnimationIndex($event)"
+    [animationFrames]="animationFrames"
+    [updateAnimationFramesIfNeeded]="updateAnimationFramesIfNeeded.bind(this)"
+    [needToUpdateAnimationFrames]="needToUpdateAnimationFrames"
+  ></app-animation>
+
+  <p class="commentary">
+    {{ getCommentary() | infinitySymbol }}
+  </p>
+  <svg
+    id="tree-svg"
+    version="1.1"
+    [attr.height]="SVG_HEIGHT"
+    [attr.width]="SVG_WIDTH"
+    xmlns="http://www.w3.org/2000/svg"
+    attr.transform="scale({{ SVG_TRANSFORM_SCALE }})"
+  >
+    <rect width="100%" height="100%" fill="white" />
+
+    <line
+      *ngFor="let edge of getCurrentAnimationFrame().tree.edges"
+      [attr.x1]="edge.startX"
+      [attr.y1]="edge.startY"
+      [attr.x2]="edge.endX"
+      [attr.y2]="edge.endY"
+      stroke="var(--primary-color)"
+    />
+
+    <svg:g
+      app-node
+      *ngFor="let svgNode of getCurrentAnimationFrame().tree.nodes"
+      [class]="getNodeClass(svgNode.internalNode)"
+      id="node-container"
+      [svgNode]="svgNode"
+      [nodeColor]="getNodeColor(svgNode.internalNode)"
+      [orientationDisplay]="getOrientationDisplay(svgNode.internalNode.depth)"
+      [isUsingAlphaBetaPruning]="isUsingAlphaBetaPruning()"
+      [isLeafNode]="isLeafNode(svgNode.internalNode)"
+      (correctGuessEmitter)="handleCorrectGuess($event)"
+      (incorrectGuessEmitter)="handleIncorrectGuess()"
+    />
+  </svg>
+</div>
+
+<app-tutorial-modal
+  *ngIf="modalDisplayed === Modal.Tutorial"
+  [slides]="tutorialModalSlides"
+  (hideEmitter)="hideModal()"
+></app-tutorial-modal>
+
+<app-enter-leaf-values-modal
+  *ngIf="modalDisplayed === Modal.EnterLeafValues"
+  (hideEmitter)="hideModal()"
+  (updateLeafValuesEmitter)="updateLeafValuesWithUserEnteredList($event)"
+></app-enter-leaf-values-modal>

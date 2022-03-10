@@ -1,0 +1,67 @@
+<svg:g
+  id="node-container"
+  [class]="isDataHiddenForUserGuess() ? 'highlight-on-hover' : ''"
+  (click)="toggleGuessInputDisplaySelection()"
+>
+  <svg:circle
+    [attr.cx]="svgNode.centerX"
+    [attr.cy]="svgNode.centerY"
+    [attr.r]="SVG_NODE_RADIUS"
+    [attr.fill]="nodeColor"
+  />
+
+  <svg:text
+    class="small-text"
+    [attr.x]="svgNode.centerX - 30"
+    [attr.y]="svgNode.centerY"
+  >
+    {{ orientationDisplay }}
+  </svg:text>
+  <svg:text [attr.x]="svgNode.centerX + 5" [attr.y]="svgNode.centerY">
+    v: {{ getValDisplay() | infinitySymbol }}
+  </svg:text>
+  <svg:text
+    *ngIf="isUsingAlphaBetaPruning && !isLeafNode"
+    [attr.x]="svgNode.centerX + 5"
+    [attr.y]="svgNode.centerY + 15"
+  >
+    α: {{ getAlphaDisplay() + "" | infinitySymbol }}
+  </svg:text>
+  <svg:text
+    *ngIf="isUsingAlphaBetaPruning && !isLeafNode"
+    [attr.x]="svgNode.centerX + 5"
+    [attr.y]="svgNode.centerY + 30"
+  >
+    β: {{ getBetaDisplay() + "" | infinitySymbol }}
+  </svg:text>
+</svg:g>
+
+<svg:foreignObject
+  width="150"
+  height="100"
+  [attr.x]="getUserGuessInputXCoord()"
+  [attr.y]="getUserGuessInputYCoord()"
+  *ngIf="isDisplayingGuessInput()"
+>
+  <div class="enter-user-guess-container">
+    <button
+      class="enter-user-guess-button"
+      (click)="handleUserGuess(Number.POSITIVE_INFINITY)"
+    >
+      ∞
+    </button>
+    <button
+      class="enter-user-guess-button"
+      (click)="handleUserGuess(Number.NEGATIVE_INFINITY)"
+    >
+      -∞
+    </button>
+    <input
+      class="enter-user-guess-input"
+      type="text"
+      placeholder="? = "
+      #userguess
+      (keyup.enter)="handleUserGuess(Number(userguess.value))"
+    />
+  </div>
+</svg:foreignObject>

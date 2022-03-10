@@ -1,0 +1,260 @@
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Intro">
+  <h1 class="modal-title">Welcome to Pathfinding Visualiser!</h1>
+
+  <p class="modal-text">
+    This is a project that aims to help students learn about pathfinding
+    algorithms through visualisation. This app works by animating the process
+    that pathfinding algorithms go through when trying to find a path in a 2D
+    grid. It was written by Mark Lee as his final year project for BSc Computer
+    Science at the University of Strathclyde.
+  </p>
+
+  <p class="modal-text">
+    These slides will guide you through the features of the application. You can
+    navigate through the slides using the buttons at the bottom left and bottom
+    right corners of the current slide.
+  </p>
+
+  <p class="modal-text">
+    A general tip for using algorithm visualisation tools: it's better to try
+    and actively learn than passively learn. When stepping through an algorithm,
+    try and predict what it will do next. If you're right, then it shows you
+    understand the algorithm. If you're wrong, it's worth wondering why that is
+    and comparing your result with the actual one.
+  </p>
+
+  <p class="modal-text">
+    As part of this project I've also implemented visualisers for
+    <a [routerLink]="'/n-queens'">Constraint Satisfaction</a> and
+    <a [routerLink]="'/minimax'">Adversarial Search</a>
+  </p>
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Grid">
+  <h1 class="modal-title">Mapping a 2D grid onto Graph Theory</h1>
+
+  <p class="modal-text">
+    Weights are applied to tiles themselves rather than the connections between
+    them. Therefore you can view the grid as a directed graph where two tiles
+    being adjacent corresponds to two edges existing between them. Both edges
+    will be directed in opposite directions allowing bidirectional travel
+    between the tiles. The weight of any edge directed towards a tile will be
+    the weight assigned to that tile in the 2D grid. How adjacency is defined is
+    configurable through the menu, and includes horizontal and vertical
+    adjacency only, diagonal adjacency only and both. The example below is
+    vertical and horizontal adjacency only.
+  </p>
+
+  <p class="modal-text">
+    However, it's probably easier to think of a weight as the cost of passing
+    through a tile rather than thinking of it in terms of edges.
+  </p>
+
+  <img class="modal-visual-media" src="../../../../assets/tile-to-graph.png" />
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div
+  class="modal-slide"
+  *ngIf="slides[slideIndex] === Slide.BarriersAndWeights"
+>
+  <h1 class="modal-title">Barriers and Weights</h1>
+
+  <p class="modal-text">
+    You can add obstacles to see how the algorithm will get around them. This is
+    done through holding down the mouse left button and dragging it along the
+    grid, which draws obstacles along every tile the mouse has touched.
+    Obstacles come in two modes; barriers and weights. You can configure which
+    one is being drawn in the dropdown menu under "Place Barriers"
+  </p>
+
+  <p class="modal-text">
+    Barriers block the algorithm from passing completely, forcing it to find
+    another way around. Weights assign a cost to passing through, which
+    disincentivizes algorithms if they're aiming to find the shortest path. Note
+    that only A* and Dijkstra's take weights into account; any other algorithm
+    will ignore them.
+  </p>
+
+  <video
+    class="modal-visual-media"
+    src="../../../../assets/drawing-barriers-and-weights.mp4"
+    autoplay
+    loop
+  ></video>
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.MazeGen">
+  <h1 class="modal-title">Maze Generation</h1>
+
+  <p class="modal-text">
+    Instead of drawing barriers and weights manually you can automatically
+    generate mazes for the algorithm to explore. The type of maze is configured
+    using the "Random Grid" dropdown and mazes are generated using the "Generate
+    Maze" button. If you have "Place Barriers" selected it will generate a maze
+    of barriers and if you have "Place Weights" selected it will generate a maze
+    of weights.
+  </p>
+
+  <video
+    class="modal-visual-media"
+    src="../../../../assets/maze-generation.mp4"
+    autoplay
+    loop
+  ></video>
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.StartAndGoal">
+  <h1 class="modal-title">Start and Goal Tiles</h1>
+
+  <p class="modal-text">
+    The starting tile the algorithm searches from is denoted by "⇒".
+  </p>
+
+  <p class="modal-text">
+    The goal tile the algorithm is searching for is denoted by "🎯".
+  </p>
+
+  <p class="modal-text">
+    The positions of the start and goal tiles can be changed by dragging and
+    dropping them onto an empty tile.
+  </p>
+
+  <video
+    class="modal-visual-media"
+    src="../../../../assets/moving-start-and-goal.mp4"
+    autoplay
+    loop
+  ></video>
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Animating">
+  <h1 class="modal-title">Animating an Algorithm</h1>
+
+  <p class="modal-text">
+    To animate an algorithm simply press the "⏯" button. While an algorithm is
+    being animated this button will change to "⏸", which pauses the animation.
+    You can configure the speed of the animation by adjusting the slider under
+    "Set Animation Delay".
+  </p>
+
+  <video
+    class="modal-visual-media"
+    src="../../../../assets/running-algo.mp4"
+    autoplay
+    loop
+  ></video>
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div
+  class="modal-slide"
+  *ngIf="slides[slideIndex] === Slide.SteppingThroughAnimations"
+>
+  <h1 class="modal-title">Stepping Through Animations</h1>
+
+  <p class="modal-text">
+    You can step through animations to view them at your own pace. The "▶"
+    button moves to the next frame in the animation while the "◀" button moves
+    to the previous.
+  </p>
+
+  <p class="modal-text">
+    You can also step through the animations quickly by adjusting the slider
+    under "Step Through Animation Frames".
+  </p>
+
+  <video
+    class="modal-visual-media"
+    src="../../../../assets/step-features.mp4"
+    autoplay
+    loop
+  ></video>
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Conclusion">
+  <h1 class="modal-title">That's Everything!</h1>
+
+  <p class="modal-text">
+    That's a quick summary of all the features. If you have any questions you
+    can contact the developer through email at mark.lee.2018@uni.strath.ac.uk
+  </p>
+
+  <p class="modal-text">
+    You can also checkout the <a href="">source code</a> on GitHub when it is
+    released.
+  </p>
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Finish Tutorial
+  </button>
+</div>

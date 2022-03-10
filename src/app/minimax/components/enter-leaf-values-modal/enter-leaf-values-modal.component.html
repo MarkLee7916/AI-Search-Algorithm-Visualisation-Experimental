@@ -1,0 +1,36 @@
+<div class="modal-slide">
+  <h1 class="modal-title">Add Custom Leaf Values</h1>
+
+  <p class="modal-text">
+    Enter a list of values separated by commas and they'll by displayed on the
+    leaves of the tree. If you enter too many it will only display the first
+    {{ LEAF_COUNT }}
+    you enter, and if you enter too little it'll automatically generate the
+    rest.
+  </p>
+
+  <p class="modal-text">
+    An example input could be "1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1"
+    which would make every leaf node equal to 1.
+  </p>
+
+  <p
+    class="modal-centered-text"
+    [style.visibility]="hasEnteredInvalidInput ? 'visible' : 'hidden'"
+    id="invalid-input-error-message"
+  >
+    Input is not a valid comma separated list!
+  </p>
+
+  <input type="text" class="modal-input-item" #leafValuesInput />
+
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Close Without Saving
+  </button>
+  <button
+    class="modal-left-of-bottom-right-btn"
+    (click)="updateLeafValues(leafValuesInput.value)"
+  >
+    Save And Close
+  </button>
+</div>

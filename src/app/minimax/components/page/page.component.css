@@ -1,0 +1,24 @@
+.stroke-black {
+  stroke: black;
+}
+
+.commentary {
+  margin-bottom: -80px;
+}
+
+.legend-tooltip {
+  position: absolute;
+  background-color: white;
+  border: 2px solid var(--secondary-color);
+  margin-left: 35vw;
+  padding: 10px;
+  margin-top: 6vh;
+}
+
+.legend-tooltip > * {
+  font-size: calc((1.2vw + 1.2vh) / 2);
+}
+
+#tree-svg {
+  border: 2px solid black;
+}

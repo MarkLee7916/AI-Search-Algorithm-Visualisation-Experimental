@@ -1,0 +1,9 @@
+#bottom-menu > button {
+  margin-top: 3vh;
+}
+
+.legend-container > * {
+  font-size: calc((1.2vmin + 1.2vmax) / 2);
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}

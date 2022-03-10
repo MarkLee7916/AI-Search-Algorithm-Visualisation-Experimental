@@ -1,0 +1,80 @@
+.modal-slide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  border: 3px solid var(--secondary-color);
+  height: 85vh;
+  width: 85vw;
+  margin-left: 7.5vw;
+  margin-top: 7.5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.modal-title {
+  margin-top: 2vh;
+  font-size: calc((3vh + 3vw) / 2);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.modal-text {
+  font-size: calc((1.5vh + 1.5vw) / 2);
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
+}
+
+.modal-centered-text {
+  font-size: calc((1.5vh + 1.5vw) / 2);
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.modal-visual-media {
+  height: 53.1vh;
+  width: 86.4vh;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.modal-bottom-left-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 2vh;
+  margin-left: 2vw;
+}
+
+.modal-left-of-bottom-right-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 2vh;
+  margin-right: 2vw;
+  transform: translateX(-110%);
+}
+
+.modal-bottom-right-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 2vh;
+  margin-right: 2vw;
+}
+
+.modal-input-item {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  width: 50vw;
+  height: 10vh;
+  font-size: calc((3vw + 3vh) / 2);
+}

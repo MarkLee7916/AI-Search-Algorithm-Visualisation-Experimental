@@ -1,0 +1,32 @@
+<div
+  [class]="getClass()"
+  [draggable]="!isInQuizMode"
+  [style.backgroundColor]="getBackgroundColor()"
+  (drag)="$event.preventDefault()"
+  (dragend)="$event.preventDefault()"
+  (dragenter)="$event.preventDefault()"
+  (dragleave)="$event.preventDefault()"
+  (dragover)="$event.preventDefault()"
+  (dragstart)="handleDrag($event)"
+  (drop)="notifyDrop($event)"
+  (mouseenter)="handleMouseOver($event)"
+  (mouseleave)="handleMouseLeave()"
+  (mousedown)="notifyClick($event)"
+>
+  <p *ngIf="isStart" id="start-arrow">⇒</p>
+
+  <p *ngIf="isGoal" id="goal-arrow">🎯</p>
+
+  <p
+    *ngIf="!isStart && !isGoal"
+    [style.color]="displayItemToColor.get(displayItem)"
+  >
+    {{ getDisplayStr() }}
+  </p>
+</div>
+
+<div class="tile-tooltip" *ngIf="willDisplayTooltipOnMouseOver && isMouseOver">
+  <p>Calculated Distance From Start: {{ getDistDisplayStr() }}</p>
+  <p>Estimated Distance To Goal: {{ heuristicDist }}</p>
+  <p>Cost of passing through: {{ weight }}</p>
+</div>

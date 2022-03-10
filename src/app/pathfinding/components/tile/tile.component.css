@@ -1,0 +1,46 @@
+.tile {
+  border: 1px solid var(--primary-color);
+  height: calc((1.7vmin + 1.7vmax) / 2);
+  width: calc((1.7vmin + 1.7vmax) / 2);
+  font-size: calc((1vmin + 1vmax) / 2);
+  z-index: 100;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tile:hover {
+  opacity: 0.5;
+}
+
+.tile-tooltip {
+  position: absolute;
+  width: calc((20vw + 20vh) / 2);
+  font-size: calc((1.2vw + 1.2vh) / 2);
+  text-align: center;
+  background-color: white;
+  border: 2px solid var(--secondary-color);
+  margin-left: 8vh;
+  margin-top: -20vh;
+  padding: 10px;
+}
+
+.tile > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.black-border {
+  border: 1px solid var(--secondary-color);
+}
+
+#start-arrow {
+  font-size: calc((1.7vmin + 1.7vmax) / 2);
+}
+
+#goal-arrow {
+  font-size: calc((1.3vmin + 1.3vmax) / 2);
+}
