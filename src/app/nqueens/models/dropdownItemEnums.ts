@@ -13,6 +13,11 @@ export enum VarHeuristicItem {
   MostConstrained = 'Take Most Constrained Row',
 }
 
+export enum UserInteractionModeItem {
+  Visualise = 'Visualisation Mode',
+  Quiz = 'Quiz Mode',
+}
+
 export enum ValHeuristicItem {
   InOrder = 'Take Columns In Order',
   LeastConstraining = 'Take Least Constraining Column',

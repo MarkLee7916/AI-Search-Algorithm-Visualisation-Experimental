@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  assertNonNull,
   AVERAGE_OF_VW_AND_VH,
   getValueFromRangeEvent,
   safeGetArrayIndex,
@@ -14,11 +15,17 @@ import {
   BoardAnimationFrame,
 } from '../../models/animation';
 import { BacktrackingAlgoImpl } from '../../models/backtrackingAlgoImpl';
-import { MAX_BOARD_SIZE, MIN_BOARD_SIZE } from '../../models/board';
+import {
+  findQueenColAtRow,
+  MAX_BOARD_SIZE,
+  MIN_BOARD_SIZE,
+  Pos,
+} from '../../models/board';
 import {
   CheckingItem,
   DomainDisplayItem,
   PruningAlgoItem,
+  UserInteractionModeItem,
   ValHeuristicItem,
   VarHeuristicItem,
 } from '../../models/dropdownItemEnums';
@@ -50,6 +57,8 @@ export class PageComponent implements OnInit {
   readonly domainDisplayItems = Object.values(DomainDisplayItem);
 
   readonly checkingItems = Object.values(CheckingItem);
+
+  readonly userInteractionModeItems = Object.values(UserInteractionModeItem);
 
   readonly pruningAlgoItemToImpl = new UncheckedObjMap<
     PruningAlgoItem,
@@ -88,6 +97,10 @@ export class PageComponent implements OnInit {
   domainDisplayItem = DomainDisplayItem.All;
 
   checkingItem = CheckingItem.Assigning;
+
+  userInteractionModeItem = UserInteractionModeItem.Visualise;
+
+  commentaryType = CommentaryType.AlgoStep;
 
   ngOnInit(): void {
     this.updateAnimationFramesIfNeeded();
@@ -156,6 +169,21 @@ export class PageComponent implements OnInit {
     this.checkingItem = checkingItem as CheckingItem;
   }
 
+  setUserInteractionModeItem(item: string): void {
+    this.userInteractionModeItem = item as UserInteractionModeItem;
+
+    if (this.isInQuizMode()) {
+      this.commentaryType = CommentaryType.GuessExplanation;
+      this.setAnimationIndex(0);
+    } else {
+      this.commentaryType = CommentaryType.AlgoStep;
+    }
+  }
+
+  isInQuizMode(): boolean {
+    return this.userInteractionModeItem === UserInteractionModeItem.Quiz;
+  }
+
   setBoardSize(event: Event): void {
     this.markAnimationFramesForUpdate();
     this.boardSize = getValueFromRangeEvent(event);
@@ -197,7 +225,10 @@ export class PageComponent implements OnInit {
   }
 
   isRowUnderConsideration(row: number): boolean {
-    return this.getCurrentAnimationFrame().rowInConsideration === row;
+    return (
+      !this.isInQuizMode() &&
+      this.getCurrentAnimationFrame().rowInConsideration === row
+    );
   }
 
   isUsingForwardChecking(): boolean {
@@ -215,7 +246,80 @@ export class PageComponent implements OnInit {
     this.needToUpdateAnimationFrames = true;
     this.setAnimationIndex(0);
     this.setAnimationRunning(false);
+    this.updateAnimationFramesIfNeeded();
   }
+
+  handleTileClick(pos: Pos): void {
+    if (!this.isInQuizMode()) {
+      return;
+    } else if (this.isCorrectGuessForWhereQueenWillBePlaced(pos)) {
+      this.handleMovingToNextFrameToGuess();
+      this.displayGuessCommentaryTemporarily(CommentaryType.CorrectGuess);
+    } else {
+      this.displayGuessCommentaryTemporarily(CommentaryType.IncorrectGuess);
+    }
+  }
+
+  handleMovingToNextFrameToGuess(): void {
+    const nextFrameIndex = this.findNextAnimFrameIndexWhereQueenPlaced();
+
+    if (nextFrameIndex === -1) {
+      this.commentaryType = CommentaryType.GuessedAllCorrect;
+    } else {
+      this.animationIndex = nextFrameIndex - 1;
+    }
+  }
+
+  isCorrectGuessForWhereQueenWillBePlaced({ row, col }: Pos): boolean {
+    const nextFrame = this.animationFrames[this.animationIndex + 1];
+    const queenColPlacedAtNextFrame = findQueenColAtRow(
+      nextFrame.board,
+      assertNonNull(nextFrame.rowInConsideration)
+    );
+
+    return (
+      row === nextFrame.rowInConsideration && col === queenColPlacedAtNextFrame
+    );
+  }
+
+  findNextAnimFrameIndexWhereQueenPlaced(): number {
+    return this.animationFrames.findIndex(
+      ({ commentary }, index) =>
+        index > this.animationIndex + 1 &&
+        commentary === 'Assigning Queen to column...'
+    );
+  }
+
+  displayGuessCommentaryTemporarily(commentaryType: CommentaryType): void {
+    this.commentaryType = commentaryType;
+
+    setTimeout(() => {
+      this.commentaryType = CommentaryType.GuessExplanation;
+    }, 1000);
+  }
+
+  getCommentary(): string {
+    switch (this.commentaryType) {
+      case CommentaryType.AlgoStep:
+        return this.getCurrentAnimationFrame().commentary;
+      case CommentaryType.CorrectGuess:
+        return 'Correct!';
+      case CommentaryType.GuessedAllCorrect:
+        return 'All guesses correct! Try another configuration';
+      case CommentaryType.GuessExplanation:
+        return 'Click tile queen will be placed next';
+      default:
+        return 'Incorrect! Try again';
+    }
+  }
+}
+
+const enum CommentaryType {
+  IncorrectGuess,
+  CorrectGuess,
+  GuessedAllCorrect,
+  GuessExplanation,
+  AlgoStep,
 }
 
 enum Modal {

@@ -50,9 +50,16 @@
   </div>
 
   <div class="screen-wide-menu">
-    <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
+    <app-dropdown
+      [currentItem]="userInteractionModeItem"
+      [items]="userInteractionModeItems"
+      commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm and asks you to predict what it will do next."
+      (itemChangedEmitter)="setUserInteractionModeItem($event)"
+    >
+    </app-dropdown>
 
     <app-animation
+      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
       [isAnimationRunning]="isAnimationRunning"
       (setAnimationRunningEmitter)="setAnimationRunning($event)"
       [animationIndex]="animationIndex"
@@ -62,28 +69,33 @@
       [needToUpdateAnimationFrames]="needToUpdateAnimationFrames"
     >
     </app-animation>
-
-    <button>Quiz</button>
+    <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
   </div>
 
-  <p class="commentary">{{ getCurrentAnimationFrame().commentary }}</p>
-  <div class="board">
-    <div
-      [class]="getRowClass(rowIndex)"
-      *ngFor="let row of getCurrentAnimationFrame().board; let rowIndex = index"
-    >
-      <app-tile
-        *ngFor="let hasQueen of row; let colIndex = index"
-        [sizeInPx]="BOARD_SIZE_IN_PX / boardSize"
-        [hasQueen]="hasQueen"
-        [isPrunedFromDomainHighlighted]="
-          isTilePrunedFromDomainHighlighted(rowIndex, colIndex)
+  <p class="commentary">{{ getCommentary() }}</p>
+  <div class="screen-wide-menu">
+    <div class="board">
+      <div
+        [class]="getRowClass(rowIndex)"
+        *ngFor="
+          let row of getCurrentAnimationFrame().board;
+          let rowIndex = index
         "
-        [isDomainHighlighted]="isTileDomainHighlighted(rowIndex, colIndex)"
-        [row]="rowIndex"
-        [col]="colIndex"
       >
-      </app-tile>
+        <app-tile
+          *ngFor="let hasQueen of row; let colIndex = index"
+          [sizeInPx]="BOARD_SIZE_IN_PX / boardSize"
+          [hasQueen]="hasQueen"
+          [isPrunedFromDomainHighlighted]="
+            isTilePrunedFromDomainHighlighted(rowIndex, colIndex)
+          "
+          [isDomainHighlighted]="isTileDomainHighlighted(rowIndex, colIndex)"
+          [pos]="{ row: rowIndex, col: colIndex }"
+          [isInQuizMode]="isInQuizMode()"
+          (clickEmitter)="handleTileClick($event)"
+        >
+        </app-tile>
+      </div>
     </div>
   </div>
 </div>

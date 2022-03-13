@@ -6,3 +6,8 @@
   border: 2px solid var(--primary-color);
   margin: -2px;
 }
+
+.clickable:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Pos } from '../../models/board';
 
 @Component({
   selector: 'app-tile',
@@ -14,9 +15,11 @@ export class TileComponent {
 
   @Input() readonly isPrunedFromDomainHighlighted!: boolean;
 
-  @Input() readonly row!: number;
+  @Input() readonly pos!: Pos;
 
-  @Input() readonly col!: number;
+  @Input() readonly isInQuizMode!: boolean;
+
+  @Output() readonly clickEmitter = new EventEmitter<Pos>();
 
   getBackgroundColor(): string {
     if (this.isDomainHighlighted) {
@@ -24,7 +27,11 @@ export class TileComponent {
     } else if (this.isPrunedFromDomainHighlighted) {
       return 'white';
     } else {
-      return (this.row + this.col) % 2 === 0 ? 'white' : '#C4A484';
+      return (this.pos.row + this.pos.col) % 2 === 0 ? 'white' : '#C4A484';
     }
+  }
+
+  notifyClick(): void {
+    this.clickEmitter.emit(this.pos);
   }
 }

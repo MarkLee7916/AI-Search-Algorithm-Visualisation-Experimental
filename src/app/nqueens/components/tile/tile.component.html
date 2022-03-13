@@ -1,9 +1,10 @@
 <div
-  class="tile"
+  [class]="isInQuizMode ? 'tile clickable' : 'tile'"
   [style.height.px]="sizeInPx"
   [style.width.px]="sizeInPx"
   [style.fontSize.px]="sizeInPx * 0.6"
   [style.backgroundColor]="getBackgroundColor()"
+  (click)="notifyClick()"
 >
   {{ hasQueen ? "♛" : "" }}
 </div>
