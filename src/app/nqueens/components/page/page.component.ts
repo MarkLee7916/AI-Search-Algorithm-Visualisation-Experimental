@@ -4,6 +4,7 @@ import {
   AVERAGE_OF_VW_AND_VH,
   getValueFromRangeEvent,
   safeGetArrayIndex,
+  wait,
 } from 'src/app/shared/genericUtils';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import { backtracking } from '../../algos/backtracking';
@@ -102,6 +103,8 @@ export class PageComponent implements OnInit {
 
   commentaryType = CommentaryType.AlgoStep;
 
+  canClickOnTileIfInQuizMode = true;
+
   ngOnInit(): void {
     this.updateAnimationFramesIfNeeded();
   }
@@ -146,18 +149,18 @@ export class PageComponent implements OnInit {
   }
 
   setPruningAlgoItem(pruningAlgoItem: string): void {
-    this.markAnimationFramesForUpdate();
     this.pruningAlgoItem = pruningAlgoItem as PruningAlgoItem;
+    this.markAnimationFramesForUpdate();
   }
 
   setValHeuristicItem(valHeuristicItem: string): void {
-    this.markAnimationFramesForUpdate();
     this.valHeuristicItem = valHeuristicItem as ValHeuristicItem;
+    this.markAnimationFramesForUpdate();
   }
 
   setVarHeuristicItem(varHeuristicItem: string): void {
-    this.markAnimationFramesForUpdate();
     this.varHeuristicItem = varHeuristicItem as VarHeuristicItem;
+    this.markAnimationFramesForUpdate();
   }
 
   setDomainDisplayItem(domainDisplayItem: string): void {
@@ -165,8 +168,8 @@ export class PageComponent implements OnInit {
   }
 
   setCheckingItem(checkingItem: string): void {
-    this.markAnimationFramesForUpdate();
     this.checkingItem = checkingItem as CheckingItem;
+    this.markAnimationFramesForUpdate();
   }
 
   setUserInteractionModeItem(item: string): void {
@@ -174,7 +177,7 @@ export class PageComponent implements OnInit {
 
     if (this.isInQuizMode()) {
       this.commentaryType = CommentaryType.GuessExplanation;
-      this.setAnimationIndex(0);
+      this.markAnimationFramesForUpdate();
     } else {
       this.commentaryType = CommentaryType.AlgoStep;
     }
@@ -185,9 +188,8 @@ export class PageComponent implements OnInit {
   }
 
   setBoardSize(event: Event): void {
-    this.markAnimationFramesForUpdate();
     this.boardSize = getValueFromRangeEvent(event);
-    this.updateAnimationFramesIfNeeded();
+    this.markAnimationFramesForUpdate();
   }
 
   getRowClass(row: number): string {
@@ -226,7 +228,7 @@ export class PageComponent implements OnInit {
 
   isRowUnderConsideration(row: number): boolean {
     return (
-      !this.isInQuizMode() &&
+      (!this.isInQuizMode() || !this.canClickOnTileIfInQuizMode) &&
       this.getCurrentAnimationFrame().rowInConsideration === row
     );
   }
@@ -249,25 +251,40 @@ export class PageComponent implements OnInit {
     this.updateAnimationFramesIfNeeded();
   }
 
-  handleTileClick(pos: Pos): void {
+  async handleTileClick(pos: Pos): Promise<void> {
     if (!this.isInQuizMode()) {
       return;
     } else if (this.isCorrectGuessForWhereQueenWillBePlaced(pos)) {
-      this.handleMovingToNextFrameToGuess();
-      this.displayGuessCommentaryTemporarily(CommentaryType.CorrectGuess);
+      await this.displayGuessCommentaryTemporarily(CommentaryType.CorrectGuess);
+      await this.handleMovingToNextFrameToGuess();
     } else {
       this.displayGuessCommentaryTemporarily(CommentaryType.IncorrectGuess);
     }
   }
 
-  handleMovingToNextFrameToGuess(): void {
+  async handleMovingToNextFrameToGuess(): Promise<void> {
     const nextFrameIndex = this.findNextAnimFrameIndexWhereQueenPlaced();
 
     if (nextFrameIndex === -1) {
       this.commentaryType = CommentaryType.GuessedAllCorrect;
+      this.animationIndex = this.animationFrames.length - 1;
     } else {
-      this.animationIndex = nextFrameIndex - 1;
+      await this.animateMovingToNextFrameToGuess(nextFrameIndex);
     }
+  }
+
+  async animateMovingToNextFrameToGuess(nextFrameIndex: number): Promise<void> {
+    this.canClickOnTileIfInQuizMode = false;
+    this.commentaryType = CommentaryType.AlgoStep;
+    this.animationIndex++;
+
+    while (this.animationIndex < nextFrameIndex - 1) {
+      this.animationIndex++;
+      await wait(QUIZ_DELAY_MS);
+    }
+
+    this.canClickOnTileIfInQuizMode = true;
+    this.commentaryType = CommentaryType.GuessExplanation;
   }
 
   isCorrectGuessForWhereQueenWillBePlaced({ row, col }: Pos): boolean {
@@ -290,12 +307,19 @@ export class PageComponent implements OnInit {
     );
   }
 
-  displayGuessCommentaryTemporarily(commentaryType: CommentaryType): void {
-    this.commentaryType = commentaryType;
+  displayGuessCommentaryTemporarily(
+    commentaryType: CommentaryType
+  ): Promise<void> {
+    return new Promise((resolve) => {
+      this.commentaryType = commentaryType;
+      this.canClickOnTileIfInQuizMode = false;
 
-    setTimeout(() => {
-      this.commentaryType = CommentaryType.GuessExplanation;
-    }, 1000);
+      setTimeout(() => {
+        this.commentaryType = CommentaryType.GuessExplanation;
+        this.canClickOnTileIfInQuizMode = true;
+        resolve();
+      }, QUIZ_DELAY_MS);
+    });
   }
 
   getCommentary(): string {
@@ -307,12 +331,14 @@ export class PageComponent implements OnInit {
       case CommentaryType.GuessedAllCorrect:
         return 'All guesses correct! Try another configuration';
       case CommentaryType.GuessExplanation:
-        return 'Click tile queen will be placed next';
+        return 'Click on the tile you think a queen will be placed next. Remember, the algorithm might not place it in a valid position depending on the configuration.';
       default:
         return 'Incorrect! Try again';
     }
   }
 }
+
+const QUIZ_DELAY_MS = 2000;
 
 const enum CommentaryType {
   IncorrectGuess,

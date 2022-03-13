@@ -91,7 +91,7 @@
           "
           [isDomainHighlighted]="isTileDomainHighlighted(rowIndex, colIndex)"
           [pos]="{ row: rowIndex, col: colIndex }"
-          [isInQuizMode]="isInQuizMode()"
+          [isClickable]="isInQuizMode() && canClickOnTileIfInQuizMode"
           (clickEmitter)="handleTileClick($event)"
         >
         </app-tile>

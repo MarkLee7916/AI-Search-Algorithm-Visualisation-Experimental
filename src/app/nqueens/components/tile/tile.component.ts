@@ -17,7 +17,7 @@ export class TileComponent {
 
   @Input() readonly pos!: Pos;
 
-  @Input() readonly isInQuizMode!: boolean;
+  @Input() readonly isClickable!: boolean;
 
   @Output() readonly clickEmitter = new EventEmitter<Pos>();
 
