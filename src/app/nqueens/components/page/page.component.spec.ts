@@ -6,6 +6,7 @@ import {
   render,
   screen,
 } from '@testing-library/angular';
+import { waitFor } from '@testing-library/dom';
 import { assertNonNull, wait } from 'src/app/shared/genericUtils';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NQueensRoutingModule } from '../../n-queens-routing-module';
@@ -13,7 +14,7 @@ import { TileComponent } from '../tile/tile.component';
 import { TutorialModalComponent } from '../tutorial-modal/tutorial-modal.component';
 import { PageComponent } from './page.component';
 
-fdescribe('N-Queens Page', () => {
+fdescribe('N-Queens Page', async () => {
   it('moves animation frames properly when buttons pressed', async () => {
     await render(PageComponent, {
       declarations: [TileComponent, PageComponent, TutorialModalComponent],
@@ -206,7 +207,8 @@ fdescribe('N-Queens Page', () => {
       target: { value: '0' },
     });
 
-    const correctGuesses = [
+    // The guesses needed to solve the quiz
+    const correctGuessesSequence = [
       { row: 0, col: 0 },
       { row: 1, col: 2 },
       { row: 1, col: 3 },
@@ -217,13 +219,17 @@ fdescribe('N-Queens Page', () => {
       { row: 3, col: 2 },
     ];
 
-    for (const { row, col } of correctGuesses) {
+    // Iterate through correct guesses, applying each in turn
+    for (const { row, col } of correctGuessesSequence) {
       const tileElement = assertNonNull(
         document.getElementById(`${row} ${col}`)
       );
 
       fireEvent.click(tileElement);
-      await wait(50);
+      await wait(10);
+      await waitFor(() =>
+        expect(screen.queryByText(/Click on/)).not.toBeNull()
+      );
     }
 
     expect(screen.queryByText(/All guesses correct/)).not.toBeNull();
