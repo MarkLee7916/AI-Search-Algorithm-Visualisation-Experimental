@@ -105,6 +105,8 @@ export class PageComponent implements OnInit {
 
   canClickOnTileIfInQuizMode = true;
 
+  quizDelayMs = 2000;
+
   ngOnInit(): void {
     this.updateAnimationFramesIfNeeded();
   }
@@ -264,6 +266,8 @@ export class PageComponent implements OnInit {
   }
 
   async handleMovingToNextFrameToGuess(): Promise<void> {
+    this.animationIndex = this.findNextAnimFrameIndexWhereQueenPlaced();
+
     const nextFrameIndex = this.findNextAnimFrameIndexWhereQueenPlaced();
 
     if (nextFrameIndex === -1) {
@@ -275,20 +279,30 @@ export class PageComponent implements OnInit {
   }
 
   async animateMovingToNextFrameToGuess(nextFrameIndex: number): Promise<void> {
+    const animationFramesRef = this.animationFrames;
+
     this.canClickOnTileIfInQuizMode = false;
     this.commentaryType = CommentaryType.AlgoStep;
 
-    while (this.animationIndex < nextFrameIndex - 1) {
+    while (
+      this.animationIndex < nextFrameIndex - 1 &&
+      animationFramesRef === this.animationFrames
+    ) {
       this.animationIndex++;
-      await wait(QUIZ_DELAY_MS);
+      await wait(this.quizDelayMs);
     }
 
     this.canClickOnTileIfInQuizMode = true;
     this.commentaryType = CommentaryType.GuessExplanation;
   }
 
+  updateQuizDelayMs(quizDelayMs: Event): void {
+    this.quizDelayMs = getValueFromRangeEvent(quizDelayMs);
+  }
+
   isCorrectGuessForWhereQueenWillBePlaced({ row, col }: Pos): boolean {
-    const nextFrame = this.animationFrames[this.animationIndex + 1];
+    const nextFrameIndex = this.findNextAnimFrameIndexWhereQueenPlaced();
+    const nextFrame = this.animationFrames[nextFrameIndex];
     const queenColPlacedAtNextFrame = findQueenColAtRow(
       nextFrame.board,
       assertNonNull(nextFrame.rowInConsideration)
@@ -302,7 +316,7 @@ export class PageComponent implements OnInit {
   findNextAnimFrameIndexWhereQueenPlaced(): number {
     return this.animationFrames.findIndex(
       ({ commentary }, index) =>
-        index > this.animationIndex + 1 &&
+        index > this.animationIndex &&
         commentary === 'Assigning Queen to column...'
     );
   }
@@ -318,7 +332,7 @@ export class PageComponent implements OnInit {
         this.commentaryType = CommentaryType.GuessExplanation;
         this.canClickOnTileIfInQuizMode = true;
         resolve();
-      }, QUIZ_DELAY_MS);
+      }, this.quizDelayMs);
     });
   }
 
@@ -337,8 +351,6 @@ export class PageComponent implements OnInit {
     }
   }
 }
-
-const QUIZ_DELAY_MS = 2000;
 
 const enum CommentaryType {
   IncorrectGuess,

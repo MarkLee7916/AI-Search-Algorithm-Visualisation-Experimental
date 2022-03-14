@@ -59,7 +59,7 @@
     </app-dropdown>
 
     <app-animation
-      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+      *ngIf="!isInQuizMode()"
       [isAnimationRunning]="isAnimationRunning"
       (setAnimationRunningEmitter)="setAnimationRunning($event)"
       [animationIndex]="animationIndex"
@@ -69,6 +69,21 @@
       [needToUpdateAnimationFrames]="needToUpdateAnimationFrames"
     >
     </app-animation>
+
+    <div class="range-container" *ngIf="isInQuizMode()">
+      <p>Set Quiz Delay</p>
+      <input
+        type="range"
+        id="set-quiz-delay"
+        class="range"
+        [defaultValue]="quizDelayMs"
+        min="0"
+        max="4000"
+        (input)="updateQuizDelayMs($event)"
+      />
+      <p>{{ quizDelayMs }}ms</p>
+    </div>
+
     <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
   </div>
 
@@ -84,6 +99,7 @@
       >
         <app-tile
           *ngFor="let hasQueen of row; let colIndex = index"
+          [id]="rowIndex + ' ' + colIndex"
           [sizeInPx]="BOARD_SIZE_IN_PX / boardSize"
           [hasQueen]="hasQueen"
           [isPrunedFromDomainHighlighted]="

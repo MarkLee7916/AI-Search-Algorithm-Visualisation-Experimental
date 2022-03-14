@@ -6,7 +6,7 @@ import {
   render,
   screen,
 } from '@testing-library/angular';
-import { assertNonNull } from 'src/app/shared/genericUtils';
+import { assertNonNull, wait } from 'src/app/shared/genericUtils';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NQueensRoutingModule } from '../../n-queens-routing-module';
 import { TileComponent } from '../tile/tile.component';
@@ -171,5 +171,61 @@ fdescribe('N-Queens Page', () => {
     Array.from(tiles).forEach((tile) => {
       expect((tile as HTMLElement).style.backgroundColor).toBe('white');
     });
+  });
+
+  it('Runs quiz mode properly', async () => {
+    await render(PageComponent, {
+      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      imports: [
+        CommonModule,
+        NQueensRoutingModule,
+        BrowserModule,
+        SharedModule,
+      ],
+      routes: [
+        {
+          path: 'n-queens',
+          component: PageComponent,
+        },
+      ],
+    });
+
+    // Switch to quiz mode
+    fireEvent.click(screen.getByText(/Visualisation Mode/));
+    fireEvent.click(screen.getByText('Quiz Mode'));
+
+    // Switch to forward checking mode
+    fireEvent.click(screen.getByText(/Check When Assigning/));
+    fireEvent.click(screen.getByText('Use Forward Checking'));
+
+    // Set quiz delay to 0ms so test will run quickly
+    const quizDelaySlider = assertNonNull(
+      document.getElementById('set-quiz-delay')
+    );
+    fireEvent.input(quizDelaySlider, {
+      target: { value: '0' },
+    });
+
+    const correctGuesses = [
+      { row: 0, col: 0 },
+      { row: 1, col: 2 },
+      { row: 1, col: 3 },
+      { row: 2, col: 1 },
+      { row: 0, col: 1 },
+      { row: 1, col: 3 },
+      { row: 2, col: 0 },
+      { row: 3, col: 2 },
+    ];
+
+    for (const { row, col } of correctGuesses) {
+      const tileElement = assertNonNull(
+        document.getElementById(`${row} ${col}`)
+      );
+
+      fireEvent.click(tileElement);
+      await wait(50);
+    }
+
+    expect(screen.queryByText(/All guesses correct/)).not.toBeNull();
   });
 });
