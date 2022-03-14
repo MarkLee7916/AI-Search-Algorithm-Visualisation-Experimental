@@ -230,8 +230,7 @@ export class PageComponent implements OnInit {
 
   isRowUnderConsideration(row: number): boolean {
     return (
-      !this.isInQuizMode() &&
-      !this.canClickOnTileIfInQuizMode &&
+      (!this.isInQuizMode() || !this.canClickOnTileIfInQuizMode) &&
       this.getCurrentAnimationFrame().rowInConsideration === row
     );
   }
@@ -255,7 +254,7 @@ export class PageComponent implements OnInit {
   }
 
   async handleTileClick(pos: Pos): Promise<void> {
-    if (!this.isInQuizMode()) {
+    if (!this.isInQuizMode() || !this.canClickOnTileIfInQuizMode) {
       return;
     } else if (this.isCorrectGuessForWhereQueenWillBePlaced(pos)) {
       await this.displayGuessCommentaryTemporarily(CommentaryType.CorrectGuess);
@@ -282,7 +281,10 @@ export class PageComponent implements OnInit {
     this.canClickOnTileIfInQuizMode = false;
     this.commentaryType = CommentaryType.AlgoStep;
 
-    this.animateMovingToNextFrameToGuess(nextFrameIndex, this.animationFrames);
+    await this.animateMovingToNextFrameToGuess(
+      nextFrameIndex,
+      this.animationFrames
+    );
 
     this.canClickOnTileIfInQuizMode = true;
     this.commentaryType = CommentaryType.GuessExplanation;
