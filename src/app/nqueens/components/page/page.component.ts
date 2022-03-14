@@ -274,16 +274,24 @@ export class PageComponent implements OnInit {
       this.commentaryType = CommentaryType.GuessedAllCorrect;
       this.animationIndex = this.animationFrames.length - 1;
     } else {
-      await this.animateMovingToNextFrameToGuess(nextFrameIndex);
+      await this.prepareToMoveToNextFrameToGuess(nextFrameIndex);
     }
   }
 
-  async animateMovingToNextFrameToGuess(nextFrameIndex: number): Promise<void> {
-    const animationFramesRef = this.animationFrames;
-
+  async prepareToMoveToNextFrameToGuess(nextFrameIndex: number): Promise<void> {
     this.canClickOnTileIfInQuizMode = false;
     this.commentaryType = CommentaryType.AlgoStep;
 
+    this.animateMovingToNextFrameToGuess(nextFrameIndex, this.animationFrames);
+
+    this.canClickOnTileIfInQuizMode = true;
+    this.commentaryType = CommentaryType.GuessExplanation;
+  }
+
+  async animateMovingToNextFrameToGuess(
+    nextFrameIndex: number,
+    animationFramesRef: BoardAnimationFrame[]
+  ): Promise<void> {
     while (
       this.animationIndex < nextFrameIndex - 1 &&
       animationFramesRef === this.animationFrames
@@ -291,9 +299,6 @@ export class PageComponent implements OnInit {
       this.animationIndex++;
       await wait(this.quizDelayMs);
     }
-
-    this.canClickOnTileIfInQuizMode = true;
-    this.commentaryType = CommentaryType.GuessExplanation;
   }
 
   updateQuizDelayMs(quizDelayMs: Event): void {
@@ -303,14 +308,12 @@ export class PageComponent implements OnInit {
   isCorrectGuessForWhereQueenWillBePlaced({ row, col }: Pos): boolean {
     const nextFrameIndex = this.findNextAnimFrameIndexWhereQueenPlaced();
     const nextFrame = this.animationFrames[nextFrameIndex];
-    const queenColPlacedAtNextFrame = findQueenColAtRow(
+    const colPlacedAtNextFrame = findQueenColAtRow(
       nextFrame.board,
       assertNonNull(nextFrame.rowInConsideration)
     );
 
-    return (
-      row === nextFrame.rowInConsideration && col === queenColPlacedAtNextFrame
-    );
+    return row === nextFrame.rowInConsideration && col === colPlacedAtNextFrame;
   }
 
   findNextAnimFrameIndexWhereQueenPlaced(): number {
