@@ -13,7 +13,7 @@ import { TileComponent } from '../tile/tile.component';
 import { TutorialModalComponent } from '../tutorial-modal/tutorial-modal.component';
 import { PageComponent } from './page.component';
 
-describe('N-Queens Page', () => {
+fdescribe('N-Queens Page', () => {
   it('moves animation frames properly when buttons pressed', async () => {
     await render(PageComponent, {
       declarations: [TileComponent, PageComponent, TutorialModalComponent],

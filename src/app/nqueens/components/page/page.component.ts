@@ -228,7 +228,8 @@ export class PageComponent implements OnInit {
 
   isRowUnderConsideration(row: number): boolean {
     return (
-      (!this.isInQuizMode() || !this.canClickOnTileIfInQuizMode) &&
+      !this.isInQuizMode() &&
+      !this.canClickOnTileIfInQuizMode &&
       this.getCurrentAnimationFrame().rowInConsideration === row
     );
   }
@@ -276,7 +277,6 @@ export class PageComponent implements OnInit {
   async animateMovingToNextFrameToGuess(nextFrameIndex: number): Promise<void> {
     this.canClickOnTileIfInQuizMode = false;
     this.commentaryType = CommentaryType.AlgoStep;
-    this.animationIndex++;
 
     while (this.animationIndex < nextFrameIndex - 1) {
       this.animationIndex++;
@@ -327,7 +327,7 @@ export class PageComponent implements OnInit {
       case CommentaryType.AlgoStep:
         return this.getCurrentAnimationFrame().commentary;
       case CommentaryType.CorrectGuess:
-        return 'Correct!';
+        return 'Guess is correct! Animating algorithm till step before the next queen is placed';
       case CommentaryType.GuessedAllCorrect:
         return 'All guesses correct! Try another configuration';
       case CommentaryType.GuessExplanation:
