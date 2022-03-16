@@ -453,8 +453,12 @@ export class PageComponent implements OnInit {
     }
   }
 
-  @HostListener('mousedown', [])
-  @HostListener('mouseup', [])
+  @HostListener('mousedown', ['$event'])
+  @HostListener('mouseup', ['$event'])
+  toggleMouseDownFromEvent(event: MouseEvent): void {
+    this.isMouseDown = event.buttons === 1;
+  }
+
   toggleMouseDown(): void {
     this.isMouseDown = !this.isMouseDown;
   }

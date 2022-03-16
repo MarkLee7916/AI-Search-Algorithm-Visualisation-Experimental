@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  fireEvent,
-  queryByText,
-  render,
-  screen,
-} from '@testing-library/angular';
+import { fireEvent, render, screen } from '@testing-library/angular';
 import { waitFor } from '@testing-library/dom';
 import { assertNonNull, wait } from 'src/app/shared/genericUtils';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -14,7 +9,7 @@ import { TileComponent } from '../tile/tile.component';
 import { TutorialModalComponent } from '../tutorial-modal/tutorial-modal.component';
 import { PageComponent } from './page.component';
 
-fdescribe('N-Queens Page', async () => {
+describe('N-Queens Page', async () => {
   it('moves animation frames properly when buttons pressed', async () => {
     await render(PageComponent, {
       declarations: [TileComponent, PageComponent, TutorialModalComponent],
