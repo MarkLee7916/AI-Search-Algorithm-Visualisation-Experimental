@@ -73,28 +73,26 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageComponent implements OnInit {
+  // A grid where each tile is a Pos object corresponding to its position
   readonly gridPositions = initGridPositions();
 
+  // An enum for each kind of modal that can be displayed on the screen
   readonly Modal = Modal;
 
+  // Functions to uniquely identify rows and columns to optimise *ngFor calls
   readonly trackByPos = genUniquePosId;
-
   readonly trackByRow = genUniqueRowId;
 
+  // Lists of enum values that correspond to the dropdown items in the menu
   readonly tilePlaceItems = Object.values(TilePlaceItem);
-
   readonly algoItems = Object.values(AlgoItem);
-
   readonly quizzableAlgoItems = Object.values(QuizzableAlgoItem);
-
   readonly mazeGenItems = Object.values(MazeGenItem);
-
   readonly neighboursItems = Object.values(NeighboursItem);
-
   readonly tileDisplayItems = Object.values(TileDisplayItem);
-
   readonly userInteractionModeItems = Object.values(UserInteractionModeItem);
 
+  // An enum of tutorial modal slides
   readonly tutorialModalSlides = Object.values(TutorialModalSlide);
 
   readonly tilePlaceItemToImpl = new UncheckedObjMap<

@@ -17,6 +17,7 @@ import {
 import { ObjMap } from '../../shared/models/objMap';
 import { assertDefined, initGenericGrid } from '../../shared/genericUtils';
 
+// A generic search function parameterised with a data structure, i.e passing a queue turns this into a BFS
 export function genericUnidirectionalSearch(
   startPos: Pos,
   goalPos: Pos,
@@ -122,6 +123,7 @@ export function genericUnidirectionalSearch(
   return gridAnimationFrames;
 }
 
+// When algo is finished, animate generation of final path using the pathMap mapping
 function updateGridAnimationFramesWithFinalPath(
   gridExpanded: boolean[][],
   gridVisited: boolean[][],
@@ -152,6 +154,7 @@ function updateGridAnimationFramesWithFinalPath(
   return pathList.reverse();
 }
 
+// Convert a distsMap where a tile is mapped onto its dist to a grid where a tiles pos corresponds to its dist
 function convertDistsMapToGridDists(distsMap: ObjMap<Pos, number>): number[][] {
   const gridDists = initGenericGrid(
     HEIGHT,
@@ -172,6 +175,7 @@ function convertDistsMapToGridDists(distsMap: ObjMap<Pos, number>): number[][] {
   return gridDists;
 }
 
+// Given info about the current state of the search, generate an animation frame
 function genGridAnimationFrame(
   gridExpanded: boolean[][],
   gridVisited: boolean[][],
