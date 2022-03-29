@@ -1,5 +1,6 @@
 import { Node } from './tree';
 
+// Specifies which piece of data on a node should be hidden
 export const enum DataHiddenForUserGuess {
   None,
   Alpha,
@@ -7,6 +8,7 @@ export const enum DataHiddenForUserGuess {
   Val,
 }
 
+// An animation frame for a tree, including SVG data
 export type SVGTreeAnimationFrame = {
   tree: SVGTree;
   currNodeId: string | null;

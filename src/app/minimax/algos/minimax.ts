@@ -3,6 +3,7 @@ import { assertNonNull } from 'src/app/shared/genericUtils';
 import { genTreeAnimationFrame, TreeAnimationFrame } from '../models/animation';
 import { Node, buildBinaryTree, TREE_DEPTH, isLeafNode } from '../models/tree';
 
+// Driver function for running the minimax algorithm
 export function minimax(
   leafValues: number[],
   useAlphaBetaPruning: boolean
@@ -37,6 +38,7 @@ export function minimax(
   return treeAnimationFrames;
 }
 
+// Maximiser function for the minimax algorithm, mutually recursive with min()
 function max(
   rootNode: Node,
   currNode: Node,
@@ -199,6 +201,7 @@ function max(
   return currNode.val;
 }
 
+// Minimiser function for the minimax algorithm, mutually recursive with max()
 function min(
   rootNode: Node,
   currNode: Node,

@@ -35,50 +35,71 @@ import cloneDeep from 'clone-deep';
   styleUrls: ['./page.component.css'],
 })
 export class PageComponent implements OnInit {
+  // An enum of the different modals that can be displayed on this page
   readonly Modal = Modal;
 
+  // Height of SVG canvas in pixels
   readonly SVG_HEIGHT = SVG_HEIGHT;
 
+  // Width of SVG canvas in pixels
   readonly SVG_WIDTH = SVG_WIDTH;
 
+  // Scales the SVG canvas to the page's height
   readonly SVG_TRANSFORM_SCALE = SVG_TRANSFORM_SCALE;
 
+  // Tests if a given node has no children
   readonly isLeafNode = isLeafNode;
 
+  // A enumeration of the slides in the page's tutorial modal
   readonly tutorialModalSlides = Object.values(TutorialModalSlide);
 
+  // A enumeration of the items in the page's pruning heuristic dropdown menu
   readonly pruningHeuristicItems = Object.values(PruningHeuristicItem);
 
+  // A enumeration of the items in the page's user interaction mode dropdown menu
   readonly userInteractionModeItems = Object.values(UserInteractionModeItem);
 
+  // The list of animation frames corresponding to the current problem config
   animationFrames: SVGTreeAnimationFrame[] = [];
 
+  // True if an animation is running, otherwise false
   isAnimationRunning = false;
 
+  // An index into the animationFrames list that controls which animation frame is currently being displayed
   animationIndex = 0;
 
+  // True if animation frames have been marked for updating as a result user changing the problem config
   needToUpdateAnimationFrames = true;
 
+  // The current modal being displayed on the screen
   modalDisplayed = Modal.Tutorial;
 
+  // The current heuristic item selected in the dropdown menu
   pruningHeuristicItem = PruningHeuristicItem.None;
 
+  // The user interaction mode item selected in the dropdown menu
   userInteractionModeItem = UserInteractionModeItem.Visualise;
 
+  // The leaf values for the minimax tree for the current problem config
   leafValues = this.fillLeafValues([]);
 
+  // The type of commentary that is currently being displayed on the screen
   commentaryType = CommentaryType.AlgoStep;
 
+  // True if user is currently displaying the legend chart by hovering, otherwise false
   isLegendDisplayed = false;
 
+  // Invert isLegendDisplayed variable
   toggleLegendDisplay(): void {
     this.isLegendDisplayed = !this.isLegendDisplayed;
   }
 
+  // When component renders, update the animation frames
   ngOnInit(): void {
     this.updateAnimationFramesIfNeeded();
   }
 
+  // Update the animation frames if problem config has changed
   updateAnimationFramesIfNeeded(): void {
     if (this.needToUpdateAnimationFrames) {
       const frames = minimax(
@@ -98,6 +119,7 @@ export class PageComponent implements OnInit {
     this.needToUpdateAnimationFrames = false;
   }
 
+  // Transform the current list of animation frames to hide some data for the user to guess for the final frame
   hideTreeDataForUserToGuess(
     animationFrames: SVGTreeAnimationFrame[]
   ): SVGTreeAnimationFrame[] {
@@ -113,6 +135,7 @@ export class PageComponent implements OnInit {
     return animationFramesCopy;
   }
 
+  // For each node in the tree, randomly mark some data to hide for the user to guess
   genDataToHideForEachNode(): DataHiddenForUserGuess[] {
     const dataToHideForEachNode: DataHiddenForUserGuess[] = [];
 
@@ -131,6 +154,7 @@ export class PageComponent implements OnInit {
     return dataToHideForEachNode;
   }
 
+  // Transform a given frame to hide some data for the user to guess
   hideTreeDataForFrame(
     frame: SVGTreeAnimationFrame,
     dataToHideForEachNode: DataHiddenForUserGuess[]
@@ -149,11 +173,13 @@ export class PageComponent implements OnInit {
     return frame;
   }
 
+  // Update the leaf values with the list entered by the user in the EnterLeafValues modal
   updateLeafValuesWithUserEnteredList(leafValues: number[]): void {
     this.leafValues = this.fillLeafValues(leafValues);
     this.markAnimationFramesForUpdate();
   }
 
+  // Pad the leafValues list with random numbers if it's smaller than required
   fillLeafValues(leafValues: number[]): number[] {
     const numberOfLeavesToAdd = LEAF_COUNT - leafValues.length;
 
@@ -164,6 +190,7 @@ export class PageComponent implements OnInit {
     );
   }
 
+  // Update the leaf values with an entirely randomly generated list
   updateLeafValuesWithGeneratedList(): void {
     this.leafValues = this.fillLeafValues([]);
     this.markAnimationFramesForUpdate();
@@ -185,6 +212,7 @@ export class PageComponent implements OnInit {
     this.animationIndex = index;
   }
 
+  // Return the animation index, moving it within bounds of animationFrames array if it's out of bounds
   safeGetAnimationIndex(): number {
     return safeGetArrayIndex(this.animationFrames, this.animationIndex);
   }
@@ -193,12 +221,14 @@ export class PageComponent implements OnInit {
     return this.animationFrames[this.safeGetAnimationIndex()];
   }
 
+  // Return the CSS class of a node, affecting how it's displayed
   getNodeClass(node: Node): string {
     return node.id === this.getCurrentAnimationFrame().currNodeId
       ? 'opacity-highlight stroke-black'
       : '';
   }
 
+  // Return whether a node is a MIN or MAX node depending on it's depth in the tree
   getOrientationDisplay(depth: number): string {
     if (depth === TREE_DEPTH) {
       return '';
@@ -231,6 +261,7 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // Reset animation state and update the animation frames
   markAnimationFramesForUpdate(): void {
     this.needToUpdateAnimationFrames = true;
     this.setAnimationIndex(0);
@@ -276,6 +307,7 @@ export class PageComponent implements OnInit {
     this.displayGuessCommentaryTemporarily(CommentaryType.IncorrectGuess);
   }
 
+  // Display some commentary informing the user of the outcome of their guess for a second
   displayGuessCommentaryTemporarily(commentaryType: CommentaryType): void {
     this.commentaryType = commentaryType;
 
@@ -288,6 +320,7 @@ export class PageComponent implements OnInit {
     }, 1000);
   }
 
+  // Update the animation frame list to reveal the data for a node that was previously hidden
   unhideGuessData(node: Node): void {
     const animationFrames = cloneDeep(this.animationFrames);
 
