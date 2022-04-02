@@ -1,4 +1,3 @@
-import { sequence } from '@angular/animations';
 import { sequenceBetween } from 'src/app/shared/genericUtils';
 import { PriorityQueue, Queue, Stack } from './agendaDataStructures';
 

@@ -1,6 +1,7 @@
 import { initGenericGrid } from 'src/app/shared/genericUtils';
 import { HEIGHT, Pos, WIDTH } from './grid';
 
+// A case to question the user on
 export type QuizCase = {
   gridWeights: number[][];
   gridBarriers: boolean[][];
@@ -8,6 +9,7 @@ export type QuizCase = {
   goalPos: Pos;
 };
 
+// Set up an unambigious case to test the user on Dijkstra's
 export function genDijsktraQuizCase(): QuizCase {
   const gridWeights = initGenericGrid(HEIGHT, WIDTH, () => 1);
   const gridBarriers = initGenericGrid(HEIGHT, WIDTH, () => false);
@@ -61,6 +63,7 @@ export function genDijsktraQuizCase(): QuizCase {
   };
 }
 
+// Set up an unambigious case to test the user on A*
 export function genAstarQuizCase(): QuizCase {
   const gridWeights = initGenericGrid(HEIGHT, WIDTH, () => 1);
   const gridBarriers = initGenericGrid(HEIGHT, WIDTH, () => false);
@@ -104,6 +107,7 @@ export function genAstarQuizCase(): QuizCase {
   };
 }
 
+// Set up an unambigious case to test the user on Greedy best first search
 export function genGBFSQuizCase(): QuizCase {
   return {
     gridBarriers: initGenericGrid(HEIGHT, WIDTH, () => false),

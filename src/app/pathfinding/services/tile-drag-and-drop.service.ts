@@ -25,7 +25,7 @@ export class TileDragAndDropService {
     }
   }
 
-  // True if a drop is considered valud
+  // True if a drop is considered valid
   public canDrop(
     pos: Pos,
     gridBarriers: GridBarriers,
