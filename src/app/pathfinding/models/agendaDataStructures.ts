@@ -1,11 +1,13 @@
 import { Cmp } from '../algos/cmps';
 
+// Data structures that can hold the not-yet expanded nodes in a pathfinding algo
 export interface Agenda<T> {
   add: (item: T) => void;
   remove: () => T;
   isEmpty: () => boolean;
 }
 
+// Adapter pattern implementation of a stack
 export class Stack<T> implements Agenda<T> {
   private readonly stack: T[];
 
@@ -30,6 +32,8 @@ export class Stack<T> implements Agenda<T> {
   }
 }
 
+// Adapter pattern implementation of a priority queue
+// This could be made more efficient by using a heap, but performance is sufficient for how fast pathfinding algos are computed
 export class PriorityQueue<T> implements Agenda<T> {
   private readonly queue: T[];
 
@@ -59,6 +63,8 @@ export class PriorityQueue<T> implements Agenda<T> {
   }
 }
 
+// Adapter pattern implementation of a queue
+// This could be made more efficient by using a linked list, but performance is sufficient for how fast algorithms are computed
 export class Queue<T> implements Agenda<T> {
   private readonly queue: T[];
 

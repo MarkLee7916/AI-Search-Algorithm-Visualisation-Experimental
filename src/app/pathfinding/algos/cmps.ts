@@ -2,9 +2,9 @@ import { ObjMap } from '../../shared/models/objMap';
 import { Pos } from '../models/grid';
 
 /*
- A comparator function that given two items, returns a result such that: 
-   item 1 > item 2 => result > 0, 
-   item1 == item2 => result = 0, 
+ A comparator function that given two items, returns a result such that:
+   item 1 > item 2 => result > 0,
+   item1 == item2 => result = 0,
    item1 < item2 => result < 0
 */
 export type Cmp<T> = (item1: T, item2: T) => number;
@@ -48,7 +48,7 @@ export function genManhattanCmp(goalPos: Pos): Cmp<Pos> {
     computeManhattanDist(pos1, goalPos) - computeManhattanDist(pos2, goalPos);
 }
 
-// Return the manhattan distance between two (x, y) coordinates 
+// Return the manhattan distance between two (x, y) coordinates
 export function computeManhattanDist(
   { row, col }: Pos,
   { row: goalRow, col: goalCol }: Pos

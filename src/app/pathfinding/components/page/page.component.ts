@@ -132,39 +132,44 @@ export class PageComponent implements OnInit {
     [NeighboursItem.NonDiagonals, genNonDiagonalNeighbours],
   ]);
 
+  // A HEIGHT * WIDTH matrix where each cell corresponds to a grid weight in the UI
   gridWeights = initBlankGridWeights();
 
+  // A HEIGHT * WIDTH matrix where each cell corresponds to a grid barrier in the UI
   gridBarriers = initBlankGridBarriers();
 
+  // The frames of the animation
   animationFrames = [initBlankGridAnimationFrame()];
 
-  isAnimationRunning = false;
-
+  // An index into animationFrames controlling which frame is rendered on the screen
   animationIndex = 0;
 
   needToUpdateAnimationFrames = true;
 
+  // Source tile the algorithm will search from
   startPos = DEFAULT_START_POS;
 
+  // Target tile the algorithm will aim to find a path to
   goalPos = DEFAULT_GOAL_POS;
 
+  // Keeps track of whether user has their mouse held down
   isMouseDown = false;
 
+  // Items corresponding to the dropdown menus
   tilePlaceItem = TilePlaceItem.Barriers;
-
   userInteractionModeItem = UserInteractionModeItem.Visualise;
-
   mazeGenItem = MazeGenItem.Random;
-
   algoItem = AlgoItem.BFS;
-
   neighboursItem = NeighboursItem.NonDiagonals;
-
   tileDisplayItem = TileDisplayItem.Weights;
 
+  // The current modal being displayed
   modalDisplayed = Modal.Tutorial;
 
+  // The type of commentary being displayed depending on what the user is currently doing
   commentaryType = CommentaryType.AlgoStep;
+
+  isAnimationRunning = false;
 
   constructor(public dragAndDropService: TileDragAndDropService) {}
 
@@ -172,6 +177,7 @@ export class PageComponent implements OnInit {
     this.updateAnimationFramesIfNeeded();
   }
 
+  // Update animation frames if the problem definitions has changed
   updateAnimationFramesIfNeeded(): void {
     if (this.needToUpdateAnimationFrames) {
       this.animationFrames = this.algoItemToImpl.get(this.algoItem)(
@@ -186,6 +192,7 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // If animation index if out of bounds, put it within bounds
   safeGetAnimationIndex(): number {
     return safeGetArrayIndex(this.animationFrames, this.animationIndex);
   }
@@ -198,6 +205,7 @@ export class PageComponent implements OnInit {
     this.dragAndDropService.handleDrag(tileEvent, this.startPos, this.goalPos);
   }
 
+  // If a tile drop is valid, update the appropiate state
   handleTileDrop(pos: Pos): void {
     const draggedFromPos = this.dragAndDropService.getDraggedFromPos();
 
@@ -208,6 +216,7 @@ export class PageComponent implements OnInit {
     this.toggleMouseDown();
   }
 
+  // Route a tile click depending on whether we're in quiz mode
   handleTileClick(pos: Pos): void {
     if (this.isInQuizMode()) {
       this.handleUserGuess(pos);
@@ -216,6 +225,7 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // Route a user guess depending on whether it was correct or not
   handleUserGuess(pos: Pos): void {
     if (isSamePos(pos, this.getTileBeingExpanded())) {
       this.handleCorrectGuess();
@@ -224,6 +234,7 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // If user guess was correct, handle moving to the next frame and displaying the appropiate commentary
   handleCorrectGuess(): void {
     if (this.hasPathBeenFoundForNextAnimationFrame()) {
       this.setAnimationIndex(this.animationFrames.length - 1);
@@ -234,12 +245,14 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // Return true if the next expanding animation frame involves the final path being found
   hasPathBeenFoundForNextAnimationFrame(): boolean {
     return this.animationFrames[this.animationIndex + 2].grid.some((row) =>
       row.some((tile) => tile === TileAnimationFrame.FinalPath)
     );
   }
 
+  // Iterate through grid and return the position of the current tile being expanded
   getTileBeingExpanded(): Pos {
     const nextFrame = this.animationFrames[this.animationIndex + 1];
 
@@ -254,6 +267,7 @@ export class PageComponent implements OnInit {
     throw new Error('No tile being expanded found');
   }
 
+  // Handle placing an item on a tile in the grid
   placeAtTile(pos: Pos): void {
     if (
       !this.isStartPos(pos) &&
@@ -266,6 +280,7 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // Generate a maze using whatever algorithm and placement item the user has selected
   generateMaze(): void {
     const maze = this.mazeGenItemToImpl.get(this.mazeGenItem)();
 
@@ -285,6 +300,7 @@ export class PageComponent implements OnInit {
     this.setGridWeights(initBlankGridWeights());
   }
 
+  // If there's a barrier at the tile, remove it, else add a barrier
   toggleBarrier({ row, col }: Pos): void {
     const gridBarriersCopy = cloneDeep(this.gridBarriers);
 
@@ -293,6 +309,7 @@ export class PageComponent implements OnInit {
     this.setGridBarriers(gridBarriersCopy);
   }
 
+  // If there's a default weight at the tile, generate a random one, else reset it back to the default weight
   toggleWeight({ row, col }: Pos): void {
     const gridWeightsCopy = cloneDeep(this.gridWeights);
 
@@ -314,6 +331,7 @@ export class PageComponent implements OnInit {
     return isSamePos(this.goalPos, pos);
   }
 
+  // When user drops a tile onto another, update the positions
   updatePositionsFromDrop(draggedFromPos: Pos, droppedAtPos: Pos): void {
     if (isSamePos(draggedFromPos, this.startPos)) {
       this.startPos = droppedAtPos;
@@ -324,6 +342,7 @@ export class PageComponent implements OnInit {
     this.markAnimationFramesForUpdate();
   }
 
+  // Return true if this position is considered ok to drop a tile onto
   canDropAtPos(pos: Pos): boolean {
     return this.dragAndDropService.canDrop(
       pos,
@@ -369,6 +388,7 @@ export class PageComponent implements OnInit {
     this.markAnimationFramesForUpdate();
   }
 
+  // Mark the animation frames to be updated whenever updateAnimationFramesIsNeeded() is called
   markAnimationFramesForUpdate(): void {
     this.needToUpdateAnimationFrames = true;
     this.setAnimationIndex(0);
@@ -405,6 +425,7 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // Change problem config to set up the quiz mode
   setUpQuizModeForCurrentAlgoItem(): void {
     if (!this.isAlgoItemQuizzable()) {
       this.algoItem = AlgoItem.Dijkstras;
@@ -415,12 +436,14 @@ export class PageComponent implements OnInit {
     this.updateAnimationFramesIfNeeded();
   }
 
+  // Return true if quiz mode supports the current algorithm
   isAlgoItemQuizzable(): boolean {
     return this.quizzableAlgoItems
       .map((item) => item.toString())
       .includes(this.algoItem.toString());
   }
 
+  // Change state of problem config to render a prewritten case to test the user
   setUpQuizCase(): void {
     const quizCase = this.algoItemToQuizCase.get(this.algoItem);
 
@@ -436,6 +459,7 @@ export class PageComponent implements OnInit {
     return this.userInteractionModeItem === UserInteractionModeItem.Quiz;
   }
 
+  // Get the commentary that will accompany the current animation frame
   getCommentary(): string {
     switch (this.commentaryType) {
       case CommentaryType.AlgoStep:

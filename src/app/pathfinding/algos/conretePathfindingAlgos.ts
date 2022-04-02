@@ -16,6 +16,7 @@ import {
   genRandomCmp,
 } from './cmps';
 
+// Type alias that all algorithm implementations (i.e BFS, DFS) follow
 export type ConcreteAlgoImpl = (
   startPos: Pos,
   goalPos: Pos,
@@ -24,8 +25,10 @@ export type ConcreteAlgoImpl = (
   genNeighbours: GenNeighboursImpl
 ) => GridAnimationFrame[];
 
+// A grid of weights where every weight is equal to 1, used to simulate unweighted algos
 const blankGridWeights = initBlankGridWeights();
 
+// Implementation of breadth first search by passing in a Queue to genericUnidirectionalSearch()
 export function unidirectionalBFS(
   startPos: Pos,
   goalPos: Pos,
@@ -44,6 +47,7 @@ export function unidirectionalBFS(
   );
 }
 
+// Implementation of depth first search by passing in a Stack to genericUnidirectionalSearch()
 export function unidirectionalDFS(
   startPos: Pos,
   goalPos: Pos,
@@ -62,6 +66,7 @@ export function unidirectionalDFS(
   );
 }
 
+// Implementation of Dijkstras by passing in a Priority Queue with the appropiate comparator to genericUnidirectionalSearch()
 export function unidirectionalDijkstras(
   startPos: Pos,
   goalPos: Pos,
@@ -82,6 +87,7 @@ export function unidirectionalDijkstras(
   );
 }
 
+// Implementation of A* by passing in a Priority Queue with the appropiate comparator to genericUnidirectionalSearch()
 export function unidirectionalAstar(
   startPos: Pos,
   goalPos: Pos,
@@ -102,6 +108,7 @@ export function unidirectionalAstar(
   );
 }
 
+// Implementation of Greedy Best First Search by passing in a Priority Queue with the appropiate comparator to genericUnidirectionalSearch()
 export function unidirectionalGBFS(
   startPos: Pos,
   goalPos: Pos,
@@ -122,6 +129,7 @@ export function unidirectionalGBFS(
   );
 }
 
+// Implementation of Random Search by passing in a Priority Queue with the appropiate comparator to genericUnidirectionalSearch()
 export function unidirectionalRandom(
   startPos: Pos,
   goalPos: Pos,

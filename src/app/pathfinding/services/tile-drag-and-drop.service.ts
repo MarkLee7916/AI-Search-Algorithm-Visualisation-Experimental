@@ -6,12 +6,14 @@ import { GridBarriers, isSamePos, Pos } from '../models/grid';
   providedIn: 'root',
 })
 export class TileDragAndDropService {
+  // The tile that has been dragged but not dropped yet
   private draggedFrom: Pos | null;
 
   constructor() {
     this.draggedFrom = null;
   }
 
+  // Handle the cases where a drag is considered either valid or invalid
   public handleDrag(tileEvent: TileEvent, startPos: Pos, goalPos: Pos): void {
     const { pos, event } = tileEvent;
 
@@ -23,6 +25,7 @@ export class TileDragAndDropService {
     }
   }
 
+  // True if a drop is considered valud
   public canDrop(
     pos: Pos,
     gridBarriers: GridBarriers,
@@ -39,6 +42,7 @@ export class TileDragAndDropService {
   public getDraggedFromPos(): Pos | null {
     return this.draggedFrom;
   }
+
   private canDragFrom(pos: Pos, startPos: Pos, goalPos: Pos): boolean {
     return isSamePos(pos, startPos) || isSamePos(pos, goalPos);
   }
