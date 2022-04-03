@@ -18,6 +18,7 @@ import {
 } from '../models/varToDomainMapping';
 import { pruneDomainsForNodeConsistency } from './pruningNodeConsistency';
 
+// Implementation of backtracking with optional MRV and LCV heuristics and supporting any pruning algorithm
 export function backtrackingWithForwardChecking(
   boardSize: number,
   willTakeLeastConstrainingVal: boolean,
@@ -51,6 +52,7 @@ export function backtrackingWithForwardChecking(
   return boardAnimationFrames;
 }
 
+// Recursive implementation of backtracking with optional MRV and LCV heuristics and supporting any pruning algorithm
 function backtrackingWithForwardCheckingRecurse(
   willTakeLeastConstrainingVal: boolean,
   willTakeMostConstrainedVar: boolean,
@@ -199,6 +201,7 @@ function backtrackingWithForwardCheckingRecurse(
   return null;
 }
 
+// Gather animations for each row resetting its domains as a result of an assigment failing
 function animateDomainsResettingAfterFailedAssignment(
   prunedVarToDomain: VarToDomainMapping,
   varToDomain: VarToDomainMapping,
@@ -236,6 +239,7 @@ function animateDomainsResettingAfterFailedAssignment(
   });
 }
 
+// Sort a variables domain by the least constraining value
 function sortByLeastConstrainingVal(
   board: Board,
   assignedVar: number,
@@ -261,6 +265,7 @@ function sortByLeastConstrainingVal(
   return [...varToDomain.get(assignedVar)].sort(cmp);
 }
 
+// Prune a domain and return its size, used for the LCV heuristic
 function getTotalDomainSizeAfterPruning(
   val: number,
   board: Board,
@@ -289,6 +294,7 @@ function getTotalDomainSizeAfterPruning(
   );
 }
 
+// Get the most constrained variable out of the variables that haven't been assigned yet
 function getMostConstrainedVar(
   board: Board,
   varToDomain: VarToDomainMapping,

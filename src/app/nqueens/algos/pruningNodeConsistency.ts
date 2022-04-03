@@ -10,6 +10,7 @@ import {
   VarToDomainMapping,
 } from '../models/varToDomainMapping';
 
+// Prune the domain of all the remaining variables after an assignment
 export function pruneDomainsForNodeConsistency(
   varToDomain: VarToDomainMapping,
   board: Board,

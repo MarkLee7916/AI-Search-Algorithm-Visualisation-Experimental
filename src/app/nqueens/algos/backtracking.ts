@@ -11,6 +11,7 @@ import {
   isValidQueenPlacement,
 } from '../models/board';
 
+// Implementation of backtracking without forward checking or heuristics
 export function backtracking(boardSize: number): BoardAnimationFrame[] {
   const boardAnimationFrames = [initBlankBoardAnimationFrame(boardSize)];
   const solvedBoard = backtrackingRecurse(
@@ -32,6 +33,7 @@ export function backtracking(boardSize: number): BoardAnimationFrame[] {
   return boardAnimationFrames;
 }
 
+// Recursive implemention of backtracking without forward checking or heuristics
 function backtrackingRecurse(
   board: Board,
   rowToPlaceAt: number,

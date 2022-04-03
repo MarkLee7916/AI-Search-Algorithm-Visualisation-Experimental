@@ -7,6 +7,7 @@ import {
   initEmptyVarToDomainMapping,
 } from './varToDomainMapping';
 
+// A single frame in an animation of the algorithm, encapsulating all the data needed to display what's happening
 export type BoardAnimationFrame = {
   board: Board;
   commentary: string;
@@ -15,6 +16,7 @@ export type BoardAnimationFrame = {
   varToDomain: VarToDomainMapping;
 };
 
+// Initialise the default animation frame
 export function initBlankBoardAnimationFrame(
   size: number
 ): BoardAnimationFrame {
@@ -27,6 +29,7 @@ export function initBlankBoardAnimationFrame(
   };
 }
 
+// Generate an animation frame with forward checking data
 export function genBoardAnimationFrameForwardChecking(
   board: Board,
   commentary: string,
@@ -43,6 +46,7 @@ export function genBoardAnimationFrameForwardChecking(
   };
 }
 
+// Generate an animation frame without forward checking data
 export function genBoardAnimationFrame(
   board: Board,
   commentary: string,

@@ -41,24 +41,24 @@ import { TutorialModalSlide } from '../tutorial-modal/tutorial-modal.component';
 export class PageComponent implements OnInit {
   readonly Modal = Modal;
 
+  // The minumum size the user is allowed to set a board to in terms of tile count
   readonly MIN_BOARD_SIZE = MIN_BOARD_SIZE;
 
+  // The maximum size the user is allowed to set a board to in terms of tile count
   readonly MAX_BOARD_SIZE = MAX_BOARD_SIZE;
 
+  // The size of a board in pixels on the screen, note this is invariant and doesn't change when a user changes the board size
   readonly BOARD_SIZE_IN_PX = AVERAGE_OF_VW_AND_VH * 0.5;
 
+  // An enumeration of the slides in the tutorial menu
   readonly tutorialModalSlides = Object.values(TutorialModalSlide);
 
+  // Enumerations corresponding to the dropdown menu options
   readonly pruningAlgoItems = Object.values(PruningAlgoItem);
-
   readonly varHeuristicItems = Object.values(VarHeuristicItem);
-
   readonly valHeuristicItems = Object.values(ValHeuristicItem);
-
   readonly domainDisplayItems = Object.values(DomainDisplayItem);
-
   readonly checkingItems = Object.values(CheckingItem);
-
   readonly userInteractionModeItems = Object.values(UserInteractionModeItem);
 
   readonly pruningAlgoItemToImpl = new UncheckedObjMap<
@@ -77,34 +77,37 @@ export class PageComponent implements OnInit {
     [CheckingItem.ForwardChecking, backtrackingWithForwardChecking],
   ]);
 
+  // The size of the board in terms of tile count
   boardSize = 4;
 
+  // The animation for the current problem config
   animationFrames = [initBlankBoardAnimationFrame(this.boardSize)];
 
   isAnimationRunning = false;
 
+  // An index into the animationFrames array, controlling which animation frame is displayed on the screen
   animationIndex = 0;
 
+  // True if the problem config has changed such that the animation frames will need recomputed
   needToUpdateAnimationFrames = true;
 
   modalDisplayed = Modal.Tutorial;
 
+  // The dropdown items that are currently selected by the user in the menu
   pruningAlgoItem = PruningAlgoItem.Node;
-
   varHeuristicItem = VarHeuristicItem.InOrder;
-
   valHeuristicItem = ValHeuristicItem.InOrder;
-
   domainDisplayItem = DomainDisplayItem.All;
-
   checkingItem = CheckingItem.Assigning;
-
   userInteractionModeItem = UserInteractionModeItem.Visualise;
 
+  // The type of commentary that the user will see accompanying an animation frame
   commentaryType = CommentaryType.AlgoStep;
 
+  // True if not currently animating the next animation frames before a user makes another guess for quiz mode
   canClickOnTileIfInQuizMode = true;
 
+  // The delay when animating the next animation frames before a user makes another guess for quiz mode
   quizDelayMs = 2000;
 
   ngOnInit(): void {
@@ -135,6 +138,7 @@ export class PageComponent implements OnInit {
     this.modalDisplayed = modal;
   }
 
+  // Recompute the animation for the current problem config
   updateAnimationFramesIfNeeded(): void {
     const backTrackingAlgoImpl = this.checkingItemToImpl.get(this.checkingItem);
 
@@ -194,6 +198,7 @@ export class PageComponent implements OnInit {
     this.markAnimationFramesForUpdate();
   }
 
+  // Get the CSS class of a row in order to highlight it if it's under consideration
   getRowClass(row: number): string {
     let classStr = 'row';
 
@@ -205,19 +210,21 @@ export class PageComponent implements OnInit {
     return classStr;
   }
 
+  // True if tile should be highlighted as a member of its rows domain when "Display Domain Being Changed" is selected
   isTilePrunedFromDomainHighlighted(row: number, col: number): boolean {
     return (
       !this.isTileDomainHighlighted(row, col) && this.isHighlightingDomains()
     );
   }
 
+  // True if tile should be highlighted as a member of its rows domain when "Display Domains of All Rows" is selected
   isTileDomainHighlighted(row: number, col: number): boolean {
     return (
       this.isRowDomainHighlighted(row) &&
       this.getCurrentAnimationFrame().varToDomain.get(row).includes(col)
     );
   }
-
+  // True if a row should highlight its domain
   isRowDomainHighlighted(row: number): boolean {
     if (!this.isHighlightingDomains()) {
       return false;
@@ -228,6 +235,7 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // True if the algorithm is currently placing a queen at this row
   isRowUnderConsideration(row: number): boolean {
     return (
       (!this.isInQuizMode() || !this.canClickOnTileIfInQuizMode) &&
@@ -246,6 +254,8 @@ export class PageComponent implements OnInit {
     );
   }
 
+  // Mark animation frames for update and update them
+  // Note this doesn't use lazy computation, but can easily be refractored to if performance becomes an issue
   markAnimationFramesForUpdate(): void {
     this.needToUpdateAnimationFrames = true;
     this.setAnimationIndex(0);
@@ -253,6 +263,7 @@ export class PageComponent implements OnInit {
     this.updateAnimationFramesIfNeeded();
   }
 
+  // If in quiz mode, route to the appropiate method depending on whether guess was correct or incorrect
   async handleTileClick(pos: Pos): Promise<void> {
     if (!this.isInQuizMode() || !this.canClickOnTileIfInQuizMode) {
       return;
@@ -264,6 +275,7 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // Get the next frame where a queen is placed and animate moving to it
   async handleMovingToNextFrameToGuess(): Promise<void> {
     this.animationIndex = this.findNextAnimFrameIndexWhereQueenPlaced();
 
@@ -277,6 +289,7 @@ export class PageComponent implements OnInit {
     }
   }
 
+  // Set up commentary and user interaction permissions for the animation of moving to the next frame where a queen is placed
   async prepareToMoveToNextFrameToGuess(nextFrameIndex: number): Promise<void> {
     this.canClickOnTileIfInQuizMode = false;
     this.commentaryType = CommentaryType.AlgoStep;
@@ -290,6 +303,7 @@ export class PageComponent implements OnInit {
     this.commentaryType = CommentaryType.GuessExplanation;
   }
 
+  // Animate moving to the next frame where a queen is placed
   async animateMovingToNextFrameToGuess(
     nextFrameIndex: number,
     animationFramesRef: BoardAnimationFrame[]
@@ -307,6 +321,7 @@ export class PageComponent implements OnInit {
     this.quizDelayMs = getValueFromRangeEvent(quizDelayMs);
   }
 
+  // True if a user has made the correct guess for where the next queen will be placed
   isCorrectGuessForWhereQueenWillBePlaced({ row, col }: Pos): boolean {
     const nextFrameIndex = this.findNextAnimFrameIndexWhereQueenPlaced();
     const nextFrame = this.animationFrames[nextFrameIndex];
@@ -318,6 +333,7 @@ export class PageComponent implements OnInit {
     return row === nextFrame.rowInConsideration && col === colPlacedAtNextFrame;
   }
 
+  // Get the next frame where a queen will be placed
   findNextAnimFrameIndexWhereQueenPlaced(): number {
     return this.animationFrames.findIndex(
       ({ commentary }, index) =>
@@ -326,6 +342,7 @@ export class PageComponent implements OnInit {
     );
   }
 
+  // Display some commentary for a limited time
   displayGuessCommentaryTemporarily(
     commentaryType: CommentaryType
   ): Promise<void> {
@@ -341,6 +358,7 @@ export class PageComponent implements OnInit {
     });
   }
 
+  // Get the commentary string that will accompany each animation frame
   getCommentary(): string {
     switch (this.commentaryType) {
       case CommentaryType.AlgoStep:

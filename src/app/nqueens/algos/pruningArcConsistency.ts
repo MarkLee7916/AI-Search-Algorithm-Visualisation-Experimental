@@ -12,14 +12,17 @@ import {
   Domain,
 } from '../models/varToDomainMapping';
 
+// A unidirectional binary constraint applied to some variables
 type Arc = {
   varPruned: number;
   varRespected: number;
   constraint: Constraint;
 };
 
+// A bidirectional binary constraint applied to some variables
 type Constraint = (valPruned: number, valRespected: number) => boolean;
 
+// An implementation of the ac3 algorithm to prune a CSP for arc consistency
 export function pruneDomainsForArcConsistency(
   varToDomain: VarToDomainMapping,
   board: Board,
@@ -102,6 +105,7 @@ export function pruneDomainsForArcConsistency(
   return prunedVarToDomain;
 }
 
+// Get the arcs that need added back onto the queue because their respect variable has been pruned
 function getAffectedArcsFromPrune(varPruned: number, arcQueue: Arc[]): Arc[] {
   return getArcsWithRespectToPrunedVar(varPruned, arcQueue).filter(
     (arcWithRespectToPrunedVar) =>
@@ -113,6 +117,7 @@ function getAffectedArcsFromPrune(varPruned: number, arcQueue: Arc[]): Arc[] {
   );
 }
 
+// For some variable, get the arcs where that variable has been used as a reference to prune some other variable
 function getArcsWithRespectToPrunedVar(
   varPruned: number,
   arcQueue: Arc[]
@@ -120,6 +125,7 @@ function getArcsWithRespectToPrunedVar(
   return arcQueue.filter((arc) => arc.varRespected === varPruned);
 }
 
+// Initialise a queue of all the arcs in the problem for some board configuration
 function genArcQueue(
   board: Board,
   assignedVar: number,
@@ -149,6 +155,7 @@ function genArcQueue(
   return arcQueue;
 }
 
+// Generate a constraint function from two variables
 function genConstraintFunction(
   varToPrune: number,
   varRespected: number,
@@ -167,6 +174,7 @@ function genConstraintFunction(
   };
 }
 
+// Prune the domain of a variable with respect to some other variable
 function pruneDomain(
   domainToPrune: Domain,
   domainRespected: Domain,
@@ -183,6 +191,7 @@ function pruneDomain(
   return domainToPrune.filter((val) => !valsToPrune.has(val));
 }
 
+// Return true if the variable respected contains a value that satisfies the constraint
 function canDomainSatisfy(
   valToPotentiallyPrune: number,
   domainRespected: Domain,
