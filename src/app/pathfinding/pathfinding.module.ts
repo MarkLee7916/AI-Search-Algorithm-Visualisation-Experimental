@@ -6,9 +6,10 @@ import { TutorialModalComponent } from './components/tutorial-modal/tutorial-mod
 import { BrowserModule } from '@angular/platform-browser';
 import { PathfindingRoutingModule } from './pathfinding-routing-module';
 import { SharedModule } from '../shared/shared.module';
+import { TheoryModalComponent } from './components/theory-modal/theory-modal.component';
 
 @NgModule({
-  declarations: [PageComponent, TileComponent, TutorialModalComponent],
+  declarations: [PageComponent, TileComponent, TutorialModalComponent, TheoryModalComponent],
   imports: [
     CommonModule,
     BrowserModule,

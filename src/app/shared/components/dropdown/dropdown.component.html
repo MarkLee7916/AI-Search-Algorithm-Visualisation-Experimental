@@ -1,4 +1,5 @@
-<div>
+<div class="dropdown-wrapper">
+  <p class="dropdown-label">{{ label }}</p>
   <button
     class="dropdown-button"
     (click)="toggleDropdown()"
@@ -18,7 +19,7 @@
     </button>
   </div>
 
-  <div class="dropdown-tooltip" *ngIf="isTooltipDisplayed">
+  <div class="dropdown-tooltip" *ngIf="isTooltipDisplayed && commentary">
     {{ commentary }}
   </div>
 </div>

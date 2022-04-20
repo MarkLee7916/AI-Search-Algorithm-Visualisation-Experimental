@@ -7,3 +7,9 @@
   margin-top: 2vh;
   margin-bottom: 2vh;
 }
+
+#grid-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}

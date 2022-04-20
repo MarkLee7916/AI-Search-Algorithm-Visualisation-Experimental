@@ -1,4 +1,10 @@
-import { initGenericGrid } from 'src/app/shared/genericUtils';
+import {
+  arrayOfRandomIntsBetween,
+  initGenericGrid,
+  isOdd,
+  randomIntBetween,
+  sequenceBetween,
+} from 'src/app/shared/genericUtils';
 import { HEIGHT, WIDTH } from '../models/grid';
 
 // A maze is defined generically as a grid where an obstacle corresponds to true and no obstacle corresponds to false
@@ -20,6 +26,42 @@ export function genRandomMaze(): Maze {
 // Generate a maze where each tile is an obstacle, useful for obstacles that aren't complete barriers
 export function genFilledGridMaze(): Maze {
   return initGenericGrid(HEIGHT, WIDTH, () => true);
+}
+
+// Generate a maze where every second column has a wall in every tile apart from one
+export function genVerticalDivisionMaze(): Maze {
+  const colsToCreateWallsAt = sequenceBetween(0, WIDTH).filter(isOdd);
+  const maze = genEmptyMaze();
+
+  colsToCreateWallsAt.forEach((col) => {
+    const rowToLeaveHoleAt = randomIntBetween(0, HEIGHT);
+
+    sequenceBetween(0, HEIGHT).forEach((row) => {
+      if (row !== rowToLeaveHoleAt) {
+        maze[row][col] = true;
+      }
+    });
+  });
+
+  return maze;
+}
+
+// Generate a maze where every second row has a wall in every tile apart from one
+export function genHorizontalDivisionMaze(): Maze {
+  const rowsToCreateWallsAt = sequenceBetween(0, HEIGHT).filter(isOdd);
+  const maze = genEmptyMaze();
+
+  rowsToCreateWallsAt.forEach((row) => {
+    const colToLeaveHoleAt = randomIntBetween(0, WIDTH);
+
+    sequenceBetween(0, WIDTH).forEach((col) => {
+      if (col !== colToLeaveHoleAt) {
+        maze[row][col] = true;
+      }
+    });
+  });
+
+  return maze;
 }
 
 // Randomly fill in a row of obstacles where each tile has a 30% chance of being an obstacle

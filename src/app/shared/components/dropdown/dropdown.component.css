@@ -20,3 +20,11 @@
   padding: 10px;
   margin-top: 0.3vh;
 }
+
+.dropdown-wrapper {
+  text-align: center;
+}
+
+.dropdown-label {
+  font-size: calc((1.2vw + 1.2vh) / 2);
+}

@@ -1,18 +1,28 @@
 <div class="page" [style.opacity]="modalDisplayed === Modal.None ? '1' : '0.1'">
   <div class="screen-wide-menu">
     <app-dropdown
+      [currentItem]="userInteractionModeItem"
+      [items]="userInteractionModeItems"
+      commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm on a specific grid and asks you to predict what it will do next. Note only some algorithms are available in Quiz mode."
+      label="Interaction Mode"
+      (itemChangedEmitter)="setUserInteractionModeItem($event)"
+    >
+    </app-dropdown>
+
+    <app-dropdown
       [currentItem]="algoItem"
       (itemChangedEmitter)="setAlgoItem($event)"
       [items]="isInQuizMode() ? quizzableAlgoItems : algoItems"
       commentary="The algorithm being visualised."
+      label="Algorithm"
     ></app-dropdown>
 
     <app-dropdown
-      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
-      [currentItem]="tilePlaceItem"
-      (itemChangedEmitter)="setTilePlaceItem($event)"
-      [items]="tilePlaceItems"
-      commentary="The type of item that's placed when clicking a tile."
+      [currentItem]="tileDisplayItem"
+      (itemChangedEmitter)="setTileDisplayItem($event)"
+      [items]="tileDisplayItems"
+      commentary="The type of information displayed on a tile. The three options for this contain the same information displayed when hovering over a tile."
+      label="Tile Info"
     ></app-dropdown>
 
     <app-dropdown
@@ -20,7 +30,17 @@
       [currentItem]="neighboursItem"
       (itemChangedEmitter)="setNeighboursItem($event)"
       [items]="neighboursItems"
-      commentary="The directions a tile will add its neighbours in."
+      commentary="When a tile adds its neighbours to the agenda, this setting will control what tiles are considered neighbours. For example, 'non diagonals only' only considers tiles above, below, left or right as neighbours."
+      label="Directions of neighbours added"
+    ></app-dropdown>
+
+    <app-dropdown
+      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+      [currentItem]="tilePlaceItem"
+      (itemChangedEmitter)="setTilePlaceItem($event)"
+      [items]="tilePlaceItems"
+      commentary="Barriers block the algorithm from passing through completely while weights assign a cost to passing through that A* and Dijkstra's need to take into account to get the shortest path."
+      label="Item Placed On Tile"
     ></app-dropdown>
 
     <app-dropdown
@@ -28,40 +48,11 @@
       [currentItem]="mazeGenItem"
       (itemChangedEmitter)="setMazeGenItem($event)"
       [items]="mazeGenItems"
-      commentary="The type of maze being generated."
+      label="Maze Type"
     ></app-dropdown>
-
-    <button
-      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
-      (click)="generateMaze()"
-    >
-      Generate Maze
-    </button>
-
-    <app-dropdown
-      [currentItem]="tileDisplayItem"
-      (itemChangedEmitter)="setTileDisplayItem($event)"
-      [items]="tileDisplayItems"
-      commentary="The type of information displayed on a tile."
-    ></app-dropdown>
-
-    <button
-      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
-      (click)="clearBarriersAndWeights()"
-    >
-      Clear Barriers and Weights
-    </button>
   </div>
 
   <div class="screen-wide-menu">
-    <app-dropdown
-      [currentItem]="userInteractionModeItem"
-      [items]="userInteractionModeItems"
-      commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm on a specific grid and asks you to predict what it will do next. Note only some algorithms are available in Quiz mode."
-      (itemChangedEmitter)="setUserInteractionModeItem($event)"
-    >
-    </app-dropdown>
-
     <app-animation
       [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
       [isAnimationRunning]="isAnimationRunning"
@@ -73,8 +64,6 @@
       [needToUpdateAnimationFrames]="needToUpdateAnimationFrames"
     >
     </app-animation>
-
-    <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
   </div>
 
   <p class="commentary">{{ getCommentary() }}</p>
@@ -120,8 +109,24 @@
         </app-tile>
       </div>
     </div>
-    <div class="invisible legend-container">
-      <p>Tile with no number - weight of 1</p>
+    <div id="grid-buttons">
+      <button
+        [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+        (click)="generateMaze()"
+      >
+        Generate Maze
+      </button>
+
+      <button
+        [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+        (click)="clearBarriersAndWeights()"
+      >
+        Clear Barriers and Weights
+      </button>
+
+      <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
+
+      <button (click)="setModalDisplayed(Modal.Theory)">Theory</button>
     </div>
   </div>
 </div>
@@ -131,3 +136,9 @@
   [slides]="tutorialModalSlides"
   (hideEmitter)="hideModal()"
 ></app-tutorial-modal>
+
+<app-theory-modal
+  *ngIf="modalDisplayed === Modal.Theory"
+  [slides]="theoryModalSlides"
+  (hideEmitter)="hideModal()"
+></app-theory-modal>

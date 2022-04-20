@@ -10,18 +10,18 @@ export const enum TileAnimationFrame {
   Blank,
 }
 
-// A position on the grid corresponding to a tile
-export type Pos = { row: number; col: number };
-
-// An implementation for generating the neighbours of a tile
-export type GenNeighboursImpl = (pos: Pos) => Pos[];
-
 // An animation frame encapsulating the entire state of a step in a pathfinding algorithm
 export type GridAnimationFrame = {
   grid: TileAnimationFrame[][];
   commentary: string;
   gridDists: number[][];
 };
+
+// A position on the grid corresponding to a tile
+export type Pos = { row: number; col: number };
+
+// An implementation for generating the neighbours of a tile
+export type GenNeighboursImpl = (pos: Pos) => Pos[];
 
 // The weights of the grid, where each weight is greater than zero
 export type GridWeights = number[][];

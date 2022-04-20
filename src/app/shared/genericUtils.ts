@@ -15,6 +15,10 @@ export function arrayOfRandomIntsBetween(
     .map(() => randomIntBetween(lower, upper));
 }
 
+export function isOdd(num: number): boolean {
+  return num % 2 === 0;
+}
+
 export function wait(delay: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, delay));
 }

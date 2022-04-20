@@ -6,6 +6,8 @@ export enum TilePlaceItem {
 export enum MazeGenItem {
   Random = 'Random Grid',
   FillGrid = 'Fill Grid',
+  VerticalDivision = 'Vertical Division',
+  HorizontalDivision = 'Horizontal Division',
 }
 
 export enum UserInteractionModeItem {

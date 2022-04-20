@@ -5,7 +5,7 @@
     <app-dropdown
       [currentItem]="pruningHeuristicItem"
       [items]="pruningHeuristicItems"
-      commentary="The type of pruning used"
+      commentary="'No pruning' will run the algorithm without trying to prune any nodes. 'Use alpha beta pruning' will run the alpha beta pruning algorithm to get skip past nodes that can't make a difference to the final result."
       (itemChangedEmitter)="setPruningHeuristicItem($event)"
     >
     </app-dropdown>

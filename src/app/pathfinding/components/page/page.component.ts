@@ -15,7 +15,9 @@ import {
 } from 'src/app/pathfinding/algos/conretePathfindingAlgos';
 import {
   genFilledGridMaze,
+  genHorizontalDivisionMaze,
   genRandomMaze,
+  genVerticalDivisionMaze,
   Maze,
 } from 'src/app/pathfinding/algos/mazeGenAlgos';
 import {
@@ -64,6 +66,7 @@ import {
   genGBFSQuizCase,
   QuizCase,
 } from '../../models/quizCases';
+import { TheoryModalSlide } from '../theory-modal/theory-modal.component';
 
 @Component({
   selector: 'app-page',
@@ -92,8 +95,9 @@ export class PageComponent implements OnInit {
   readonly tileDisplayItems = Object.values(TileDisplayItem);
   readonly userInteractionModeItems = Object.values(UserInteractionModeItem);
 
-  // An enum of tutorial modal slides
+  // An enum of tutorial and theory modal slides
   readonly tutorialModalSlides = Object.values(TutorialModalSlide);
+  readonly theoryModalSlides = Object.values(TheoryModalSlide);
 
   readonly tilePlaceItemToImpl = new UncheckedObjMap<
     TilePlaceItem,
@@ -106,6 +110,8 @@ export class PageComponent implements OnInit {
   readonly mazeGenItemToImpl = new UncheckedObjMap<MazeGenItem, () => Maze>([
     [MazeGenItem.Random, genRandomMaze],
     [MazeGenItem.FillGrid, genFilledGridMaze],
+    [MazeGenItem.HorizontalDivision, genHorizontalDivisionMaze],
+    [MazeGenItem.VerticalDivision, genVerticalDivisionMaze],
   ]);
 
   readonly algoItemToImpl = new UncheckedObjMap<AlgoItem, ConcreteAlgoImpl>([
@@ -496,5 +502,6 @@ const enum CommentaryType {
 
 enum Modal {
   Tutorial,
+  Theory,
   None,
 }

@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  Renderer2,
 } from '@angular/core';
 
 @Component({
@@ -19,6 +20,8 @@ export class DropdownComponent {
   @Input() readonly items!: string[];
 
   @Input() readonly commentary!: string;
+
+  @Input() readonly label!: string;
 
   @Output() readonly itemChangedEmitter = new EventEmitter<string>();
 
