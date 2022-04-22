@@ -1,0 +1,19 @@
+.path-img {
+  width: calc((69.45vw + 69.45vh) / 2);
+  height: calc((23.95vw + 23.95vh) / 2);
+}
+
+.heuristic-img {
+  width: calc((45.3vw + 45.3vh) / 2);
+  height: calc((15.8vw + 15.8vh) / 2);
+}
+
+.weighted-path-img {
+  width: calc((45.3vw + 45.3vh) / 2);
+  height: calc((15.8vw + 15.8vh) / 2);
+}
+
+.dijkstras-astar-cmp-img {
+  width: calc((71.17vw + 71.17vh) / 2);
+  height: calc((33.3vw + 33.3vh) / 2);
+}

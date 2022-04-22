@@ -57,7 +57,10 @@ import { TileDragAndDropService } from 'src/app/pathfinding/services/tile-drag-a
 import { TileEvent } from '../tile/tile.component';
 import { computeManhattanDist } from 'src/app/pathfinding/algos/cmps';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
-import { safeGetArrayIndex } from 'src/app/shared/genericUtils';
+import {
+  initGenericArray,
+  safeGetArrayIndex,
+} from 'src/app/shared/genericUtils';
 import { TutorialModalSlide } from '../tutorial-modal/tutorial-modal.component';
 import cloneDeep from 'clone-deep';
 import {
@@ -180,6 +183,7 @@ export class PageComponent implements OnInit {
   constructor(public dragAndDropService: TileDragAndDropService) {}
 
   ngOnInit(): void {
+    this.loadSavedGridState();
     this.updateAnimationFramesIfNeeded();
   }
 
@@ -340,12 +344,10 @@ export class PageComponent implements OnInit {
   // When user drops a tile onto another, update the positions
   updatePositionsFromDrop(draggedFromPos: Pos, droppedAtPos: Pos): void {
     if (isSamePos(draggedFromPos, this.startPos)) {
-      this.startPos = droppedAtPos;
+      this.setStartPos(droppedAtPos);
     } else {
-      this.goalPos = droppedAtPos;
+      this.setGoalPos(droppedAtPos);
     }
-
-    this.markAnimationFramesForUpdate();
   }
 
   // Return true if this position is considered ok to drop a tile onto
@@ -391,6 +393,16 @@ export class PageComponent implements OnInit {
 
   setGridWeights(gridWeights: GridWeights): void {
     this.gridWeights = gridWeights;
+    this.markAnimationFramesForUpdate();
+  }
+
+  setStartPos(pos: Pos): void {
+    this.startPos = pos;
+    this.markAnimationFramesForUpdate();
+  }
+
+  setGoalPos(pos: Pos): void {
+    this.goalPos = pos;
     this.markAnimationFramesForUpdate();
   }
 
@@ -479,6 +491,82 @@ export class PageComponent implements OnInit {
       default:
         return 'Incorrect! Try again';
     }
+  }
+
+  saveCurrentGridState(): void {
+    localStorage.setItem('startPos', JSON.stringify(this.startPos));
+    localStorage.setItem('goalPos', JSON.stringify(this.goalPos));
+    localStorage.setItem('gridBarriers', JSON.stringify(this.gridBarriers));
+    localStorage.setItem('gridWeights', JSON.stringify(this.gridWeights));
+  }
+
+  loadSavedGridState(): void {
+    const startPos = this.parseLocalStorageItem('startPos');
+    const goalPos = this.parseLocalStorageItem('goalPos');
+    const gridBarriers = this.parseLocalStorageItem('gridBarriers');
+    const gridWeights = this.parseLocalStorageItem('gridWeights');
+
+    if (startPos && goalPos && gridBarriers && gridWeights) {
+      this.setStartPos(this.movePositionWithinBoundsOfGrid(startPos));
+      this.setGoalPos(this.movePositionWithinBoundsOfGrid(goalPos));
+      this.setGridBarriers(this.adaptDimensionsToCurrGrid(gridBarriers, false));
+      this.setGridWeights(this.adaptDimensionsToCurrGrid(gridWeights, 1));
+    }
+  }
+
+  parseLocalStorageItem(key: string): any {
+    const item = localStorage.getItem(key);
+
+    if (item === null) {
+      return null;
+    } else {
+      return JSON.parse(item);
+    }
+  }
+
+  adaptDimensionsToCurrGrid<T>(grid: T[][], emptyValue: T): T[][] {
+    grid = this.padOutGridColumns(grid, emptyValue);
+    grid = this.padOutGridRows(grid, emptyValue);
+    grid = grid.slice(0, HEIGHT);
+    grid = grid.map((row) => row.slice(0, WIDTH));
+
+    return grid;
+  }
+
+  padOutGridColumns<T>(grid: T[][], emptyValue: T): T[][] {
+    while (grid[0].length < WIDTH) {
+      grid = this.appendEmptyColumnToGrid(grid, emptyValue);
+    }
+
+    return grid;
+  }
+
+  padOutGridRows<T>(grid: T[][], emptyValue: T): T[][] {
+    while (grid.length < HEIGHT) {
+      grid = this.appendEmptyRowToGrid(grid, emptyValue);
+    }
+
+    return grid;
+  }
+
+  appendEmptyColumnToGrid<T>(grid: T[][], emptyValue: T): T[][] {
+    return grid.map((row) => row.concat(emptyValue));
+  }
+
+  appendEmptyRowToGrid<T>(grid: T[][], emptyValue: T): T[][] {
+    const gridCopy = cloneDeep(grid);
+    const emptyRow = initGenericArray(grid[0].length, () => emptyValue);
+
+    gridCopy.push(emptyRow);
+
+    return gridCopy;
+  }
+
+  movePositionWithinBoundsOfGrid(pos: Pos): Pos {
+    return {
+      row: pos.row >= HEIGHT ? HEIGHT - 1 : pos.row,
+      col: pos.col >= WIDTH ? WIDTH - 1 : pos.col,
+    };
   }
 
   @HostListener('mousedown', ['$event'])

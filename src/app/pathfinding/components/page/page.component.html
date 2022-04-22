@@ -124,6 +124,20 @@
         Clear Barriers and Weights
       </button>
 
+      <button
+        [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+        (click)="saveCurrentGridState()"
+      >
+        Save Current Grid
+      </button>
+
+      <button
+        [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+        (click)="loadSavedGridState()"
+      >
+        Load Most Recently Saved Grid
+      </button>
+
       <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
 
       <button (click)="setModalDisplayed(Modal.Theory)">Theory</button>

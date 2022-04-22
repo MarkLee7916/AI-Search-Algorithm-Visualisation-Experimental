@@ -2,24 +2,29 @@
   <h1 class="modal-title">Theory Behind the Algorithms</h1>
 
   <p class="modal-text">
-    These slides will guide you through the theory behind the algorithms. It
-    covers the algorithms, heuristics and very basic graph theory. You can
-    navigate through the slides using the buttons at the bottom left and bottom
-    right corners of the current slide.
-  </p>
-
-  <p class="modal-text">
     So what is a pathfinding algorithm? A pathfinding algorithm is an algorithm
     that tries to find a path between two points, in this case two tiles in a
     grid. From the point of view of the algorithm we don't know what lies ahead
     of us, we just know where we currently are, what we've already seen and
     whether the current tile we're on is the goal. The general procedure is to
-    start at the starting tile, add all of its neighbours to a list, take a tile
-    from the list and repeat with that tile's neighbours until we find the goal.
-    When we visit a tile we keep track of what tile we went through to get to
-    it. This allows us to keep track of the path, and display it when we reach
-    the goal.
+    keep track of what tiles we've seen by storing them away in an agenda. We
+    start at the start tile and add all of its neighbours to the agenda. We then
+    take a tile from the agenda and add all of its neighbours to the agenda.
+    This process is repeated until we reach the goal. How do we decide which
+    tile to take from the agenda? That's how all the algorithms we'll explore
+    differ from one another.
   </p>
+
+  <img class="modal-visual-media path-img" src="../../../../assets/path.png" />
+
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">Skip</button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Applications">
+  <h1 class="modal-title">Applications</h1>
 
   <p class="modal-text">
     There are many applications for these algorithms. Whenever we need to find a
@@ -33,6 +38,11 @@
     used as a series of steps needed to solve the cube.
   </p>
 
+  <img class="modal-visual-media" src="../../../../assets/rubix-graph.png" />
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
   <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
     Next Slide
   </button>
@@ -44,39 +54,38 @@
 
   <p class="modal-text">
     With this setup we can’t make a very clever algorithm, but we can still find
-    any existing path and even guarantee that it’s the shortest. The idea is to
-    just to explore the grid until we hit the goal. How do we decide what tile
-    to take from the list next?
+    any existing path and even guarantee that it’s the shortest. We just explore
+    the grid until we hit the goal. How do we decide what tile to take from the
+    agenda next?
   </p>
 
   <p class="modal-text">
-    One approach is to always take the tile we seen most recently. We use a
-    stack (like a stack of papers) to keep track of what tiles we’ve seen but
-    not searched yet. We repeat the process until we eventually hit the goal.
-    This won’t find the shortest path, but it will find any path if it exists.
-    This is called a "depth first search".
+    One approach is to use stack (like a stack of papers) as the agenda. Since
+    stacks follow a last in first out order, the tile we take from the stack
+    will be the one seen most recently. This won’t find the shortest path, but
+    it will find any path if it exists. This is called a "depth first search".
   </p>
 
   <p class="modal-text">
-    Another approach is to always take the tile we seen least recently. We use a
-    queue (like a queue outside a shop) to keep track of what tiles we’ve seen
-    but not searched yet. This is called a "breadth first search" We repeat the
-    process until we eventually hit the goal. This guarantees the shortest path,
-    but why? When we explore, we start by adding all neighbours of the starting
-    tile into the queue. These tiles are all one tile away from the starting
-    tile. When we visit the next tile, we add all of its neighbours onto the
-    queue, which are two tiles away from the starting tile. Since this is a
-    queue, we explore all the tiles we seen least recently. Since the tiles that
-    were one away were added first, we’ll get through all the tiles that are one
-    away before we consider any tile two tiles away from the starting tile. This
-    idea continues throughout the algorithm; we’ll consider the tiles that are
-    two away before we consider the tiles that are three away and so on… When we
-    visit the goal we know we’ve found the shortest way to get to it, because if
-    a shorter way existed we’d have seen it before. Say the goal was 10 tiles
-    away from the starting tile. We’ve already explored all the tiles at
-    distances that are within 9 tiles away, and none of them were the goal, so
-    we know for sure that the way we’ve got to the goal is the minimum distance,
-    which means that it must also be the shortest path.
+    Another approach is to use a queue (like a queue outside a shop) as the
+    agenda. Since a queue is first in first out the tile we take from the queue
+    will be the one seen least recently. This is called a "breadth first
+    search". This guarantees the shortest path, but why? When we explore, we
+    start by adding all neighbours of the starting tile into the queue. These
+    tiles are all one tile away from the starting tile. When we visit the next
+    tile, we add all of its neighbours onto the queue, which are two tiles away
+    from the starting tile. Since this is a queue, we explore all the tiles we
+    seen least recently. Since the tiles that were one away were added first,
+    we’ll get through all the tiles that are one away before we consider any
+    tile two tiles away from the starting tile. This idea continues throughout
+    the algorithm; we’ll consider the tiles that are two away before we consider
+    the tiles that are three away and so on… When we visit the goal we know
+    we’ve found the shortest way to get to it, because if a shorter way existed
+    we’d have seen it before. Say the goal was 10 tiles away from the starting
+    tile. We’ve already explored all the tiles at distances that are within 9
+    tiles away, and none of them were the goal, so we know for sure that the way
+    we’ve got to the goal is the minimum distance, which means that it must also
+    be the shortest path.
   </p>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
@@ -110,7 +119,7 @@
     and 3, then the total cost would be 6. When it comes to selecting which tile
     to visit next, we always pick the tile with the lowest total cost. This
     guarantees the shortest path for weighted grids, but why? The reasoning is
-    similar to breadth first search. Since we always look at nodes that are the
+    similar to breadth first search. Since we always look at tile that are the
     smallest cost, we know that when we reach the goal there can’t have been a
     shorter path to the goal, as we would have already seen it before.
   </p>
@@ -147,6 +156,16 @@
     direction.
   </p>
 
+  <p class="modal-text">
+    The diagram below shows the estimated distance from each tile to the goal 🎯
+    in the middle.
+  </p>
+
+  <img
+    class="modal-visual-media heuristic-img"
+    src="../../../../assets/heuristic-dist.png"
+  />
+
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
   </button>
@@ -178,10 +197,15 @@
     and 3, then the total cost would be 6. When it comes to selecting which tile
     to visit next, we always pick the tile with the lowest total cost. This
     guarantees the shortest path for weighted grids, but why? The reasoning is
-    similar to breadth first search. Since we always look at nodes that are the
+    similar to breadth first search. Since we always look at tile that are the
     smallest cost, we know that when we reach the goal there can’t have been a
     shorter path to the goal, as we would have already seen it before.
   </p>
+
+  <img
+    class="modal-visual-media weighted-path-img"
+    src="../../../../assets/weighted-path.png"
+  />
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -242,6 +266,30 @@
     This may be a bit unintuitive, but another way to think of it is this:
     “don’t let a large overestimate put you off the shortest path”
   </p>
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">Skip</button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.DijskrasAstarCmp">
+  <h1 class="modal-title">A* vs Dijkstra’s</h1>
+
+  <p class="modal-text">
+    Here we can see a comparison between Dijkstra’s and A* on the same problem.
+    Dijsktra's is on the left and A* is on the right. As you can see, A* gets
+    the same path but focusses its search on tiles nearer to the goal, thereby
+    doing less work.
+  </p>
+
+  <img
+    class="modal-visual-media dijkstras-astar-cmp-img"
+    src="../../../../assets/astar-dijkstras-cmp.png"
+  />
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
