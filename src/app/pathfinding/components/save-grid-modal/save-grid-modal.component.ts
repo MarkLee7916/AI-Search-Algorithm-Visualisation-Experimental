@@ -15,7 +15,7 @@ export class SaveGridModalComponent extends AbstractModalComponent {
   // This is false until the user enters an invalid input
   hasEnteredInvalidInput = false;
 
-  // If leaf values are valid, notify parent component and close modal, else display error message
+  // If save name is non-empty, notify parent component and close modal, else display error message
   createNewSave(name: string): void {
     if (name.length > 0) {
       this.newSaveEmitter.emit(name);

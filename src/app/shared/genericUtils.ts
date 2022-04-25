@@ -5,6 +5,10 @@ export function randomIntBetween(lower: number, upper: number): number {
   return Math.floor(Math.random() * (upper - lower)) + lower;
 }
 
+export function removeDuplicates(list: string[]): string[] {
+  return Array.from(new Set<string>(list));
+}
+
 export function arrayOfRandomIntsBetween(
   lower: number,
   upper: number,

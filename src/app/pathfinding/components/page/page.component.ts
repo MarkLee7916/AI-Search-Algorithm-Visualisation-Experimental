@@ -59,6 +59,8 @@ import { computeManhattanDist } from 'src/app/pathfinding/algos/cmps';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import {
   initGenericArray,
+  removeDuplicates,
+  removeItemFromArray,
   safeGetArrayIndex,
 } from 'src/app/shared/genericUtils';
 import { TutorialModalSlide } from '../tutorial-modal/tutorial-modal.component';
@@ -185,7 +187,7 @@ export class PageComponent implements OnInit {
   ngOnInit(): void {
     this.initialiseSaveNameListIfNotInLocalStorage();
     this.loadSavedGridState(
-      '**Auto-Generated** Last Save Before App Was Last Closed'
+      '**Auto-Generated** Grid before app was last closed'
     );
     this.updateAnimationFramesIfNeeded();
   }
@@ -517,7 +519,14 @@ export class PageComponent implements OnInit {
   addSaveNameToListOfSaveNames(saveName: string): void {
     const saveNames = this.parseLocalStorageItem('saveNames');
 
-    saveNames.push(saveName);
+    saveNames.unshift(saveName);
+    this.addItemToLocalStorage('saveNames', removeDuplicates(saveNames));
+  }
+
+  deleteSavedGridState(saveName: string): void {
+    const saveNames = this.parseLocalStorageItem('saveNames');
+
+    removeItemFromArray(saveNames, saveName);
     this.addItemToLocalStorage('saveNames', saveNames);
   }
 
@@ -599,7 +608,7 @@ export class PageComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   saveLastGridStateBeforeAppCloses(): void {
     this.saveCurrentGridState(
-      '**Auto-Generated** Last Save Before App Was Last Closed'
+      '**Auto-Generated** Grid before app was last closed'
     );
   }
 

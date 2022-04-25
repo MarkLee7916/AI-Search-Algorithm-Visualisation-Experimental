@@ -135,7 +135,7 @@
         (click)="setModalDisplayed(Modal.LoadGrid)"
         [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
       >
-        Load Most Recently Saved Grid
+        Load Saved Grid
       </button>
 
       <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
@@ -167,5 +167,7 @@
 <app-load-saved-grid-modal
   *ngIf="modalDisplayed === Modal.LoadGrid"
   [saveNames]="parseLocalStorageItem('saveNames')"
+  (loadSaveEmitter)="loadSavedGridState($event)"
+  (deleteSaveEmitter)="deleteSavedGridState($event)"
   (hideEmitter)="hideModal()"
 ></app-load-saved-grid-modal>

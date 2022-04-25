@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal/abstract-modal.component';
 
 @Component({
@@ -12,13 +12,16 @@ import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal
 export class LoadSavedGridModalComponent extends AbstractModalComponent {
   @Input() readonly saveNames!: string[];
 
-  partitionSavesIntoSeparateSlides(saveNames: string[]): string[][] {
-    const saveSlides = [];
+  @Output() readonly loadSaveEmitter = new EventEmitter<string>();
 
-    for (let i = 0; i < saveNames.length; i += 5) {
-      saveSlides.push(saveNames.slice(i, i + 5));
-    }
+  @Output() readonly deleteSaveEmitter = new EventEmitter<string>();
 
-    return saveSlides;
+  loadSave(saveName: string): void {
+    this.loadSaveEmitter.emit(saveName);
+    this.hideModal();
+  }
+
+  deleteSave(saveName: string): void {
+    this.deleteSaveEmitter.emit(saveName);
   }
 }
