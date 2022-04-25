@@ -125,15 +125,15 @@
       </button>
 
       <button
+        (click)="setModalDisplayed(Modal.SaveGrid)"
         [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
-        (click)="saveCurrentGridState()"
       >
         Save Current Grid
       </button>
 
       <button
+        (click)="setModalDisplayed(Modal.LoadGrid)"
         [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
-        (click)="loadSavedGridState()"
       >
         Load Most Recently Saved Grid
       </button>
@@ -156,3 +156,16 @@
   [slides]="theoryModalSlides"
   (hideEmitter)="hideModal()"
 ></app-theory-modal>
+
+<app-save-grid-modal
+  *ngIf="modalDisplayed === Modal.SaveGrid"
+  (newSaveEmitter)="saveCurrentGridState($event)"
+  (hideEmitter)="hideModal()"
+>
+</app-save-grid-modal>
+
+<app-load-saved-grid-modal
+  *ngIf="modalDisplayed === Modal.LoadGrid"
+  [saveNames]="parseLocalStorageItem('saveNames')"
+  (hideEmitter)="hideModal()"
+></app-load-saved-grid-modal>

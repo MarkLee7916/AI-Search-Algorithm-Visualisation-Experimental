@@ -183,8 +183,17 @@ export class PageComponent implements OnInit {
   constructor(public dragAndDropService: TileDragAndDropService) {}
 
   ngOnInit(): void {
-    this.loadSavedGridState();
+    this.initialiseSaveNameListIfNotInLocalStorage();
+    this.loadSavedGridState(
+      '**Auto-Generated** Last Save Before App Was Last Closed'
+    );
     this.updateAnimationFramesIfNeeded();
+  }
+
+  initialiseSaveNameListIfNotInLocalStorage(): void {
+    if (!this.parseLocalStorageItem('saveNames')) {
+      this.addItemToLocalStorage('saveNames', []);
+    }
   }
 
   // Update animation frames if the problem definitions has changed
@@ -493,18 +502,30 @@ export class PageComponent implements OnInit {
     }
   }
 
-  saveCurrentGridState(): void {
-    localStorage.setItem('startPos', JSON.stringify(this.startPos));
-    localStorage.setItem('goalPos', JSON.stringify(this.goalPos));
-    localStorage.setItem('gridBarriers', JSON.stringify(this.gridBarriers));
-    localStorage.setItem('gridWeights', JSON.stringify(this.gridWeights));
+  addItemToLocalStorage(key: string, value: any): void {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
-  loadSavedGridState(): void {
-    const startPos = this.parseLocalStorageItem('startPos');
-    const goalPos = this.parseLocalStorageItem('goalPos');
-    const gridBarriers = this.parseLocalStorageItem('gridBarriers');
-    const gridWeights = this.parseLocalStorageItem('gridWeights');
+  saveCurrentGridState(saveName: string): void {
+    this.addItemToLocalStorage(saveName + 'startPos', this.startPos);
+    this.addItemToLocalStorage(saveName + 'goalPos', this.goalPos);
+    this.addItemToLocalStorage(saveName + 'gridWeights', this.gridWeights);
+    this.addItemToLocalStorage(saveName + 'gridBarriers', this.gridBarriers);
+    this.addSaveNameToListOfSaveNames(saveName);
+  }
+
+  addSaveNameToListOfSaveNames(saveName: string): void {
+    const saveNames = this.parseLocalStorageItem('saveNames');
+
+    saveNames.push(saveName);
+    this.addItemToLocalStorage('saveNames', saveNames);
+  }
+
+  loadSavedGridState(saveName: string): void {
+    const startPos = this.parseLocalStorageItem(saveName + 'startPos');
+    const goalPos = this.parseLocalStorageItem(saveName + 'goalPos');
+    const gridBarriers = this.parseLocalStorageItem(saveName + 'gridBarriers');
+    const gridWeights = this.parseLocalStorageItem(saveName + 'gridWeights');
 
     if (startPos && goalPos && gridBarriers && gridWeights) {
       this.setStartPos(this.movePositionWithinBoundsOfGrid(startPos));
@@ -575,6 +596,13 @@ export class PageComponent implements OnInit {
     this.isMouseDown = event.buttons === 1;
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  saveLastGridStateBeforeAppCloses(): void {
+    this.saveCurrentGridState(
+      '**Auto-Generated** Last Save Before App Was Last Closed'
+    );
+  }
+
   toggleMouseDown(): void {
     this.isMouseDown = !this.isMouseDown;
   }
@@ -591,5 +619,7 @@ const enum CommentaryType {
 enum Modal {
   Tutorial,
   Theory,
+  SaveGrid,
+  LoadGrid,
   None,
 }
