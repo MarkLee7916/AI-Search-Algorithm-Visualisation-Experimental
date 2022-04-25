@@ -1,0 +1,28 @@
+<div class="modal-slide">
+  <h1 class="modal-title">Save Grid</h1>
+
+  <p class="modal-text">
+    Enter the name of this save and it will store the current grid state in the
+    browser's cache to be reloaded later.
+  </p>
+
+  <p
+    class="modal-centered-text"
+    [style.visibility]="hasEnteredInvalidInput ? 'visible' : 'hidden'"
+    id="invalid-input-error-message"
+  >
+    Input cannot be non-empty!
+  </p>
+
+  <input type="text" class="modal-input-item" #saveNameInput />
+
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Close Without Saving
+  </button>
+  <button
+    class="modal-left-of-bottom-right-btn"
+    (click)="createNewSave(saveNameInput.value)"
+  >
+    Save And Close
+  </button>
+</div>
