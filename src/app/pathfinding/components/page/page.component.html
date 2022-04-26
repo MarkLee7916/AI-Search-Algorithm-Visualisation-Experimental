@@ -117,7 +117,9 @@
     </div>
     <div id="grid-buttons">
       <button
-        [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+        [style.visibility]="
+          isInQuizMode() || isPlacingCustomWeights() ? 'hidden' : 'visible'
+        "
         (click)="generateMaze()"
       >
         Generate Maze

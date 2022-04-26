@@ -65,7 +65,7 @@ export class TileComponent {
 
   // Event emitter for when the user enters a custom weight and submits it
   @Output() readonly submitCustomWeightEmitter =
-    new EventEmitter<CustomWeightTileEvent>();
+    new EventEmitter<CustomWeightEvent>();
 
   // Map the type of animation on this tile to the colour its background will be displayed in
   readonly animationFrameToColor = new UncheckedObjMap<
@@ -184,7 +184,7 @@ export type TileEvent = {
   event: Event;
 };
 
-export type CustomWeightTileEvent = {
+export type CustomWeightEvent = {
   pos: Pos;
   customWeight: string;
 };
