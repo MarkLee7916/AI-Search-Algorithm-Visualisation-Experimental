@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TileEvent } from '../components/tile/tile.component';
 import { GridBarriers, isSamePos, Pos } from '../models/grid';
 
 @Injectable({
@@ -14,9 +13,7 @@ export class TileDragAndDropService {
   }
 
   // Handle the cases where a drag is considered either valid or invalid
-  public handleDrag(tileEvent: TileEvent, startPos: Pos, goalPos: Pos): void {
-    const { pos, event } = tileEvent;
-
+  public handleDrag(event: Event, pos: Pos, startPos: Pos, goalPos: Pos): void {
     if (this.canDragFrom(pos, startPos, goalPos)) {
       this.draggedFrom = pos;
     } else {

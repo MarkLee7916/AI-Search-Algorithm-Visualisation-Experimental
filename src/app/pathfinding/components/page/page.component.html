@@ -107,12 +107,11 @@
           [shouldDisplayCustomWeightInput]="
             isPosToPlaceCustomWeightAt(pos) && isPlacingCustomWeights()
           "
-          (dragEmitter)="handleTileDrag($event)"
-          (dropEmitter)="handleTileDrop($event.pos)"
-          (clickEmitter)="handleTileClick($event.pos)"
-          (submitCustomWeightEmitter)="
-            placeCustomWeightAt($event.pos, $event.customWeight)
-          "
+          (dragEmitter)="handleTileDrag(pos, $event)"
+          (dropEmitter)="handleTileDrop(pos)"
+          (clickEmitter)="handleTileClick(pos)"
+          (submitCustomWeightEmitter)="placeCustomWeightAt(pos, $event)"
+          (closeCustomWeightInputEmitter)="updatePosToPlaceCustomWeightAt(null)"
         >
         </app-tile>
       </div>

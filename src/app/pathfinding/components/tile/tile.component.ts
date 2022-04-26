@@ -55,17 +55,18 @@ export class TileComponent {
   @Input() readonly shouldDisplayCustomWeightInput!: boolean;
 
   // Event emitter for when the user drags this tile
-  @Output() readonly dragEmitter = new EventEmitter<TileEvent>();
+  @Output() readonly dragEmitter = new EventEmitter<Event>();
 
   // Event emitter for when the user drops another tile onto this one
-  @Output() readonly dropEmitter = new EventEmitter<TileEvent>();
+  @Output() readonly dropEmitter = new EventEmitter<Event>();
 
   // Event emitter for when the user clicks this tile
-  @Output() readonly clickEmitter = new EventEmitter<TileEvent>();
+  @Output() readonly clickEmitter = new EventEmitter<Event>();
 
   // Event emitter for when the user enters a custom weight and submits it
-  @Output() readonly submitCustomWeightEmitter =
-    new EventEmitter<CustomWeightEvent>();
+  @Output() readonly submitCustomWeightEmitter = new EventEmitter<number>();
+
+  @Output() readonly closeCustomWeightInputEmitter = new EventEmitter<void>();
 
   // Map the type of animation on this tile to the colour its background will be displayed in
   readonly animationFrameToColor = new UncheckedObjMap<
@@ -157,15 +158,15 @@ export class TileComponent {
   }
 
   notifyDrag(event: Event): void {
-    this.dragEmitter.emit({ pos: this.pos, event });
+    this.dragEmitter.emit(event);
   }
 
   notifyDrop(event: Event): void {
-    this.dropEmitter.emit({ pos: this.pos, event });
+    this.dropEmitter.emit(event);
   }
 
   notifyClick(event: Event): void {
-    this.clickEmitter.emit({ pos: this.pos, event });
+    this.clickEmitter.emit(event);
   }
 
   notifyClickIfMouseDown(event: Event): void {
@@ -174,17 +175,11 @@ export class TileComponent {
     }
   }
 
-  submitCustomWeight(customWeight: string): void {
-    this.submitCustomWeightEmitter.emit({ pos: this.pos, customWeight });
+  submitCustomWeight(customWeight: number): void {
+    this.submitCustomWeightEmitter.emit(customWeight);
+  }
+
+  closeCustomWeightInput(): void {
+    this.closeCustomWeightInputEmitter.emit();
   }
 }
-
-export type TileEvent = {
-  pos: Pos;
-  event: Event;
-};
-
-export type CustomWeightEvent = {
-  pos: Pos;
-  customWeight: string;
-};

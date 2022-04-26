@@ -9,9 +9,10 @@ import { SharedModule } from '../shared/shared.module';
 import { TheoryModalComponent } from './components/theory-modal/theory-modal.component';
 import { SaveGridModalComponent } from './components/save-grid-modal/save-grid-modal.component';
 import { LoadSavedGridModalComponent } from './components/load-saved-grid-modal/load-saved-grid-modal.component';
+import { CustomWeightInputComponent } from './components/custom-weight-input/custom-weight-input.component';
 
 @NgModule({
-  declarations: [PageComponent, TileComponent, TutorialModalComponent, TheoryModalComponent, SaveGridModalComponent, LoadSavedGridModalComponent],
+  declarations: [PageComponent, TileComponent, TutorialModalComponent, TheoryModalComponent, SaveGridModalComponent, LoadSavedGridModalComponent, CustomWeightInputComponent],
   imports: [
     CommonModule,
     BrowserModule,

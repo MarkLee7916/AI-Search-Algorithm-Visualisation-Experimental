@@ -1,0 +1,24 @@
+<div class="tile-tooltip" *ngIf="shouldDisplayCustomWeightInput">
+  <input
+    class="tile-tooltip-input"
+    type="text"
+    #customWeight
+    (keyup.enter)="submitCustomWeight(customWeight.value)"
+  />
+  <p
+    class="tile-tooltip-error-msg"
+    [style.visibility]="hasUserEnteredInvalidInput ? 'visible' : 'hidden'"
+  >
+    Input must be a positive number!
+  </p>
+  <button
+    class="tile-tooltip-btn"
+    (click)="submitCustomWeight(customWeight.value)"
+  >
+    Add Custom Weight
+  </button>
+
+  <button class="tile-tooltip-btn" (click)="closeCustomWeightInput()">
+    Close
+  </button>
+</div>

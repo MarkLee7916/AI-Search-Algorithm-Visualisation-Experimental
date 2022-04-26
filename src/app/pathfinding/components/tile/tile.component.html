@@ -31,24 +31,8 @@
   <p>Cost of passing through: {{ weight }}</p>
 </div>
 
-<div class="tile-tooltip" *ngIf="shouldDisplayCustomWeightInput">
-  <input
-    class="tile-tooltip-input"
-    type="text"
-    #customWeight
-    (keyup.enter)="submitCustomWeight(customWeight.value)"
-  />
-  <button
-    class="tile-tooltip-btn"
-    (click)="submitCustomWeight(customWeight.value)"
-  >
-    Add Custom Weight
-  </button>
-
-  <button
-    class="tile-tooltip-btn"
-    (click)="submitCustomWeight(this.weight.toString())"
-  >
-    Close
-  </button>
-</div>
+<app-custom-weight-input
+  [shouldDisplayCustomWeightInput]="shouldDisplayCustomWeightInput"
+  (submitCustomWeightEmitter)="submitCustomWeight($event)"
+  (closeCustomWeightInputEmitter)="submitCustomWeight(this.weight)"
+></app-custom-weight-input>

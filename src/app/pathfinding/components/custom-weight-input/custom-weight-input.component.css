@@ -1,0 +1,16 @@
+.tile-tooltip-btn {
+  width: 8vw;
+  height: 4vh;
+  font-size: 1.5vh;
+  margin-bottom: 1vh;
+}
+
+.tile-tooltip-input {
+  height: 2vh;
+}
+
+.tile-tooltip-error-msg {
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}

@@ -54,7 +54,6 @@ import {
   WIDTH,
 } from 'src/app/pathfinding/models/grid';
 import { TileDragAndDropService } from 'src/app/pathfinding/services/tile-drag-and-drop.service';
-import { TileEvent } from '../tile/tile.component';
 import { computeManhattanDist } from 'src/app/pathfinding/algos/cmps';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import {
@@ -213,7 +212,7 @@ export class PageComponent implements OnInit {
     this.updateAnimationFramesIfNeeded();
   }
 
-  updatePosToPlaceCustomWeightAt(pos: Pos): void {
+  updatePosToPlaceCustomWeightAt(pos: Pos | null): void {
     this.posToPlaceCustomWeightAt = pos;
   }
 
@@ -247,8 +246,8 @@ export class PageComponent implements OnInit {
     return this.animationFrames[this.safeGetAnimationIndex()];
   }
 
-  handleTileDrag(tileEvent: TileEvent): void {
-    this.dragAndDropService.handleDrag(tileEvent, this.startPos, this.goalPos);
+  handleTileDrag(pos: Pos, event: Event): void {
+    this.dragAndDropService.handleDrag(event, pos, this.startPos, this.goalPos);
   }
 
   // If a tile drop is valid, update the appropiate state
@@ -372,13 +371,8 @@ export class PageComponent implements OnInit {
     this.setGridWeights(gridWeightsCopy);
   }
 
-  placeCustomWeightAt(pos: Pos, value: string): void {
-    const valueAsNumber = parseInt(value, 10);
-
-    if (!isNaN(valueAsNumber) && valueAsNumber > 0) {
-      this.placeWeightAt(pos, valueAsNumber);
-    }
-
+  placeCustomWeightAt(pos: Pos, customWeight: number): void {
+    this.placeWeightAt(pos, customWeight);
     this.posToPlaceCustomWeightAt = null;
   }
 
