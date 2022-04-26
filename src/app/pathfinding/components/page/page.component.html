@@ -44,7 +44,9 @@
     ></app-dropdown>
 
     <app-dropdown
-      [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+      [style.visibility]="
+        isInQuizMode() || isPlacingCustomWeights() ? 'hidden' : 'visible'
+      "
       [currentItem]="mazeGenItem"
       (itemChangedEmitter)="setMazeGenItem($event)"
       [items]="mazeGenItems"

@@ -378,6 +378,8 @@ export class PageComponent implements OnInit {
     if (!isNaN(valueAsNumber) && valueAsNumber > 0) {
       this.placeWeightAt(pos, valueAsNumber);
     }
+
+    this.posToPlaceCustomWeightAt = null;
   }
 
   isStartPos(pos: Pos): boolean {
