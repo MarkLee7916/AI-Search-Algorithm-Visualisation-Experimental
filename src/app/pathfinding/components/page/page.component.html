@@ -102,9 +102,15 @@
           [animationFrame]="getCurrentAnimationFrame().grid[rowIndex][colIndex]"
           [pos]="pos"
           [isInQuizMode]="isInQuizMode()"
+          [shouldDisplayCustomWeightInput]="
+            isPosToPlaceCustomWeightAt(pos) && isPlacingCustomWeights()
+          "
           (dragEmitter)="handleTileDrag($event)"
           (dropEmitter)="handleTileDrop($event.pos)"
           (clickEmitter)="handleTileClick($event.pos)"
+          (submitCustomWeightEmitter)="
+            placeCustomWeightAt($event.pos, $event.customWeight)
+          "
         >
         </app-tile>
       </div>

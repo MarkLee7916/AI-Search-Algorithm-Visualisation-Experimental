@@ -81,6 +81,23 @@ import { TheoryModalSlide } from '../theory-modal/theory-modal.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageComponent implements OnInit {
+  /* New features to add:
+
+   Feature 1: a tile placement selection to delete obstacles
+              when triggered on some tile, this should delete any weights or barriers on that tile
+              and its neighbours both diagonal and non-diagonal
+
+   Feature 2: a tile placement selection to add custom weights
+              when triggered on some tile, this should open a tooltip with a textbox input to add a weight there. This
+              should have the same dimensions and positioning as the tooltip that displays information on a tile
+              "Add Weights" should be renamed to "Add Random Weights"
+              to implement this, PageComponent should hold a variable [tileToAddCustomWeightAt: Pos | null] that keeps track of
+              which tile has an input tooltip open. When rendering tiles, a boolean flag called isCustomWeightInputDisplayed 
+              should be passed into a tile, which is true if the tile positions matches tileToAddCustomWeightAt otherwise false. The tile
+              should only render the input if the flag is passed in as true.
+              This is so only one input can be open at any time.
+  */
+
   // A grid where each tile is a Pos object corresponding to its position
   readonly gridPositions = initGridPositions();
 
@@ -108,8 +125,9 @@ export class PageComponent implements OnInit {
     TilePlaceItem,
     (pos: Pos) => void
   >([
-    [TilePlaceItem.Barriers, this.toggleBarrier],
-    [TilePlaceItem.Weights, this.toggleWeight],
+    [TilePlaceItem.Barrier, this.toggleBarrier],
+    [TilePlaceItem.RandomWeight, this.toggleRandomWeight],
+    [TilePlaceItem.CustomWeight, this.updatePosToPlaceCustomWeightAt],
   ]);
 
   readonly mazeGenItemToImpl = new UncheckedObjMap<MazeGenItem, () => Maze>([
@@ -163,11 +181,14 @@ export class PageComponent implements OnInit {
   // Target tile the algorithm will aim to find a path to
   goalPos = DEFAULT_GOAL_POS;
 
+  // The position in the grid a user is currently adding a custom weight at
+  posToPlaceCustomWeightAt: Pos | null = null;
+
   // Keeps track of whether user has their mouse held down
   isMouseDown = false;
 
   // Items corresponding to the dropdown menus
-  tilePlaceItem = TilePlaceItem.Barriers;
+  tilePlaceItem = TilePlaceItem.Barrier;
   userInteractionModeItem = UserInteractionModeItem.Visualise;
   mazeGenItem = MazeGenItem.Random;
   algoItem = AlgoItem.BFS;
@@ -190,6 +211,10 @@ export class PageComponent implements OnInit {
       '**Auto-Generated** Grid before app was last closed'
     );
     this.updateAnimationFramesIfNeeded();
+  }
+
+  updatePosToPlaceCustomWeightAt(pos: Pos): void {
+    this.posToPlaceCustomWeightAt = pos;
   }
 
   initialiseSaveNameListIfNotInLocalStorage(): void {
@@ -331,17 +356,28 @@ export class PageComponent implements OnInit {
   }
 
   // If there's a default weight at the tile, generate a random one, else reset it back to the default weight
-  toggleWeight({ row, col }: Pos): void {
+  toggleRandomWeight({ row, col }: Pos): void {
+    if (this.gridWeights[row][col] === DEFAULT_WEIGHT) {
+      this.placeWeightAt({ row, col }, genRandomWeight());
+    } else {
+      this.placeWeightAt({ row, col }, DEFAULT_WEIGHT);
+    }
+  }
+
+  placeWeightAt({ row, col }: Pos, value: number): void {
     const gridWeightsCopy = cloneDeep(this.gridWeights);
 
-    if (gridWeightsCopy[row][col] === DEFAULT_WEIGHT) {
-      gridWeightsCopy[row][col] = genRandomWeight();
-    } else {
-      gridWeightsCopy[row][col] = DEFAULT_WEIGHT;
-    }
-
+    gridWeightsCopy[row][col] = value;
     this.setTileDisplayItem(TileDisplayItem.Weights);
     this.setGridWeights(gridWeightsCopy);
+  }
+
+  placeCustomWeightAt(pos: Pos, value: string): void {
+    const valueAsNumber = parseInt(value, 10);
+
+    if (!isNaN(valueAsNumber) && valueAsNumber > 0) {
+      this.placeWeightAt(pos, valueAsNumber);
+    }
   }
 
   isStartPos(pos: Pos): boolean {
@@ -350,6 +386,14 @@ export class PageComponent implements OnInit {
 
   isGoalPos(pos: Pos): boolean {
     return isSamePos(this.goalPos, pos);
+  }
+
+  isPosToPlaceCustomWeightAt(pos: Pos): boolean {
+    if (this.posToPlaceCustomWeightAt === null) {
+      return false;
+    } else {
+      return isSamePos(this.posToPlaceCustomWeightAt, pos);
+    }
   }
 
   // When user drops a tile onto another, update the positions
@@ -486,6 +530,10 @@ export class PageComponent implements OnInit {
 
   isInQuizMode(): boolean {
     return this.userInteractionModeItem === UserInteractionModeItem.Quiz;
+  }
+
+  isPlacingCustomWeights(): boolean {
+    return this.tilePlaceItem === TilePlaceItem.CustomWeight;
   }
 
   // Get the commentary that will accompany the current animation frame

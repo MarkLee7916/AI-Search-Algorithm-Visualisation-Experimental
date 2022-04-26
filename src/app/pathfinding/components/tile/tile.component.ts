@@ -52,6 +52,8 @@ export class TileComponent {
   // True if app is in quiz mode
   @Input() readonly isInQuizMode!: boolean;
 
+  @Input() readonly shouldDisplayCustomWeightInput!: boolean;
+
   // Event emitter for when the user drags this tile
   @Output() readonly dragEmitter = new EventEmitter<TileEvent>();
 
@@ -60,6 +62,10 @@ export class TileComponent {
 
   // Event emitter for when the user clicks this tile
   @Output() readonly clickEmitter = new EventEmitter<TileEvent>();
+
+  // Event emitter for when the user enters a custom weight and submits it
+  @Output() readonly submitCustomWeightEmitter =
+    new EventEmitter<CustomWeightTileEvent>();
 
   // Map the type of animation on this tile to the colour its background will be displayed in
   readonly animationFrameToColor = new UncheckedObjMap<
@@ -167,9 +173,18 @@ export class TileComponent {
       this.notifyClick(event);
     }
   }
+
+  submitCustomWeight(customWeight: string): void {
+    this.submitCustomWeightEmitter.emit({ pos: this.pos, customWeight });
+  }
 }
 
 export type TileEvent = {
   pos: Pos;
   event: Event;
+};
+
+export type CustomWeightTileEvent = {
+  pos: Pos;
+  customWeight: string;
 };

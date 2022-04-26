@@ -1,6 +1,7 @@
 export enum TilePlaceItem {
-  Barriers = 'Place Barriers',
-  Weights = 'Place Weights',
+  Barrier = 'Barrier',
+  RandomWeight = 'Random Weight',
+  CustomWeight = 'Custom Weight',
 }
 
 export enum MazeGenItem {
