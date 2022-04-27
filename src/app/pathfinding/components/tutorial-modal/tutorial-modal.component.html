@@ -80,7 +80,7 @@
     done through holding down the mouse left button and dragging it along the
     grid, which draws obstacles along every tile the mouse has touched.
     Obstacles come in two modes; barriers and weights. You can configure which
-    one is being drawn in the dropdown menu under "Place Barriers"
+    one is being drawn in the dropdown menu under "Item Placed On Tile"
   </p>
 
   <p class="modal-text">
@@ -94,6 +94,36 @@
   <video
     class="modal-visual-media"
     src="../../../../assets/drawing-barriers-and-weights.mp4"
+    autoplay
+    loop
+  ></video>
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.CustomWeights">
+  <h1 class="modal-title">Custom Weights</h1>
+
+  <p class="modal-text">
+    As well as generating random weights, you can also add weights with values
+    of your choosing. This is done by selecting the "Custom Weight" option in
+    the menu under "Item Placed On Tile". When you click on a tile it will
+    display an input box that allows you to enter the weight you want to place
+    at that tile. This weight needs to be a positive integer. You can either
+    press the button or the enter key to submit the value.
+  </p>
+
+  <video
+    class="modal-visual-media"
+    src="../../../../assets/adding-custom-weights.mp4"
     autoplay
     loop
   ></video>
@@ -223,6 +253,66 @@
   <video
     class="modal-visual-media"
     src="../../../../assets/step-features.mp4"
+    autoplay
+    loop
+  ></video>
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.SavingGrid">
+  <h1 class="modal-title">Saving the Grid</h1>
+
+  <p class="modal-text">
+    You can save the current state of the grid in the browsers cache and reload
+    it at a later date. This is done through pressing "Save Current Grid" and
+    entering a name for the save. A save with the same name will appear on a
+    modal triggered by pressing "Load Saved Grid" which can be clicked on to
+    reload the save.
+  </p>
+
+  <video
+    class="modal-visual-media"
+    src="../../../../assets/saving-and-loading.mp4"
+    autoplay
+    loop
+  ></video>
+
+  <button class="modal-bottom-left-btn" (click)="prevSlide()">
+    Previous Slide
+  </button>
+
+  <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
+    Next Slide
+  </button>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">
+    Skip Tutorial
+  </button>
+</div>
+
+<div class="modal-slide" *ngIf="slides[slideIndex] === Slide.QuizMode">
+  <h1 class="modal-title">Quiz Mode</h1>
+
+  <p class="modal-text">
+    By default the app is in Visualisation Mode, which is pretty much what you'd
+    expect from a visualiser tool. You can switch it to Quiz Mode, which sets up
+    a predefined quiz case and asks you to guess what tile the algorithm will
+    expand next. If you guess the correct tile, it will advance to the next
+    frame and ask you to guess the next tile to be expanded and so on.
+  </p>
+
+  <video
+    class="modal-visual-media"
+    src="../../../../assets/pathfinding-quiz.mp4"
     autoplay
     loop
   ></video>

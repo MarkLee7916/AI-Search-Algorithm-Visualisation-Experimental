@@ -24,9 +24,12 @@ export enum TutorialModalSlide {
   Intro = 'Intro',
   Grid = 'Grid',
   BarriersAndWeights = 'BarriersAndWeights',
+  CustomWeights = 'CustomWeights',
   MazeGen = 'MazeGen',
   StartAndGoal = 'StartAndGoal',
   Animating = 'Animating',
   SteppingThroughAnimations = 'SteppingThroughAnimations',
+  SavingGrid = 'SavingGrid',
+  QuizMode = 'QuizMode',
   Conclusion = 'Conclusion',
 }

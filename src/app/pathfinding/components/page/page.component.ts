@@ -199,7 +199,22 @@ export class PageComponent implements OnInit {
     this.loadSavedGridState(
       '**Auto-Generated** Grid before app was last closed'
     );
+    this.loadDropdownOptions();
     this.updateAnimationFramesIfNeeded();
+  }
+
+  loadDropdownOptions(): void {
+    if (this.parseLocalStorageItem('algo') !== null) {
+      this.algoItem = this.parseLocalStorageItem('algoItem');
+      this.tileDisplayItem = this.parseLocalStorageItem('tileDisplayItem');
+      this.neighboursItem = this.parseLocalStorageItem('neighboursItem');
+      this.tilePlaceItem = this.parseLocalStorageItem('tilePlaceItem');
+      this.mazeGenItem = this.parseLocalStorageItem('mazeGenItem');
+      this.animationIndex = this.parseLocalStorageItem('animationIndex');
+      this.userInteractionModeItem = this.parseLocalStorageItem(
+        'userInteractionModeItem'
+      );
+    }
   }
 
   updatePosToPlaceCustomWeightAt(pos: Pos | null): void {
@@ -633,6 +648,23 @@ export class PageComponent implements OnInit {
     };
   }
 
+  saveDropdownOptions(): void {
+    this.addItemToLocalStorage('algoItem', this.algoItem);
+    this.addItemToLocalStorage('tileDisplayItem', this.tileDisplayItem);
+    this.addItemToLocalStorage('neighboursItem', this.neighboursItem);
+    this.addItemToLocalStorage('tilePlaceItem', this.tilePlaceItem);
+    this.addItemToLocalStorage('mazeGenItem', this.mazeGenItem);
+    this.addItemToLocalStorage('animationIndex', this.animationIndex);
+    this.addItemToLocalStorage(
+      'userInteractionModeItem',
+      this.userInteractionModeItem
+    );
+  }
+
+  toggleMouseDown(): void {
+    this.isMouseDown = !this.isMouseDown;
+  }
+
   @HostListener('mousedown', ['$event'])
   @HostListener('mouseup', ['$event'])
   toggleMouseDownFromEvent(event: MouseEvent): void {
@@ -644,10 +676,7 @@ export class PageComponent implements OnInit {
     this.saveCurrentGridState(
       '**Auto-Generated** Grid before app was last closed'
     );
-  }
-
-  toggleMouseDown(): void {
-    this.isMouseDown = !this.isMouseDown;
+    this.saveDropdownOptions();
   }
 }
 
