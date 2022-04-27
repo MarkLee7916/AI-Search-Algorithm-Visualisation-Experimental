@@ -52,9 +52,11 @@ export class AnimationComponent<AnimationFrame> {
   }
 
   async animateAlgo(): Promise<void> {
+    await wait(this.animationDelayMs);
+
     while (this.canAnimationRun()) {
-      await wait(this.animationDelayMs);
       this.incrementAnimationIndex();
+      await wait(this.animationDelayMs);
     }
 
     this.setAnimationRunningEmitter.emit(false);
