@@ -85,16 +85,6 @@ export class PageComponent implements OnInit {
    Feature 1: a tile placement selection to delete obstacles
               when triggered on some tile, this should delete any weights or barriers on that tile
               and its neighbours both diagonal and non-diagonal
-
-   Feature 2: a tile placement selection to add custom weights
-              when triggered on some tile, this should open a tooltip with a textbox input to add a weight there. This
-              should have the same dimensions and positioning as the tooltip that displays information on a tile
-              "Add Weights" should be renamed to "Add Random Weights"
-              to implement this, PageComponent should hold a variable [tileToAddCustomWeightAt: Pos | null] that keeps track of
-              which tile has an input tooltip open. When rendering tiles, a boolean flag called isCustomWeightInputDisplayed 
-              should be passed into a tile, which is true if the tile positions matches tileToAddCustomWeightAt otherwise false. The tile
-              should only render the input if the flag is passed in as true.
-              This is so only one input can be open at any time.
   */
 
   // A grid where each tile is a Pos object corresponding to its position
