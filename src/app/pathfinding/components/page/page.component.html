@@ -100,7 +100,9 @@
           [dist]="getCurrentAnimationFrame().gridDists[rowIndex][colIndex]"
           [heuristicDist]="getHeuristicDist(pos)"
           [displayItem]="tileDisplayItem"
-          [willDisplayTooltipOnMouseOver]="safeGetAnimationIndex() !== 0"
+          [willDisplayTooltipOnMouseOver]="
+            safeGetAnimationIndex() !== 0 && !isPlacingCustomWeights()
+          "
           [animationFrame]="getCurrentAnimationFrame().grid[rowIndex][colIndex]"
           [pos]="pos"
           [isInQuizMode]="isInQuizMode()"
