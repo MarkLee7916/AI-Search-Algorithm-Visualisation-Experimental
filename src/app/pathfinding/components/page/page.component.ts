@@ -204,7 +204,7 @@ export class PageComponent implements OnInit {
   }
 
   loadDropdownOptions(): void {
-    if (this.parseLocalStorageItem('algo') !== null) {
+    if (this.parseLocalStorageItem('algoItem') !== null) {
       this.algoItem = this.parseLocalStorageItem('algoItem');
       this.tileDisplayItem = this.parseLocalStorageItem('tileDisplayItem');
       this.neighboursItem = this.parseLocalStorageItem('neighboursItem');
