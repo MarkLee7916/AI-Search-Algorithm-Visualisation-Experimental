@@ -37,8 +37,8 @@ describe('Pathfinding Page', () => {
     });
 
     // Get buttons to step back and forth through animations
-    const prevAnimationFrameBtn = screen.getByText('◀');
-    const nextAnimationFrameBtn = screen.getByText('▶');
+    const prevAnimationFrameBtn = screen.getByText('⏴︎');
+    const nextAnimationFrameBtn = screen.getByText('⏵︎');
 
     // Step forward and check we're not on first animation frame
     fireEvent.click(nextAnimationFrameBtn);
@@ -130,7 +130,7 @@ describe('Pathfinding Page', () => {
     tilesAdjacentToGoal.forEach((tile) => fireEvent.mouseDown(tile));
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('▶'));
+    fireEvent.click(screen.getByText('⏵︎'));
 
     // Get number of final animation frame
     const animationFrameStr = screen.getByText(/\//).innerHTML;
@@ -174,7 +174,7 @@ describe('Pathfinding Page', () => {
     fireEvent.mouseLeave(tile);
 
     // Move to next anim frame, so no longer on first
-    fireEvent.click(screen.getByText('▶'));
+    fireEvent.click(screen.getByText('⏵︎'));
 
     // Hover over same tile again and expect tooltip to show this time
     fireEvent.mouseEnter(tile);
@@ -279,7 +279,7 @@ describe('Pathfinding Page', () => {
     tilesAdjacentToGoal.forEach((tile) => fireEvent.mouseDown(tile));
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('▶'));
+    fireEvent.click(screen.getByText('⏵︎'));
 
     // Get number of final animation frame
     const animationFrameStr = screen.getByText(/\//).innerHTML;
@@ -331,7 +331,7 @@ describe('Pathfinding Page', () => {
     tilesAdjacentToGoal.forEach((tile) => fireEvent.mouseDown(tile));
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('▶'));
+    fireEvent.click(screen.getByText('⏵︎'));
 
     // Get number of final animation frame
     const animationFrameStr = screen.getByText(/\//).innerHTML;
@@ -402,7 +402,7 @@ describe('Pathfinding Page', () => {
     fireEvent.drop(tileToMoveStartTo);
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('▶'));
+    fireEvent.click(screen.getByText('⏵︎'));
 
     // Get number of final animation frame
     const animationFrameStr = screen.getByText(/\//).innerHTML;
@@ -523,7 +523,7 @@ describe('Pathfinding Page', () => {
     fireEvent.click(screen.getByText('Greedy Best First Search'));
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('▶'));
+    fireEvent.click(screen.getByText('⏵︎'));
 
     // Get number of final animation frame for GBFS
     const finalAnimationFrameNumGBFS =

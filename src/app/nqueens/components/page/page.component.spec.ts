@@ -28,8 +28,8 @@ describe('N-Queens Page', async () => {
     });
 
     // Get buttons to step back and forth through animations
-    const prevAnimationFrameBtn = screen.getByText('◀');
-    const nextAnimationFrameBtn = screen.getByText('▶');
+    const prevAnimationFrameBtn = screen.getByText('⏴︎');
+    const nextAnimationFrameBtn = screen.getByText('⏵︎');
 
     // Step forward and check we're not on first animation frame
     fireEvent.click(nextAnimationFrameBtn);
