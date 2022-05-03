@@ -114,6 +114,20 @@ export function safeGetArrayIndex<T>(array: T[], index: number): number {
   }
 }
 
+export function parseLocalStorageItem(key: string): any {
+  const item = localStorage.getItem(key);
+
+  if (item === null) {
+    return null;
+  } else {
+    return JSON.parse(item);
+  }
+}
+
+export function addItemToLocalStorage(key: string, value: any): void {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
 export function areObjectsEqualDisregardingRefs<T>(obj1: T, obj2: T): boolean {
   return Object.values(obj1).every((_, i) => {
     const val1 = Object.values(obj1)[i];

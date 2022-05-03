@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import {
+  addItemToLocalStorage,
   assertNonNull,
   AVERAGE_OF_VW_AND_VH,
   getValueFromRangeEvent,
+  parseLocalStorageItem,
   safeGetArrayIndex,
   wait,
 } from 'src/app/shared/genericUtils';
@@ -111,7 +113,23 @@ export class PageComponent implements OnInit {
   quizDelayMs = 2000;
 
   ngOnInit(): void {
+    this.loadDropdownOptions();
     this.updateAnimationFramesIfNeeded();
+  }
+
+  loadDropdownOptions(): void {
+    if (parseLocalStorageItem('boardSize') !== null) {
+      this.boardSize = parseLocalStorageItem('boardSize');
+      this.pruningAlgoItem = parseLocalStorageItem('pruningAlgoItem');
+      this.varHeuristicItem = parseLocalStorageItem('varHeuristicItem');
+      this.valHeuristicItem = parseLocalStorageItem('valHeuristicItem');
+      this.domainDisplayItem = parseLocalStorageItem('domainDisplayItem');
+      this.checkingItem = parseLocalStorageItem('checkingItem');
+      this.animationIndex = parseLocalStorageItem('animationIndex');
+      this.userInteractionModeItem = parseLocalStorageItem(
+        'userInteractionModeItem'
+      );
+    }
   }
 
   setAnimationRunning(running: boolean): void {
@@ -372,6 +390,25 @@ export class PageComponent implements OnInit {
       default:
         return 'Incorrect! Try again';
     }
+  }
+
+  saveDropdownOptions(): void {
+    addItemToLocalStorage('pruningAlgoItem', this.pruningAlgoItem);
+    addItemToLocalStorage('varHeuristicItem', this.varHeuristicItem);
+    addItemToLocalStorage('valHeuristicItem', this.valHeuristicItem);
+    addItemToLocalStorage('domainDisplayItem', this.domainDisplayItem);
+    addItemToLocalStorage('checkingItem', this.checkingItem);
+    addItemToLocalStorage('animationIndex', this.animationIndex);
+    addItemToLocalStorage('boardSize', this.boardSize);
+    addItemToLocalStorage(
+      'userInteractionModeItem',
+      this.userInteractionModeItem
+    );
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  saveAppStateBeforeClose(): void {
+    this.saveDropdownOptions();
   }
 }
 

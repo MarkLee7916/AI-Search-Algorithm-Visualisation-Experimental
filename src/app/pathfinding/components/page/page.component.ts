@@ -57,7 +57,9 @@ import { TileDragAndDropService } from 'src/app/pathfinding/services/tile-drag-a
 import { computeManhattanDist } from 'src/app/pathfinding/algos/cmps';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import {
+  addItemToLocalStorage,
   initGenericArray,
+  parseLocalStorageItem,
   removeDuplicates,
   removeItemFromArray,
   safeGetArrayIndex,
@@ -80,13 +82,6 @@ import { TheoryModalSlide } from '../theory-modal/theory-modal.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageComponent implements OnInit {
-  /* New features to add:
-
-   Feature 1: a tile placement selection to delete obstacles
-              when triggered on some tile, this should delete any weights or barriers on that tile
-              and its neighbours both diagonal and non-diagonal
-  */
-
   // A grid where each tile is a Pos object corresponding to its position
   readonly gridPositions = initGridPositions();
 
@@ -96,6 +91,8 @@ export class PageComponent implements OnInit {
   // Functions to uniquely identify rows and columns to optimise *ngFor calls
   readonly trackByPos = genUniquePosId;
   readonly trackByRow = genUniqueRowId;
+
+  readonly parseLocalStorageItem = parseLocalStorageItem;
 
   // Lists of enum values that correspond to the dropdown items in the menu
   readonly tilePlaceItems = Object.values(TilePlaceItem);
@@ -204,14 +201,14 @@ export class PageComponent implements OnInit {
   }
 
   loadDropdownOptions(): void {
-    if (this.parseLocalStorageItem('algoItem') !== null) {
-      this.algoItem = this.parseLocalStorageItem('algoItem');
-      this.tileDisplayItem = this.parseLocalStorageItem('tileDisplayItem');
-      this.neighboursItem = this.parseLocalStorageItem('neighboursItem');
-      this.tilePlaceItem = this.parseLocalStorageItem('tilePlaceItem');
-      this.mazeGenItem = this.parseLocalStorageItem('mazeGenItem');
-      this.animationIndex = this.parseLocalStorageItem('animationIndex');
-      this.userInteractionModeItem = this.parseLocalStorageItem(
+    if (parseLocalStorageItem('algoItem') !== null) {
+      this.algoItem = parseLocalStorageItem('algoItem');
+      this.tileDisplayItem = parseLocalStorageItem('tileDisplayItem');
+      this.neighboursItem = parseLocalStorageItem('neighboursItem');
+      this.tilePlaceItem = parseLocalStorageItem('tilePlaceItem');
+      this.mazeGenItem = parseLocalStorageItem('mazeGenItem');
+      this.animationIndex = parseLocalStorageItem('animationIndex');
+      this.userInteractionModeItem = parseLocalStorageItem(
         'userInteractionModeItem'
       );
     }
@@ -222,8 +219,8 @@ export class PageComponent implements OnInit {
   }
 
   initialiseSaveNameListIfNotInLocalStorage(): void {
-    if (!this.parseLocalStorageItem('saveNames')) {
-      this.addItemToLocalStorage('saveNames', []);
+    if (!parseLocalStorageItem('saveNames')) {
+      addItemToLocalStorage('saveNames', []);
     }
   }
 
@@ -553,53 +550,39 @@ export class PageComponent implements OnInit {
     }
   }
 
-  addItemToLocalStorage(key: string, value: any): void {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-
   saveCurrentGridState(saveName: string): void {
-    this.addItemToLocalStorage(saveName + 'startPos', this.startPos);
-    this.addItemToLocalStorage(saveName + 'goalPos', this.goalPos);
-    this.addItemToLocalStorage(saveName + 'gridWeights', this.gridWeights);
-    this.addItemToLocalStorage(saveName + 'gridBarriers', this.gridBarriers);
+    addItemToLocalStorage(saveName + 'startPos', this.startPos);
+    addItemToLocalStorage(saveName + 'goalPos', this.goalPos);
+    addItemToLocalStorage(saveName + 'gridWeights', this.gridWeights);
+    addItemToLocalStorage(saveName + 'gridBarriers', this.gridBarriers);
     this.addSaveNameToListOfSaveNames(saveName);
   }
 
   addSaveNameToListOfSaveNames(saveName: string): void {
-    const saveNames = this.parseLocalStorageItem('saveNames');
+    const saveNames = parseLocalStorageItem('saveNames');
 
     saveNames.unshift(saveName);
-    this.addItemToLocalStorage('saveNames', removeDuplicates(saveNames));
+    addItemToLocalStorage('saveNames', removeDuplicates(saveNames));
   }
 
   deleteSavedGridState(saveName: string): void {
-    const saveNames = this.parseLocalStorageItem('saveNames');
+    const saveNames = parseLocalStorageItem('saveNames');
 
     removeItemFromArray(saveNames, saveName);
-    this.addItemToLocalStorage('saveNames', saveNames);
+    addItemToLocalStorage('saveNames', saveNames);
   }
 
   loadSavedGridState(saveName: string): void {
-    const startPos = this.parseLocalStorageItem(saveName + 'startPos');
-    const goalPos = this.parseLocalStorageItem(saveName + 'goalPos');
-    const gridBarriers = this.parseLocalStorageItem(saveName + 'gridBarriers');
-    const gridWeights = this.parseLocalStorageItem(saveName + 'gridWeights');
+    const startPos = parseLocalStorageItem(saveName + 'startPos');
+    const goalPos = parseLocalStorageItem(saveName + 'goalPos');
+    const gridBarriers = parseLocalStorageItem(saveName + 'gridBarriers');
+    const gridWeights = parseLocalStorageItem(saveName + 'gridWeights');
 
     if (startPos && goalPos && gridBarriers && gridWeights) {
       this.setStartPos(this.movePositionWithinBoundsOfGrid(startPos));
       this.setGoalPos(this.movePositionWithinBoundsOfGrid(goalPos));
       this.setGridBarriers(this.adaptDimensionsToCurrGrid(gridBarriers, false));
       this.setGridWeights(this.adaptDimensionsToCurrGrid(gridWeights, 1));
-    }
-  }
-
-  parseLocalStorageItem(key: string): any {
-    const item = localStorage.getItem(key);
-
-    if (item === null) {
-      return null;
-    } else {
-      return JSON.parse(item);
     }
   }
 
@@ -649,13 +632,13 @@ export class PageComponent implements OnInit {
   }
 
   saveDropdownOptions(): void {
-    this.addItemToLocalStorage('algoItem', this.algoItem);
-    this.addItemToLocalStorage('tileDisplayItem', this.tileDisplayItem);
-    this.addItemToLocalStorage('neighboursItem', this.neighboursItem);
-    this.addItemToLocalStorage('tilePlaceItem', this.tilePlaceItem);
-    this.addItemToLocalStorage('mazeGenItem', this.mazeGenItem);
-    this.addItemToLocalStorage('animationIndex', this.animationIndex);
-    this.addItemToLocalStorage(
+    addItemToLocalStorage('algoItem', this.algoItem);
+    addItemToLocalStorage('tileDisplayItem', this.tileDisplayItem);
+    addItemToLocalStorage('neighboursItem', this.neighboursItem);
+    addItemToLocalStorage('tilePlaceItem', this.tilePlaceItem);
+    addItemToLocalStorage('mazeGenItem', this.mazeGenItem);
+    addItemToLocalStorage('animationIndex', this.animationIndex);
+    addItemToLocalStorage(
       'userInteractionModeItem',
       this.userInteractionModeItem
     );
@@ -672,7 +655,7 @@ export class PageComponent implements OnInit {
   }
 
   @HostListener('window:beforeunload', ['$event'])
-  saveLastGridStateBeforeAppCloses(): void {
+  saveAppStateBeforeClose(): void {
     this.saveCurrentGridState(
       '**Auto-Generated** Grid before app was last closed'
     );
