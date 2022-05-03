@@ -208,6 +208,7 @@ export class PageComponent implements OnInit {
       this.tilePlaceItem = parseLocalStorageItem('tilePlaceItem');
       this.mazeGenItem = parseLocalStorageItem('mazeGenItem');
       this.animationIndex = parseLocalStorageItem('animationIndex');
+      this.commentaryType = parseLocalStorageItem('commentaryType');
       this.userInteractionModeItem = parseLocalStorageItem(
         'userInteractionModeItem'
       );
@@ -638,6 +639,7 @@ export class PageComponent implements OnInit {
     addItemToLocalStorage('tilePlaceItem', this.tilePlaceItem);
     addItemToLocalStorage('mazeGenItem', this.mazeGenItem);
     addItemToLocalStorage('animationIndex', this.animationIndex);
+    addItemToLocalStorage('commentaryType', this.commentaryType);
     addItemToLocalStorage(
       'userInteractionModeItem',
       this.userInteractionModeItem

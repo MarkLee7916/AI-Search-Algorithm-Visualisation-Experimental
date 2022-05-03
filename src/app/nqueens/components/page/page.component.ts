@@ -126,6 +126,7 @@ export class PageComponent implements OnInit {
       this.domainDisplayItem = parseLocalStorageItem('domainDisplayItem');
       this.checkingItem = parseLocalStorageItem('checkingItem');
       this.animationIndex = parseLocalStorageItem('animationIndex');
+      this.commentaryType = parseLocalStorageItem('commentaryType');
       this.userInteractionModeItem = parseLocalStorageItem(
         'userInteractionModeItem'
       );
@@ -400,6 +401,7 @@ export class PageComponent implements OnInit {
     addItemToLocalStorage('checkingItem', this.checkingItem);
     addItemToLocalStorage('animationIndex', this.animationIndex);
     addItemToLocalStorage('boardSize', this.boardSize);
+    addItemToLocalStorage('commentaryType', this.commentaryType);
     addItemToLocalStorage(
       'userInteractionModeItem',
       this.userInteractionModeItem

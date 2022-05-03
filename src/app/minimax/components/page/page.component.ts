@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import {
+  addItemToLocalStorage,
   arrayOfRandomIntsBetween,
   assertDefined,
+  parseLocalStorageItem,
   randomIntBetween,
   safeGetArrayIndex,
 } from 'src/app/shared/genericUtils';
@@ -96,7 +98,20 @@ export class PageComponent implements OnInit {
 
   // When component renders, update the animation frames
   ngOnInit(): void {
+    this.loadDropdownOptions();
     this.updateAnimationFramesIfNeeded();
+  }
+
+  loadDropdownOptions(): void {
+    if (parseLocalStorageItem('pruningHeuristicItem') !== null) {
+      this.pruningHeuristicItem = parseLocalStorageItem('pruningHeuristicItem');
+      this.leafValues = parseLocalStorageItem('leafValues');
+      this.animationIndex = parseLocalStorageItem('animationIndex');
+      this.commentaryType = parseLocalStorageItem('commentaryType');
+      this.userInteractionModeItem = parseLocalStorageItem(
+        'userInteractionModeItem'
+      );
+    }
   }
 
   // Update the animation frames if problem config has changed
@@ -335,6 +350,22 @@ export class PageComponent implements OnInit {
     });
 
     this.animationFrames = animationFrames;
+  }
+
+  saveDropdownOptions(): void {
+    addItemToLocalStorage('pruningHeuristicItem', this.pruningHeuristicItem);
+    addItemToLocalStorage('leafValues', this.leafValues);
+    addItemToLocalStorage('animationIndex', this.animationIndex);
+    addItemToLocalStorage('commentaryType', this.commentaryType);
+    addItemToLocalStorage(
+      'userInteractionModeItem',
+      this.userInteractionModeItem
+    );
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  saveAppStateBeforeClose(): void {
+    this.saveDropdownOptions();
   }
 }
 
