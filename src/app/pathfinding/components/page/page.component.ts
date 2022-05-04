@@ -59,6 +59,7 @@ import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import {
   addItemToLocalStorage,
   initGenericArray,
+  isWidthGreaterThan,
   parseLocalStorageItem,
   removeDuplicates,
   removeItemFromArray,
@@ -93,6 +94,8 @@ export class PageComponent implements OnInit {
   readonly trackByRow = genUniqueRowId;
 
   readonly parseLocalStorageItem = parseLocalStorageItem;
+
+  readonly isWidthGreaterThan = isWidthGreaterThan;
 
   // Lists of enum values that correspond to the dropdown items in the menu
   readonly tilePlaceItems = Object.values(TilePlaceItem);
@@ -654,15 +657,17 @@ export class PageComponent implements OnInit {
     this.isMouseDown = event.buttons === 1;
   }
 
+  /*
   @HostListener('window:beforeunload', ['$event'])
   saveAppStateBeforeClose(event: Event): void {
-    //this.saveCurrentGridState(
-    // '**Auto-Generated** Grid before app was last closed'
-    // );
+    this.saveCurrentGridState(
+      '**Auto-Generated** Grid before app was last closed'
+    );
     this.saveDropdownOptions();
 
     event.preventDefault();
   }
+  */
 }
 
 const enum CommentaryType {

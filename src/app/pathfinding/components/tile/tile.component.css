@@ -1,14 +1,30 @@
 .tile {
   border: 1px solid var(--primary-color);
-  height: calc((1.8vmin + 1.8vmax) / 2);
-  width: calc((1.8vmin + 1.8vmax) / 2);
-  font-size: calc((1.1vmin + 1.1vmax) / 2);
+  height: 18px;
+  width: 18px;
+  font-size: 12px;
   z-index: 100;
   cursor: pointer;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (min-width: 1000px) and (min-height: 700px) {
+  .tile {
+    height: 22px;
+    width: 22px;
+    font-size: 14px;
+  }
+
+  #start-arrow {
+    font-size: 22px;
+  }
+  
+  #goal-arrow {
+    font-size: 18px;
+  }
 }
 
 .tile:hover {
@@ -38,9 +54,9 @@
 }
 
 #start-arrow {
-  font-size: calc((1.7vmin + 1.7vmax) / 2);
+  font-size: 16px;
 }
 
 #goal-arrow {
-  font-size: calc((1.3vmin + 1.3vmax) / 2);
+  font-size: 12px;
 }

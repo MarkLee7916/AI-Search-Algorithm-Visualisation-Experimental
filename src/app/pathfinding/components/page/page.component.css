@@ -1,15 +1,31 @@
+.grid-legend-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 #bottom-menu > button {
   margin-top: 3vh;
 }
 
 .legend-container > * {
   font-size: 16px;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
 }
 
 #grid-buttons {
   display: flex;
-  flex-direction: column;
   justify-content: space-around;
+  flex-direction: column;
+}
+
+#grid-buttons > * {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.commentary {
+  font-size: 16px;
+  margin-bottom: -7vh;
 }

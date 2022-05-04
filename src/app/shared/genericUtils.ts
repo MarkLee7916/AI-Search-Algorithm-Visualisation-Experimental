@@ -137,6 +137,10 @@ export function areObjectsEqualDisregardingRefs<T>(obj1: T, obj2: T): boolean {
   });
 }
 
+export function isWidthGreaterThan(valueInPixels: number): boolean {
+  return window.innerWidth > valueInPixels;
+}
+
 function isObjectRef<T>(item: T): boolean {
   return typeof item === 'object' && item !== null;
 }
