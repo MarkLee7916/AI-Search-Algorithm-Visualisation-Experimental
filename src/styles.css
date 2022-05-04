@@ -33,9 +33,9 @@ button {
   cursor: pointer;
   border-radius: 5%;
   border: 2px solid var(--secondary-color);
-  height: calc((3vmin + 3vmax) / 2);
-  width: calc((18vmin + 18vmax) / 2);
-  font-size: calc((1.2vmin + 1.2vmax) / 2);
+  height: 30px;
+  width: 200px;
+  font-size: 14px;
 }
 
 button:hover {
