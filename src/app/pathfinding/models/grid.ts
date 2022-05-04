@@ -33,10 +33,12 @@ export type GridBarriers = boolean[][];
 export type GridPositions = Pos[][];
 
 // The height of the grid in terms of number of tiles
-export const HEIGHT = computeGridLenFromScreenLen(window.innerHeight, 60);
+export const HEIGHT = computeGridLenFromScreenLen(window.innerHeight, 40);
 
 // The width of the grid in terms of number of tiles
-export const WIDTH = computeGridLenFromScreenLen(window.innerWidth, 60);
+export const WIDTH = computeGridLenFromScreenLen(window.innerWidth, 40);
+
+console.log(HEIGHT, WIDTH);
 
 // The weight each tile is automatically assigned
 export const DEFAULT_WEIGHT = 1;
@@ -142,7 +144,5 @@ function computeGridLenFromScreenLen(
   screenLen: number,
   modifier: number
 ): number {
-  const combinedScreenLen = window.innerHeight + window.innerWidth;
-
-  return Math.round((screenLen / combinedScreenLen) * modifier);
+  return Math.round(screenLen / modifier);
 }

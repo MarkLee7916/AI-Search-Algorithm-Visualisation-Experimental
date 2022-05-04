@@ -193,9 +193,9 @@ export class PageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialiseSaveNameListIfNotInLocalStorage();
-    this.loadSavedGridState(
-      '**Auto-Generated** Grid before app was last closed'
-    );
+    //this.loadSavedGridState(
+    //   '**Auto-Generated** Grid before app was last closed'
+    // );
     this.loadDropdownOptions();
     this.updateAnimationFramesIfNeeded();
   }
@@ -207,7 +207,6 @@ export class PageComponent implements OnInit {
       this.neighboursItem = parseLocalStorageItem('neighboursItem');
       this.tilePlaceItem = parseLocalStorageItem('tilePlaceItem');
       this.mazeGenItem = parseLocalStorageItem('mazeGenItem');
-      this.animationIndex = parseLocalStorageItem('animationIndex');
       this.commentaryType = parseLocalStorageItem('commentaryType');
       this.userInteractionModeItem = parseLocalStorageItem(
         'userInteractionModeItem'
@@ -638,7 +637,6 @@ export class PageComponent implements OnInit {
     addItemToLocalStorage('neighboursItem', this.neighboursItem);
     addItemToLocalStorage('tilePlaceItem', this.tilePlaceItem);
     addItemToLocalStorage('mazeGenItem', this.mazeGenItem);
-    addItemToLocalStorage('animationIndex', this.animationIndex);
     addItemToLocalStorage('commentaryType', this.commentaryType);
     addItemToLocalStorage(
       'userInteractionModeItem',
@@ -657,11 +655,13 @@ export class PageComponent implements OnInit {
   }
 
   @HostListener('window:beforeunload', ['$event'])
-  saveAppStateBeforeClose(): void {
-    this.saveCurrentGridState(
-      '**Auto-Generated** Grid before app was last closed'
-    );
+  saveAppStateBeforeClose(event: Event): void {
+    //this.saveCurrentGridState(
+    // '**Auto-Generated** Grid before app was last closed'
+    // );
     this.saveDropdownOptions();
+
+    event.preventDefault();
   }
 }
 
