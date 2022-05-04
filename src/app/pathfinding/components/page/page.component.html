@@ -19,6 +19,7 @@
     ></app-dropdown>
 
     <app-dropdown
+      *ngIf="isWidthGreaterThan(1000)"
       [currentItem]="tileDisplayItem"
       (itemChangedEmitter)="setTileDisplayItem($event)"
       [items]="tileDisplayItems"
@@ -70,7 +71,6 @@
     </app-animation>
   </div>
 
-  <p class="commentary">{{ getCommentary() }}</p>
   <div class="grid-legend-container screen-wide-menu">
     <div class="legend-container">
       <p>🟦 Expanded</p>
@@ -81,41 +81,48 @@
       <p>⇒ Start tile</p>
       <p>🎯 Goal tile</p>
     </div>
-    <div class="grid" cellspacing="0" cellpadding="0">
-      <div
-        class="row"
-        *ngFor="
-          let row of gridPositions;
-          let rowIndex = index;
-          trackBy: trackByRow
-        "
-      >
-        <app-tile
-          *ngFor="let pos of row; let colIndex = index; trackBy: trackByPos"
-          [isMouseDown]="isMouseDown"
-          [isStart]="isStartPos(pos)"
-          [isGoal]="isGoalPos(pos)"
-          [isBarrier]="gridBarriers[rowIndex][colIndex]"
-          [weight]="gridWeights[rowIndex][colIndex]"
-          [dist]="getCurrentAnimationFrame().gridDists[rowIndex][colIndex]"
-          [heuristicDist]="getHeuristicDist(pos)"
-          [displayItem]="tileDisplayItem"
-          [willDisplayTooltipOnMouseOver]="
-            safeGetAnimationIndex() !== 0 && !isPlacingCustomWeights()
+    <div class="grid-commentary-container">
+      <p class="commentary">{{ getCommentary() }}</p>
+      <div class="grid" cellspacing="0" cellpadding="0">
+        <div
+          class="row"
+          *ngFor="
+            let row of gridPositions;
+            let rowIndex = index;
+            trackBy: trackByRow
           "
-          [animationFrame]="getCurrentAnimationFrame().grid[rowIndex][colIndex]"
-          [pos]="pos"
-          [isInQuizMode]="isInQuizMode()"
-          [shouldDisplayCustomWeightInput]="
-            isPosToPlaceCustomWeightAt(pos) && isPlacingCustomWeights()
-          "
-          (dragEmitter)="handleTileDrag(pos, $event)"
-          (dropEmitter)="handleTileDrop(pos)"
-          (clickEmitter)="handleTileClick(pos)"
-          (submitCustomWeightEmitter)="placeCustomWeightAt(pos, $event)"
-          (closeCustomWeightInputEmitter)="updatePosToPlaceCustomWeightAt(null)"
         >
-        </app-tile>
+          <app-tile
+            *ngFor="let pos of row; let colIndex = index; trackBy: trackByPos"
+            [isMouseDown]="isMouseDown"
+            [isStart]="isStartPos(pos)"
+            [isGoal]="isGoalPos(pos)"
+            [isBarrier]="gridBarriers[rowIndex][colIndex]"
+            [weight]="gridWeights[rowIndex][colIndex]"
+            [dist]="getCurrentAnimationFrame().gridDists[rowIndex][colIndex]"
+            [heuristicDist]="getHeuristicDist(pos)"
+            [displayItem]="tileDisplayItem"
+            [willDisplayTooltipOnMouseOver]="
+              safeGetAnimationIndex() !== 0 && !isPlacingCustomWeights()
+            "
+            [animationFrame]="
+              getCurrentAnimationFrame().grid[rowIndex][colIndex]
+            "
+            [pos]="pos"
+            [isInQuizMode]="isInQuizMode()"
+            [shouldDisplayCustomWeightInput]="
+              isPosToPlaceCustomWeightAt(pos) && isPlacingCustomWeights()
+            "
+            (dragEmitter)="handleTileDrag(pos, $event)"
+            (dropEmitter)="handleTileDrop(pos)"
+            (clickEmitter)="handleTileClick(pos)"
+            (submitCustomWeightEmitter)="placeCustomWeightAt(pos, $event)"
+            (closeCustomWeightInputEmitter)="
+              updatePosToPlaceCustomWeightAt(null)
+            "
+          >
+          </app-tile>
+        </div>
       </div>
     </div>
     <div id="grid-buttons">
@@ -136,6 +143,7 @@
       </button>
 
       <button
+        *ngIf="isWidthGreaterThan(1200)"
         (click)="setModalDisplayed(Modal.SaveGrid)"
         [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
       >
@@ -143,6 +151,7 @@
       </button>
 
       <button
+        *ngIf="isWidthGreaterThan(1200)"
         (click)="setModalDisplayed(Modal.LoadGrid)"
         [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
       >

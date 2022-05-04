@@ -35,7 +35,14 @@ button {
   border: 2px solid var(--secondary-color);
   height: 30px;
   width: 200px;
-  font-size: 14px;
+  font-size: 15px;
+}
+
+@media screen and (max-width: 900px) {
+  button {
+    width: 150px;
+    font-size: 10px;
+  }
 }
 
 button:hover {

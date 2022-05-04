@@ -196,9 +196,9 @@ export class PageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialiseSaveNameListIfNotInLocalStorage();
-    //this.loadSavedGridState(
-    //   '**Auto-Generated** Grid before app was last closed'
-    // );
+    this.loadSavedGridState(
+       '**Auto-Generated** Grid before app was last closed'
+   );
     this.loadDropdownOptions();
     this.updateAnimationFramesIfNeeded();
   }
@@ -657,7 +657,6 @@ export class PageComponent implements OnInit {
     this.isMouseDown = event.buttons === 1;
   }
 
-  /*
   @HostListener('window:beforeunload', ['$event'])
   saveAppStateBeforeClose(event: Event): void {
     this.saveCurrentGridState(
@@ -667,7 +666,6 @@ export class PageComponent implements OnInit {
 
     event.preventDefault();
   }
-  */
 }
 
 const enum CommentaryType {
