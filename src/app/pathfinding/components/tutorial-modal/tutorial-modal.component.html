@@ -1,33 +1,35 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Intro">
   <h1 class="modal-title">Welcome to Pathfinding Visualiser!</h1>
 
-  <p class="modal-text">
-    This is a project that aims to help students learn about pathfinding
-    algorithms through visualisation. This app works by animating the process
-    that pathfinding algorithms go through when trying to find a path in a 2D
-    grid. It was written by Mark Lee as his final year project for BSc Computer
-    Science at the University of Strathclyde.
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      This is a project that aims to help students learn about pathfinding
+      algorithms through visualisation. This app works by animating the process
+      that pathfinding algorithms go through when trying to find a path in a 2D
+      grid. It was written by Mark Lee as his final year project for BSc
+      Computer Science at the University of Strathclyde.
+    </p>
 
-  <p class="modal-text">
-    These slides will guide you through the features of the application. You can
-    navigate through the slides using the buttons at the bottom left and bottom
-    right corners of the current slide.
-  </p>
+    <p class="modal-text">
+      These slides will guide you through the features of the application. You
+      can navigate through the slides using the buttons at the bottom left and
+      bottom right corners of the current slide.
+    </p>
 
-  <p class="modal-text">
-    A general tip for using algorithm visualisation tools: it's better to try
-    and actively learn than passively learn. When stepping through an algorithm,
-    try and predict what it will do next. If you're right, then it shows you
-    understand the algorithm. If you're wrong, it's worth wondering why that is
-    and comparing your result with the actual one.
-  </p>
+    <p class="modal-text">
+      A general tip for using algorithm visualisation tools: it's better to try
+      and actively learn than passively learn. When stepping through an
+      algorithm, try and predict what it will do next. If you're right, then it
+      shows you understand the algorithm. If you're wrong, it's worth wondering
+      why that is and comparing your result with the actual one.
+    </p>
 
-  <p class="modal-text">
-    As part of this project I've also implemented visualisers for
-    <a [routerLink]="'/n-queens'">Constraint Satisfaction</a> and
-    <a [routerLink]="'/minimax'">Adversarial Search</a>
-  </p>
+    <p class="modal-text">
+      As part of this project I've also implemented visualisers for
+      <a [routerLink]="'/n-queens'">Constraint Satisfaction</a> and
+      <a [routerLink]="'/minimax'">Adversarial Search</a>
+    </p>
+  </span>
   <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
     Next Slide
   </button>
@@ -39,24 +41,29 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Grid">
   <h1 class="modal-title">Mapping a 2D grid onto Graph Theory</h1>
 
-  <p class="modal-text">
-    Weights are applied to tiles themselves rather than the connections between
-    them. Therefore you can view the grid as a directed graph where two tiles
-    being adjacent corresponds to two edges existing between them. Both edges
-    will be directed in opposite directions allowing bidirectional travel
-    between the tiles. The weight of any edge directed towards a tile will be
-    the weight assigned to that tile in the 2D grid. How adjacency is defined is
-    configurable through the menu, and includes horizontal and vertical
-    adjacency only, diagonal adjacency only and both. The example below is
-    vertical and horizontal adjacency only.
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      Weights are applied to tiles themselves rather than the connections
+      between them. Therefore you can view the grid as a directed graph where
+      two tiles being adjacent corresponds to two edges existing between them.
+      Both edges will be directed in opposite directions allowing bidirectional
+      travel between the tiles. The weight of any edge directed towards a tile
+      will be the weight assigned to that tile in the 2D grid. How adjacency is
+      defined is configurable through the menu, and includes horizontal and
+      vertical adjacency only, diagonal adjacency only and both. The example
+      below is vertical and horizontal adjacency only.
+    </p>
 
-  <p class="modal-text">
-    However, it's probably easier to think of a weight as the cost of passing
-    through a tile rather than thinking of it in terms of edges.
-  </p>
+    <p class="modal-text">
+      However, it's probably easier to think of a weight as the cost of passing
+      through a tile rather than thinking of it in terms of edges.
+    </p>
 
-  <img class="modal-visual-media" src="../../../../assets/tile-to-graph.png" />
+    <img
+      class="modal-visual-media"
+      src="../../../../assets/tile-to-graph.png"
+    />
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -75,28 +82,30 @@
 >
   <h1 class="modal-title">Barriers and Weights</h1>
 
-  <p class="modal-text">
-    You can add obstacles to see how the algorithm will get around them. This is
-    done through holding down the mouse left button and dragging it along the
-    grid, which draws obstacles along every tile the mouse has touched.
-    Obstacles come in two modes; barriers and weights. You can configure which
-    one is being drawn in the dropdown menu under "Item Placed On Tile"
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      You can add obstacles to see how the algorithm will get around them. This
+      is done through holding down the mouse left button and dragging it along
+      the grid, which draws obstacles along every tile the mouse has touched.
+      Obstacles come in two modes; barriers and weights. You can configure which
+      one is being drawn in the dropdown menu under "Item Placed On Tile"
+    </p>
 
-  <p class="modal-text">
-    Barriers block the algorithm from passing completely, forcing it to find
-    another way around. Weights assign a cost to passing through, which
-    disincentivizes algorithms if they're aiming to find the shortest path. Note
-    that only A* and Dijkstra's take weights into account; any other algorithm
-    will ignore them.
-  </p>
+    <p class="modal-text">
+      Barriers block the algorithm from passing completely, forcing it to find
+      another way around. Weights assign a cost to passing through, which
+      disincentivizes algorithms if they're aiming to find the shortest path.
+      Note that only A* and Dijkstra's take weights into account; any other
+      algorithm will ignore them.
+    </p>
 
-  <video
-    class="modal-visual-media"
-    src="../../../../assets/drawing-barriers-and-weights.mp4"
-    autoplay
-    loop
-  ></video>
+    <video
+      class="modal-visual-media"
+      src="../../../../assets/drawing-barriers-and-weights.mp4"
+      autoplay
+      loop
+    ></video>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
