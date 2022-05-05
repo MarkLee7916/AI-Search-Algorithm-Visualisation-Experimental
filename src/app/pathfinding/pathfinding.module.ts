@@ -12,7 +12,15 @@ import { LoadSavedGridModalComponent } from './components/load-saved-grid-modal/
 import { CustomWeightInputComponent } from './components/custom-weight-input/custom-weight-input.component';
 
 @NgModule({
-  declarations: [PageComponent, TileComponent, TutorialModalComponent, TheoryModalComponent, SaveGridModalComponent, LoadSavedGridModalComponent, CustomWeightInputComponent],
+  declarations: [
+    PageComponent,
+    TileComponent,
+    TutorialModalComponent,
+    TheoryModalComponent,
+    SaveGridModalComponent,
+    LoadSavedGridModalComponent,
+    CustomWeightInputComponent,
+  ],
   imports: [
     CommonModule,
     BrowserModule,

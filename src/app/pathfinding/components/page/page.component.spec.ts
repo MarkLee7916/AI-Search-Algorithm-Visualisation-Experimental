@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  render,
-  fireEvent,
-  screen,
-  getAllByText,
-} from '@testing-library/angular';
+import { render, fireEvent, screen } from '@testing-library/angular';
 import {
   assertNonNull,
   filterStr,
@@ -18,7 +13,7 @@ import { TileComponent } from '../tile/tile.component';
 import { TutorialModalComponent } from '../tutorial-modal/tutorial-modal.component';
 import { PageComponent } from './page.component';
 
-describe('Pathfinding Page', () => {
+fdescribe('Pathfinding Page', () => {
   it('moves animation frames properly when buttons pressed', async () => {
     await render(PageComponent, {
       declarations: [TileComponent, PageComponent, TutorialModalComponent],
@@ -228,8 +223,8 @@ describe('Pathfinding Page', () => {
     fireEvent.click(screen.getByText('Fill Grid'));
 
     // Switch to placing weights
-    fireEvent.click(screen.getByText(/Place Barriers/));
-    fireEvent.click(screen.getByText('Place Weights'));
+    fireEvent.click(screen.getByText('Barrier'));
+    fireEvent.click(screen.getByText('Random Weight'));
 
     // Generate Maze
     fireEvent.click(screen.getByText('Generate Maze'));
@@ -450,8 +445,8 @@ describe('Pathfinding Page', () => {
     tilesToPlaceBarriers.forEach((tile) => fireEvent.mouseDown(tile));
 
     // Switch to placing weights
-    fireEvent.click(screen.getByText(/Place Barriers/));
-    fireEvent.click(screen.getByText('Place Weights'));
+    fireEvent.click(screen.getByText('Barrier'));
+    fireEvent.click(screen.getByText('Random Weight'));
 
     // Place weights on some tiles
     const tilesToPlaceWeights = screen
