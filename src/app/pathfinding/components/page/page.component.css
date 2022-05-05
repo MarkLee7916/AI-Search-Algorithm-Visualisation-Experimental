@@ -17,12 +17,8 @@
 
 #grid-buttons {
   display: flex;
+  justify-content: space-around;
   flex-direction: column;
-}
-
-#grid-buttons > * {
-  margin-top: 1vh;
-  margin-bottom: 1vh;
 }
 
 .commentary {
