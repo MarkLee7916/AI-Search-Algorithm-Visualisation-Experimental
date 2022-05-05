@@ -27,3 +27,9 @@
 .dropdown-label {
   font-size: 16px;
 }
+
+@media screen and (max-width: 800px) {
+  .dropdown-label {
+    font-size: 12px;
+  }
+}

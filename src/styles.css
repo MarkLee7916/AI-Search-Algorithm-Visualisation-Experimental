@@ -94,6 +94,12 @@ a:hover {
   font-size: 16px;
 }
 
+@media screen and (max-width: 800px) {
+  .range-container > p {
+    font-size: 12px;
+  }
+}
+
 .range {
   width: 200px;
   cursor: pointer;
