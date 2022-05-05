@@ -61,6 +61,7 @@ import {
   initGenericArray,
   isWidthGreaterThan,
   parseLocalStorageItem,
+  randomIntBetween,
   removeDuplicates,
   removeItemFromArray,
   safeGetArrayIndex,
@@ -197,8 +198,8 @@ export class PageComponent implements OnInit {
   ngOnInit(): void {
     this.initialiseSaveNameListIfNotInLocalStorage();
     this.loadSavedGridState(
-       '**Auto-Generated** Grid before app was last closed'
-   );
+      '**Auto-Generated** Grid before app was last closed'
+    );
     this.loadDropdownOptions();
     this.updateAnimationFramesIfNeeded();
   }
@@ -332,9 +333,13 @@ export class PageComponent implements OnInit {
 
   // Generate a maze using whatever algorithm and placement item the user has selected
   generateMaze(): void {
-    const maze = this.mazeGenItemToImpl.get(this.mazeGenItem)();
-
+    this.moveStartAndGoalPosToRandomPositions();
     this.clearBarriersAndWeights();
+    this.placeMazeInGrid();
+  }
+
+  placeMazeInGrid(): void {
+    const maze = this.mazeGenItemToImpl.get(this.mazeGenItem)();
 
     this.gridPositions.forEach((rowPositions) =>
       rowPositions.forEach(({ row, col }) => {
@@ -343,6 +348,18 @@ export class PageComponent implements OnInit {
         }
       })
     );
+  }
+
+  moveStartAndGoalPosToRandomPositions(): void {
+    this.setStartPos({
+      row: randomIntBetween(0, HEIGHT / 3),
+      col: randomIntBetween(0, WIDTH / 3),
+    });
+
+    this.setGoalPos({
+      row: randomIntBetween((HEIGHT * 2) / 3, HEIGHT),
+      col: randomIntBetween((WIDTH * 2) / 3, WIDTH),
+    });
   }
 
   clearBarriersAndWeights(): void {
@@ -453,13 +470,17 @@ export class PageComponent implements OnInit {
   }
 
   setStartPos(pos: Pos): void {
-    this.startPos = pos;
-    this.markAnimationFramesForUpdate();
+    if (!this.isGoalPos(pos)) {
+      this.startPos = pos;
+      this.markAnimationFramesForUpdate();
+    }
   }
 
   setGoalPos(pos: Pos): void {
-    this.goalPos = pos;
-    this.markAnimationFramesForUpdate();
+    if (!this.isStartPos(pos)) {
+      this.goalPos = pos;
+      this.markAnimationFramesForUpdate();
+    }
   }
 
   // Mark the animation frames to be updated whenever updateAnimationFramesIsNeeded() is called

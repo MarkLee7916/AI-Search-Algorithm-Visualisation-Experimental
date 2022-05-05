@@ -2,7 +2,7 @@ export const AVERAGE_OF_VW_AND_VH =
   window.innerHeight + window.innerWidth / 200;
 
 export function randomIntBetween(lower: number, upper: number): number {
-  return Math.floor(Math.random() * (upper - lower)) + lower;
+  return Math.round(Math.floor(Math.random() * (upper - lower)) + lower);
 }
 
 export function removeDuplicates(list: string[]): string[] {
