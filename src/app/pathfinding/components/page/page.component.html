@@ -19,7 +19,6 @@
     ></app-dropdown>
 
     <app-dropdown
-      *ngIf="isWidthGreaterThan(1000)"
       [currentItem]="tileDisplayItem"
       (itemChangedEmitter)="setTileDisplayItem($event)"
       [items]="tileDisplayItems"

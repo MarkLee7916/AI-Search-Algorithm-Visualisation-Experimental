@@ -7,6 +7,8 @@
 :root {
   --primary-color: #c8d8e4;
   --secondary-color: black;
+  touch-action: pan-x pan-y;
+  height: 100%
 }
 
 .page {
