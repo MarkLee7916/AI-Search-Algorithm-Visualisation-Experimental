@@ -11,6 +11,14 @@
   align-items: center;
 }
 
+#start-arrow {
+  font-size: 18px;
+}
+
+#goal-arrow {
+  font-size: 13px;
+}
+
 @media screen and (min-width: 1000px) and (min-height: 700px) {
   .tile {
     height: 22px;
@@ -21,9 +29,9 @@
   #start-arrow {
     font-size: 22px;
   }
-  
+
   #goal-arrow {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
@@ -53,10 +61,4 @@
   border: 1px solid var(--secondary-color);
 }
 
-#start-arrow {
-  font-size: 20px;
-}
 
-#goal-arrow {
-  font-size: 16px;
-}

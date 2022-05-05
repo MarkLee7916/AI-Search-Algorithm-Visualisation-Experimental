@@ -38,8 +38,6 @@ export const HEIGHT = computeGridLenFromScreenLen(window.innerHeight, 40);
 // The width of the grid in terms of number of tiles
 export const WIDTH = computeGridLenFromScreenLen(window.innerWidth, 40);
 
-console.log(HEIGHT, WIDTH);
-
 // The weight each tile is automatically assigned
 export const DEFAULT_WEIGHT = 1;
 
