@@ -2,3 +2,9 @@
   border: 5px solid var(--secondary-color);
   margin: -5px;
 }
+
+.commentary {
+  font-size: 16px;
+  width: 100vw;
+  text-align: center;
+}

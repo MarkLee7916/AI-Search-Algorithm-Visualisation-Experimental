@@ -70,18 +70,18 @@
     </app-animation>
   </div>
 
-  <div class="grid-legend-container screen-wide-menu">
-    <div class="legend-container">
-      <p>🟦 Expanded</p>
-      <p>🟥 In Agenda</p>
-      <p>🟨 Final Path</p>
-      <p>⬛ Barrier</p>
-      <p>⬜ Empty space</p>
-      <p>⇒ Start tile</p>
-      <p>🎯 Goal tile</p>
-    </div>
-    <div class="grid-commentary-container">
-      <p class="commentary">{{ getCommentary() }}</p>
+  <div class="grid-commentary-container">
+    <p class="commentary">{{ getCommentary() }}</p>
+    <div class="grid-legend-container screen-wide-menu">
+      <div class="legend-container">
+        <p>🟦 Expanded</p>
+        <p>🟥 In Agenda</p>
+        <p>🟨 Final Path</p>
+        <p>⬛ Barrier</p>
+        <p>⬜ Empty space</p>
+        <p>⇒ Start tile</p>
+        <p>🎯 Goal tile</p>
+      </div>
       <div class="grid" cellspacing="0" cellpadding="0">
         <div
           class="row"
@@ -123,43 +123,43 @@
           </app-tile>
         </div>
       </div>
-    </div>
-    <div id="grid-buttons">
-      <button
-        [style.visibility]="
-          isInQuizMode() || isPlacingCustomWeights() ? 'hidden' : 'visible'
-        "
-        (click)="generateMaze()"
-      >
-        Generate Maze
-      </button>
+      <div id="grid-buttons">
+        <button
+          [style.visibility]="
+            isInQuizMode() || isPlacingCustomWeights() ? 'hidden' : 'visible'
+          "
+          (click)="generateMaze()"
+        >
+          Generate Maze
+        </button>
 
-      <button
-        [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
-        (click)="clearBarriersAndWeights()"
-      >
-        Clear Barriers and Weights
-      </button>
+        <button
+          [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+          (click)="clearBarriersAndWeights()"
+        >
+          Clear Barriers and Weights
+        </button>
 
-      <button
-        *ngIf="isWidthGreaterThan(1200)"
-        (click)="setModalDisplayed(Modal.SaveGrid)"
-        [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
-      >
-        Save Current Grid
-      </button>
+        <button
+          *ngIf="isWidthGreaterThan(1200)"
+          (click)="setModalDisplayed(Modal.SaveGrid)"
+          [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+        >
+          Save Current Grid
+        </button>
 
-      <button
-        *ngIf="isWidthGreaterThan(1200)"
-        (click)="setModalDisplayed(Modal.LoadGrid)"
-        [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
-      >
-        Load Saved Grid
-      </button>
+        <button
+          *ngIf="isWidthGreaterThan(1200)"
+          (click)="setModalDisplayed(Modal.LoadGrid)"
+          [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
+        >
+          Load Saved Grid
+        </button>
 
-      <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
+        <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
 
-      <button (click)="setModalDisplayed(Modal.Theory)">Theory</button>
+        <button (click)="setModalDisplayed(Modal.Theory)">Theory</button>
+      </div>
     </div>
   </div>
 </div>
