@@ -94,8 +94,8 @@ export class PageComponent implements OnInit {
   readonly trackByPos = genUniquePosId;
   readonly trackByRow = genUniqueRowId;
 
+  // Helper functions for the HTML template to use
   readonly parseLocalStorageItem = parseLocalStorageItem;
-
   readonly isWidthGreaterThan = isWidthGreaterThan;
 
   // Lists of enum values that correspond to the dropdown items in the menu
