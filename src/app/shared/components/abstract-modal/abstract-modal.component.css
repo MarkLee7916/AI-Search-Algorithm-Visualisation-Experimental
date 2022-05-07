@@ -20,12 +20,6 @@
   }
 }
 
-@media screen and (max-width: 767px) and (display-mode: browser) {
-  .modal-slide {
-    display: none;
-  }
-}
-
 .modal-title {
   margin-top: 10px;
   font-size: 25px;

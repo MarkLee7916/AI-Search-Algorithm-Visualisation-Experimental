@@ -18,9 +18,3 @@
     display: flex;
   }
 }
-
-@media screen and (max-width: 767px) and (display-mode: browser) {
-  .rotate-device-container {
-    display: flex;
-  }
-}
