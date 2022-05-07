@@ -1,7 +1,7 @@
 <div class="page" [style.opacity]="modalDisplayed === Modal.None ? '1' : '0.1'">
   <div class="screen-wide-menu">
     <app-dropdown
-      *ngIf="isWidthGreaterThan(1200)"
+      *ngIf="isWidthGreaterThan(1000)"
       [currentItem]="userInteractionModeItem"
       [items]="userInteractionModeItems"
       commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm on a specific grid and asks you to predict what it will do next. Note only some algorithms are available in Quiz mode."
@@ -27,7 +27,7 @@
     ></app-dropdown>
 
     <app-dropdown
-      *ngIf="isWidthGreaterThan(1200)"
+      *ngIf="isWidthGreaterThan(1000)"
       [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
       [currentItem]="neighboursItem"
       (itemChangedEmitter)="setNeighboursItem($event)"
@@ -141,7 +141,7 @@
         </button>
 
         <button
-          *ngIf="isWidthGreaterThan(1200)"
+          *ngIf="isWidthGreaterThan(1000)"
           (click)="setModalDisplayed(Modal.SaveGrid)"
           [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
         >
@@ -149,7 +149,7 @@
         </button>
 
         <button
-          *ngIf="isWidthGreaterThan(1200)"
+          *ngIf="isWidthGreaterThan(1000)"
           (click)="setModalDisplayed(Modal.LoadGrid)"
           [style.visibility]="isInQuizMode() ? 'hidden' : 'visible'"
         >

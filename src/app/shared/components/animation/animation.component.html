@@ -14,11 +14,16 @@
   </div>
 
   <div id="media-control-container">
-    <button class="media-control-symbol" (click)="decrementAnimationIndex()">
+    <button
+      id="step-back-btn"
+      class="media-control-symbol"
+      (click)="decrementAnimationIndex()"
+    >
       ◀
     </button>
 
     <button
+      id="play-btn"
       class="media-control-symbol"
       (click)="prepareToAnimateAlgo()"
       *ngIf="!isAnimationRunning"
@@ -27,6 +32,7 @@
     </button>
 
     <button
+      id="pause-btn"
       class="media-control-symbol"
       (click)="setAnimationRunningEmitter.emit(false)"
       *ngIf="isAnimationRunning"
@@ -34,7 +40,11 @@
       ⏸
     </button>
 
-    <button class="media-control-symbol" (click)="incrementAnimationIndex()">
+    <button
+      id="step-forward-btn"
+      class="media-control-symbol"
+      (click)="incrementAnimationIndex()"
+    >
       ▶️
     </button>
   </div>

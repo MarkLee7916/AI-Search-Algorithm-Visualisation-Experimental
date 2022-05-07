@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  fireEvent,
-  getByPlaceholderText,
-  queryByText,
-  render,
-  screen,
-} from '@testing-library/angular';
+import { fireEvent, render, screen } from '@testing-library/angular';
 import { assertNonNull } from 'src/app/shared/genericUtils';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MinimaxRoutingModule } from '../../minimax-routing.module';
@@ -17,6 +11,10 @@ import { TutorialModalComponent } from '../tutorial-modal/tutorial-modal.compone
 import { PageComponent } from './page.component';
 
 describe('Minimax Page', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('moves animation frames properly when buttons pressed', async () => {
     await render(PageComponent, {
       declarations: [
@@ -41,8 +39,12 @@ describe('Minimax Page', () => {
     });
 
     // Get buttons to step back and forth through animations
-    const prevAnimationFrameBtn = screen.getByText('⏴︎');
-    const nextAnimationFrameBtn = screen.getByText('▶️');
+    const prevAnimationFrameBtn = assertNonNull(
+      document.getElementById('step-back-btn')
+    );
+    const nextAnimationFrameBtn = assertNonNull(
+      document.getElementById('step-forward-btn')
+    );
 
     // Step forward and check we're not on first animation frame
     fireEvent.click(nextAnimationFrameBtn);

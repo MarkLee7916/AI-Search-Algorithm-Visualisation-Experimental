@@ -40,7 +40,7 @@ button {
   font-size: 15px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1200px) {
   button {
     width: 150px;
     font-size: 10px;

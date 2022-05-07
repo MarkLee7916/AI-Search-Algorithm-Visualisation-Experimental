@@ -13,7 +13,11 @@ import { TileComponent } from '../tile/tile.component';
 import { TutorialModalComponent } from '../tutorial-modal/tutorial-modal.component';
 import { PageComponent } from './page.component';
 
-fdescribe('Pathfinding Page', () => {
+describe('Pathfinding Page', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('moves animation frames properly when buttons pressed', async () => {
     await render(PageComponent, {
       declarations: [TileComponent, PageComponent, TutorialModalComponent],
@@ -32,8 +36,12 @@ fdescribe('Pathfinding Page', () => {
     });
 
     // Get buttons to step back and forth through animations
-    const prevAnimationFrameBtn = screen.getByText('◀');
-    const nextAnimationFrameBtn = screen.getByText('▶️');
+    const prevAnimationFrameBtn = assertNonNull(
+      document.getElementById('step-back-btn')
+    );
+    const nextAnimationFrameBtn = assertNonNull(
+      document.getElementById('step-forward-btn')
+    );
 
     // Step forward and check we're not on first animation frame
     fireEvent.click(nextAnimationFrameBtn);
@@ -125,7 +133,7 @@ fdescribe('Pathfinding Page', () => {
     tilesAdjacentToGoal.forEach((tile) => fireEvent.mouseDown(tile));
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('▶️'));
+    fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Get number of final animation frame
     const animationFrameStr = screen.getByText(/\//).innerHTML;
@@ -169,7 +177,7 @@ fdescribe('Pathfinding Page', () => {
     fireEvent.mouseLeave(tile);
 
     // Move to next anim frame, so no longer on first
-    fireEvent.click(screen.getByText('▶️'));
+    fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Hover over same tile again and expect tooltip to show this time
     fireEvent.mouseEnter(tile);
@@ -223,7 +231,7 @@ fdescribe('Pathfinding Page', () => {
     fireEvent.click(screen.getByText('Fill Grid'));
 
     // Switch to placing weights
-    fireEvent.click(screen.getByText('Barrier'));
+    fireEvent.click(screen.getByText('Barrier ▼'));
     fireEvent.click(screen.getByText('Random Weight'));
 
     // Generate Maze
@@ -274,7 +282,7 @@ fdescribe('Pathfinding Page', () => {
     tilesAdjacentToGoal.forEach((tile) => fireEvent.mouseDown(tile));
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('▶️'));
+    fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Get number of final animation frame
     const animationFrameStr = screen.getByText(/\//).innerHTML;
@@ -326,7 +334,7 @@ fdescribe('Pathfinding Page', () => {
     tilesAdjacentToGoal.forEach((tile) => fireEvent.mouseDown(tile));
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('▶️'));
+    fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Get number of final animation frame
     const animationFrameStr = screen.getByText(/\//).innerHTML;
@@ -397,7 +405,7 @@ fdescribe('Pathfinding Page', () => {
     fireEvent.drop(tileToMoveStartTo);
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('▶️'));
+    fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Get number of final animation frame
     const animationFrameStr = screen.getByText(/\//).innerHTML;
@@ -445,7 +453,7 @@ fdescribe('Pathfinding Page', () => {
     tilesToPlaceBarriers.forEach((tile) => fireEvent.mouseDown(tile));
 
     // Switch to placing weights
-    fireEvent.click(screen.getByText('Barrier'));
+    fireEvent.click(screen.getByText('Barrier ▼'));
     fireEvent.click(screen.getByText('Random Weight'));
 
     // Place weights on some tiles
@@ -518,7 +526,7 @@ fdescribe('Pathfinding Page', () => {
     fireEvent.click(screen.getByText('Greedy Best First Search'));
 
     // Move a step in animation, forcing algorithm to recompute
-    fireEvent.click(screen.getByText('⏵︎'));
+    fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Get number of final animation frame for GBFS
     const finalAnimationFrameNumGBFS =

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { fireEvent, render, screen } from '@testing-library/angular';
-import { waitFor } from '@testing-library/dom';
 import { assertNonNull, wait } from 'src/app/shared/genericUtils';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NQueensRoutingModule } from '../../n-queens-routing-module';
@@ -10,6 +9,10 @@ import { TutorialModalComponent } from '../tutorial-modal/tutorial-modal.compone
 import { PageComponent } from './page.component';
 
 describe('N-Queens Page', async () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('moves animation frames properly when buttons pressed', async () => {
     await render(PageComponent, {
       declarations: [TileComponent, PageComponent, TutorialModalComponent],
@@ -28,8 +31,12 @@ describe('N-Queens Page', async () => {
     });
 
     // Get buttons to step back and forth through animations
-    const prevAnimationFrameBtn = screen.getByText('◀');
-    const nextAnimationFrameBtn = screen.getByText('▶️');
+    const prevAnimationFrameBtn = assertNonNull(
+      document.getElementById('step-back-btn')
+    );
+    const nextAnimationFrameBtn = assertNonNull(
+      document.getElementById('step-forward-btn')
+    );
 
     // Step forward and check we're not on first animation frame
     fireEvent.click(nextAnimationFrameBtn);
