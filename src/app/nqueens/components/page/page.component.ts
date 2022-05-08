@@ -26,7 +26,6 @@ import {
 } from '../../models/board';
 import {
   CheckingItem,
-  DomainDisplayItem,
   PruningAlgoItem,
   UserInteractionModeItem,
   ValHeuristicItem,
@@ -59,7 +58,6 @@ export class PageComponent implements OnInit {
   readonly pruningAlgoItems = Object.values(PruningAlgoItem);
   readonly varHeuristicItems = Object.values(VarHeuristicItem);
   readonly valHeuristicItems = Object.values(ValHeuristicItem);
-  readonly domainDisplayItems = Object.values(DomainDisplayItem);
   readonly checkingItems = Object.values(CheckingItem);
   readonly userInteractionModeItems = Object.values(UserInteractionModeItem);
 
@@ -99,7 +97,6 @@ export class PageComponent implements OnInit {
   pruningAlgoItem = PruningAlgoItem.Node;
   varHeuristicItem = VarHeuristicItem.InOrder;
   valHeuristicItem = ValHeuristicItem.InOrder;
-  domainDisplayItem = DomainDisplayItem.All;
   checkingItem = CheckingItem.Assigning;
   userInteractionModeItem = UserInteractionModeItem.Visualise;
 
@@ -123,7 +120,6 @@ export class PageComponent implements OnInit {
       this.pruningAlgoItem = parseLocalStorageItem('pruningAlgoItem');
       this.varHeuristicItem = parseLocalStorageItem('varHeuristicItem');
       this.valHeuristicItem = parseLocalStorageItem('valHeuristicItem');
-      this.domainDisplayItem = parseLocalStorageItem('domainDisplayItem');
       this.checkingItem = parseLocalStorageItem('checkingItem');
       this.animationIndex = parseLocalStorageItem('animationIndex');
       this.commentaryType = parseLocalStorageItem('commentaryType');
@@ -188,10 +184,6 @@ export class PageComponent implements OnInit {
     this.markAnimationFramesForUpdate();
   }
 
-  setDomainDisplayItem(domainDisplayItem: string): void {
-    this.domainDisplayItem = domainDisplayItem as DomainDisplayItem;
-  }
-
   setCheckingItem(checkingItem: string): void {
     this.checkingItem = checkingItem as CheckingItem;
     this.markAnimationFramesForUpdate();
@@ -229,29 +221,9 @@ export class PageComponent implements OnInit {
     return classStr;
   }
 
-  // True if tile should be highlighted as a member of its rows domain when "Display Domain Being Changed" is selected
-  isTilePrunedFromDomainHighlighted(row: number, col: number): boolean {
-    return (
-      !this.isTileDomainHighlighted(row, col) && this.isHighlightingDomains()
-    );
-  }
-
   // True if tile should be highlighted as a member of its rows domain when "Display Domains of All Rows" is selected
   isTileDomainHighlighted(row: number, col: number): boolean {
-    return (
-      this.isRowDomainHighlighted(row) &&
-      this.getCurrentAnimationFrame().varToDomain.get(row).includes(col)
-    );
-  }
-  // True if a row should highlight its domain
-  isRowDomainHighlighted(row: number): boolean {
-    if (!this.isHighlightingDomains()) {
-      return false;
-    } else if (this.domainDisplayItem === DomainDisplayItem.All) {
-      return true;
-    } else {
-      return this.getCurrentAnimationFrame().domainRowToHighlight === row;
-    }
+    return this.getCurrentAnimationFrame().varToDomain.get(row).includes(col);
   }
 
   // True if the algorithm is currently placing a queen at this row
@@ -264,13 +236,6 @@ export class PageComponent implements OnInit {
 
   isUsingForwardChecking(): boolean {
     return this.checkingItem === CheckingItem.ForwardChecking;
-  }
-
-  isHighlightingDomains(): boolean {
-    return (
-      this.isUsingForwardChecking() &&
-      this.domainDisplayItem !== DomainDisplayItem.None
-    );
   }
 
   // Mark animation frames for update and update them
@@ -397,7 +362,6 @@ export class PageComponent implements OnInit {
     addItemToLocalStorage('pruningAlgoItem', this.pruningAlgoItem);
     addItemToLocalStorage('varHeuristicItem', this.varHeuristicItem);
     addItemToLocalStorage('valHeuristicItem', this.valHeuristicItem);
-    addItemToLocalStorage('domainDisplayItem', this.domainDisplayItem);
     addItemToLocalStorage('checkingItem', this.checkingItem);
     addItemToLocalStorage('animationIndex', this.animationIndex);
     addItemToLocalStorage('boardSize', this.boardSize);

@@ -16,8 +16,8 @@ export class TileComponent {
   // True if this tile should be highlighted as a part of its rows domain if "Display Domains of All Rows" is selected
   @Input() readonly isDomainHighlighted!: boolean;
 
-  // True if this tile should be highlighted as part of its rows domain if "Display Domain Being Changed" is selected
-  @Input() readonly isPrunedFromDomainHighlighted!: boolean;
+  // True if forward checking is being used
+  @Input() readonly isUsingForwardChecking!: boolean;
 
   // The position of this tile on the screen
   @Input() readonly pos!: Pos;
@@ -28,12 +28,12 @@ export class TileComponent {
   @Output() readonly clickEmitter = new EventEmitter<Pos>();
 
   getBackgroundColor(): string {
-    if (this.isDomainHighlighted) {
-      return '#32CD32';
-    } else if (this.isPrunedFromDomainHighlighted) {
-      return 'white';
-    } else {
+    if (!this.isUsingForwardChecking) {
       return (this.pos.row + this.pos.col) % 2 === 0 ? 'white' : '#C4A484';
+    } else if (this.isDomainHighlighted) {
+      return '#32CD32';
+    } else {
+      return 'white';
     }
   }
 

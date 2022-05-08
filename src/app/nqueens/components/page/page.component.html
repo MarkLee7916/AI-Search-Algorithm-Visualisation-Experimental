@@ -17,15 +17,15 @@
       [currentItem]="checkingItem"
       [items]="checkingItems"
       commentary="'Check when assigning' only verifies an assignment is valid when it is made. 'Forward checking' gets rid of some remaining invalid assignments when an assignment is made."
-      label="Point Assignment Validity Checked"
+      label="Point Assignment Checked"
       (itemChangedEmitter)="setCheckingItem($event)"
     ></app-dropdown>
     <app-dropdown
       [style.visibility]="isUsingForwardChecking() ? 'visible' : 'hidden'"
       [currentItem]="valHeuristicItem"
       [items]="valHeuristicItems"
-      commentary="'Take columns in order' takes them from left to right. 'Take least constraining column' takes the column that will lead to the least amount of pruning of unassigned domains, which improves the runtime efficiency of the algorithm."
-      label="Column Algorithm Selects Next"
+      commentary="'In order' takes them from left to right. 'Least constraining' takes the column that will lead to the least amount of pruning of unassigned domains, which improves the runtime efficiency of the algorithm."
+      label="Column Selected Next"
       (itemChangedEmitter)="setValHeuristicItem($event)"
     ></app-dropdown>
     <app-dropdown
@@ -40,16 +40,8 @@
       [style.visibility]="isUsingForwardChecking() ? 'visible' : 'hidden'"
       [currentItem]="varHeuristicItem"
       [items]="varHeuristicItems"
-      commentary="Take rows in order' takes them from top to bottom. 'Take most constrained row' takes the row with the smallest domain first, which improves the runtime efficiency of the algorithm."
-      label="Row Algorithm Selects Next"
+      label="Row Selected Next"
       (itemChangedEmitter)="setVarHeuristicItem($event)"
-    ></app-dropdown>
-    <app-dropdown
-      [style.visibility]="isUsingForwardChecking() ? 'visible' : 'hidden'"
-      [currentItem]="domainDisplayItem"
-      [items]="domainDisplayItems"
-      label="Domains Displayed"
-      (itemChangedEmitter)="setDomainDisplayItem($event)"
     ></app-dropdown>
   </div>
 
@@ -92,30 +84,30 @@
     <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
   </div>
 
-  <p class="commentary">{{ getCommentary() }}</p>
-  <div class="screen-wide-menu">
-    <div class="board">
-      <div
-        [class]="getRowClass(rowIndex)"
-        *ngFor="
-          let row of getCurrentAnimationFrame().board;
-          let rowIndex = index
-        "
-      >
-        <app-tile
-          *ngFor="let hasQueen of row; let colIndex = index"
-          [id]="rowIndex + ' ' + colIndex"
-          [sizeInPx]="BOARD_SIZE_IN_PX / boardSize"
-          [hasQueen]="hasQueen"
-          [isPrunedFromDomainHighlighted]="
-            isTilePrunedFromDomainHighlighted(rowIndex, colIndex)
+  <div class="board-commentary-container">
+    <p class="commentary">{{ getCommentary() }}</p>
+    <div class="screen-wide-menu">
+      <div class="board">
+        <div
+          [class]="getRowClass(rowIndex)"
+          *ngFor="
+            let row of getCurrentAnimationFrame().board;
+            let rowIndex = index
           "
-          [isDomainHighlighted]="isTileDomainHighlighted(rowIndex, colIndex)"
-          [pos]="{ row: rowIndex, col: colIndex }"
-          [isClickable]="isInQuizMode() && canClickOnTileIfInQuizMode"
-          (clickEmitter)="handleTileClick($event)"
         >
-        </app-tile>
+          <app-tile
+            *ngFor="let hasQueen of row; let colIndex = index"
+            [id]="rowIndex + ' ' + colIndex"
+            [sizeInPx]="BOARD_SIZE_IN_PX / boardSize"
+            [hasQueen]="hasQueen"
+            [isDomainHighlighted]="isTileDomainHighlighted(rowIndex, colIndex)"
+            [isUsingForwardChecking]="isUsingForwardChecking()"
+            [pos]="{ row: rowIndex, col: colIndex }"
+            [isClickable]="isInQuizMode() && canClickOnTileIfInQuizMode"
+            (clickEmitter)="handleTileClick($event)"
+          >
+          </app-tile>
+        </div>
       </div>
     </div>
   </div>

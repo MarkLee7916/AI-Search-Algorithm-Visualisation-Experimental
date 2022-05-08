@@ -9,8 +9,8 @@ export enum CheckingItem {
 }
 
 export enum VarHeuristicItem {
-  InOrder = 'Takes Rows In Order',
-  MostConstrained = 'Take Most Constrained Row',
+  InOrder = 'In Order',
+  MostConstrained = 'Smallest Domain',
 }
 
 export enum UserInteractionModeItem {
@@ -19,12 +19,6 @@ export enum UserInteractionModeItem {
 }
 
 export enum ValHeuristicItem {
-  InOrder = 'Take Columns In Order',
-  LeastConstraining = 'Take Least Constraining Column',
-}
-
-export enum DomainDisplayItem {
-  All = 'Display Domains of All Rows',
-  CurrentRow = 'Display Domain Being Changed',
-  None = 'Display No Domains',
+  InOrder = 'In Order',
+  LeastConstraining = 'Least constraining',
 }
