@@ -67,7 +67,7 @@
 }
 
 .modal-bottom-left-btn {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   margin-bottom: 5px;
@@ -75,7 +75,7 @@
 }
 
 .modal-left-of-bottom-right-btn {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   margin-bottom: 5px;
@@ -84,7 +84,7 @@
 }
 
 .modal-bottom-right-btn {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   margin-bottom: 5px;
