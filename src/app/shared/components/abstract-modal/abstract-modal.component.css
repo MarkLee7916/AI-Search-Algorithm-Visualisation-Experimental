@@ -67,7 +67,7 @@
 }
 
 .modal-bottom-left-btn {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   margin-bottom: 5px;
@@ -75,7 +75,7 @@
 }
 
 .modal-left-of-bottom-right-btn {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   right: 0;
   margin-bottom: 5px;
@@ -84,11 +84,23 @@
 }
 
 .modal-bottom-right-btn {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   right: 0;
   margin-bottom: 5px;
   margin-right: 20px;
+}
+
+@media screen and (max-height: 600px) {
+  .modal-bottom-left-btn {
+    position: fixed;
+  }
+  .modal-left-of-bottom-right-btn {
+    position: fixed;
+  }
+  .modal-bottom-right-btn {
+    position: fixed;
+  }
 }
 
 .modal-input-item {
