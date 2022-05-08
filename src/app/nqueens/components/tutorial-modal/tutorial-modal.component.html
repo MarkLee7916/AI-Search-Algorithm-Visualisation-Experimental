@@ -1,34 +1,36 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Intro">
   <h1 class="modal-title">Welcome to N-Queens Visualiser!</h1>
 
-  <p class="modal-text">
-    This is a project that aims to help students learn about constraint
-    satisfaction algorithms through visualising their application to the
-    N-Queens problem. This app works by animating the process these go through
-    when trying to find a suitable configuration for the queens. It was written
-    by Mark Lee as his final year project for BSc Computer Science at the
-    University of Strathclyde.
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      This is a project that aims to help students learn about constraint
+      satisfaction algorithms through visualising their application to the
+      N-Queens problem. This app works by animating the process these go through
+      when trying to find a suitable configuration for the queens. It was
+      written by Mark Lee as his final year project for BSc Computer Science at
+      the University of Strathclyde.
+    </p>
 
-  <p class="modal-text">
-    These slides will guide you through the features of the application. You can
-    navigate through the slides using the buttons at the bottom left and bottom
-    right corners of the current slide.
-  </p>
+    <p class="modal-text">
+      These slides will guide you through the features of the application. You
+      can navigate through the slides using the buttons at the bottom left and
+      bottom right corners of the current slide.
+    </p>
 
-  <p class="modal-text">
-    A general tip for using algorithm visualisation tools: it's better to try
-    and actively learn than passively learn. When stepping through an algorithm,
-    try and predict what it will do next. If you're right, then it shows you
-    understand the algorithm. If you're wrong, it's worth wondering why that is
-    and comparing your result with the actual one.
-  </p>
+    <p class="modal-text">
+      A general tip for using algorithm visualisation tools: it's better to try
+      and actively learn than passively learn. When stepping through an
+      algorithm, try and predict what it will do next. If you're right, then it
+      shows you understand the algorithm. If you're wrong, it's worth wondering
+      why that is and comparing your result with the actual one.
+    </p>
 
-  <p class="modal-text">
-    As part of this project I've also implemented visualisers for
-    <a [routerLink]="'/minimax'">Adversarial Search</a> and
-    <a [routerLink]="'/pathfinding'">Pathfinding</a>
-  </p>
+    <p class="modal-text">
+      As part of this project I've also implemented visualisers for
+      <a [routerLink]="'/minimax'">Adversarial Search</a> and
+      <a [routerLink]="'/pathfinding'">Pathfinding</a>
+    </p>
+  </span>
   <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
     Next Slide
   </button>
@@ -40,35 +42,37 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.MappingOntoCSP">
   <h1 class="modal-title">Mapping to Constraint Satisfaction</h1>
 
-  <p class="modal-text">
-    We can consider the N-Queens problem as a special case of constraint
-    satisfaction, and a nice example for demonstrating algorithms for solving
-    CSPs like backtracking.
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      We can consider the N-Queens problem as a special case of constraint
+      satisfaction, and a nice example for demonstrating algorithms for solving
+      CSPs like backtracking.
+    </p>
 
-  <p class="modal-text">
-    For this tool, the rows are the variables, implicitly assuming that no two
-    queens will be placed on the same row. The columns are the values, and an
-    assignment is a column assigned to a row i.e a tile on the board. The choice
-    of variable encodes the row and the value assigned to that variable encodes
-    the column. The constraints are the rule of the queens not being able to
-    attack each other.
-  </p>
+    <p class="modal-text">
+      For this tool, the rows are the variables, implicitly assuming that no two
+      queens will be placed on the same row. The columns are the values, and an
+      assignment is a column assigned to a row i.e a tile on the board. The
+      choice of variable encodes the row and the value assigned to that variable
+      encodes the column. The constraints are the rule of the queens not being
+      able to attack each other.
+    </p>
 
-  <p class="modal-text">
-    More formally, we can express the variables as {{ "{" }}R<small
-      ><small>1</small></small
-    >
-    ... R<small><small>N</small></small
-    >{{ "}" }} and the values for each variable as {{ "{" }}1 ... N{{ "}" }}
-  </p>
+    <p class="modal-text">
+      More formally, we can express the variables as {{ "{" }}R<small
+        ><small>1</small></small
+      >
+      ... R<small><small>N</small></small
+      >{{ "}" }} and the values for each variable as {{ "{" }}1 ... N{{ "}" }}
+    </p>
 
-  <p class="modal-text">
-    Here, the constraints would be ∀ (x, y) ∈ {{ "{" }}1 ... N{{ "}" }} ×
-    {{ "{" }}1 ... N{{ "}" }} & x > y -> |R<small><small>x</small></small> -
-    R<small><small>y</small></small> | > 0 & |R<small><small>x</small></small> -
-    R<small><small>y</small></small> | ≠ x - y
-  </p>
+    <p class="modal-text">
+      Here, the constraints would be ∀ (x, y) ∈ {{ "{" }}1 ... N{{ "}" }} ×
+      {{ "{" }}1 ... N{{ "}" }} & x > y -> |R<small><small>x</small></small> -
+      R<small><small>y</small></small> | > 0 & |R<small><small>x</small></small>
+      - R<small><small>y</small></small> | ≠ x - y
+    </p>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -84,31 +88,33 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.CheckingType">
   <h1 class="modal-title">Checking Validity of Assignments</h1>
 
-  <p class="modal-text">
-    This tool supports two methods of checking the validity of queen
-    assignments. "Check When Assigning" and "Forward Checking".
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      This tool supports two methods of checking the validity of queen
+      assignments. "Check When Assigning" and "Forward Checking".
+    </p>
 
-  <p class="modal-text">
-    When forward checking, every time an assignment is made we look ahead and
-    remove values from the domains of unassigned variables to rule out
-    possibilities beforehand. This gives us access to heuristics that control
-    which variable and value to select next in the hope that a solution will be
-    reached faster.
-  </p>
+    <p class="modal-text">
+      When forward checking, every time an assignment is made we look ahead and
+      remove values from the domains of unassigned variables to rule out
+      possibilities beforehand. This gives us access to heuristics that control
+      which variable and value to select next in the hope that a solution will
+      be reached faster.
+    </p>
 
-  <p class="modal-text">
-    Selecting "Forward Checking" in the menu shows dropdowns to configure the
-    way forward checking is done and heuristics for selecting variables and
-    values.
-  </p>
+    <p class="modal-text">
+      Selecting "Forward Checking" in the menu shows dropdowns to configure the
+      way forward checking is done and heuristics for selecting variables and
+      values.
+    </p>
 
-  <video
-    class="modal-visual-media"
-    src="./assets/forward-checking-menu.mp4"
-    autoplay
-    loop
-  ></video>
+    <video
+      class="modal-visual-media"
+      src="./assets/forward-checking-menu.mp4"
+      autoplay
+      loop
+    ></video>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -124,26 +130,28 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Highlighting">
   <h1 class="modal-title">Highlighting</h1>
 
-  <p class="modal-text">
-    When using forward checking, the domain of each variable is displayed in
-    green on the board. For instance if a variables domain is {{ "{" }}1, 2{{
-      "}"
-    }}, the first two tiles in the corresponding row will be green. While
-    domains are being displayed, the checkerboard pattern is disabled and any
-    tile not in the corresponding variables domain will be white.
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      When using forward checking, the domain of each variable is displayed in
+      green on the board. For instance if a variables domain is {{ "{" }}1, 2{{
+        "}"
+      }}, the first two tiles in the corresponding row will be green. While
+      domains are being displayed, the checkerboard pattern is disabled and any
+      tile not in the corresponding variables domain will be white.
+    </p>
 
-  <p class="modal-text">
-    The row that we're currently placing a queen on is highlighted using a black
-    border.
-  </p>
+    <p class="modal-text">
+      The row that we're currently placing a queen on is highlighted using a
+      black border.
+    </p>
 
-  <video
-    class="modal-visual-media"
-    src="./assets/highlighting.mp4"
-    autoplay
-    loop
-  ></video>
+    <video
+      class="modal-visual-media"
+      src="./assets/highlighting.mp4"
+      autoplay
+      loop
+    ></video>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -159,24 +167,25 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Animating">
   <h1 class="modal-title">Animating an Algorithm</h1>
 
-  <p class="modal-text">
-    To animate an algorithm simply press the "⏯" button. While an algorithm is
-    being animated this button will change to "⏸", which pauses the animation.
-    You can configure the speed of the animation by adjusting the slider under
-    "Set Animation Delay".
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      To animate an algorithm simply press the "⏯" button. While an algorithm is
+      being animated this button will change to "⏸", which pauses the animation.
+      You can configure the speed of the animation by adjusting the slider under
+      "Set Animation Delay".
+    </p>
 
-  <video
-    class="modal-visual-media"
-    src="./assets/running-backtracking-algo.mp4"
-    autoplay
-    loop
-  ></video>
+    <video
+      class="modal-visual-media"
+      src="./assets/running-backtracking-algo.mp4"
+      autoplay
+      loop
+    ></video>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
   </button>
-
   <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
     Next Slide
   </button>
@@ -191,23 +200,25 @@
 >
   <h1 class="modal-title">Stepping Through Animations</h1>
 
-  <p class="modal-text">
-    You can step through animations to view them at your own pace. The "▶️"
-    button moves to the next frame in the animation while the "◀" button moves
-    to the previous.
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      You can step through animations to view them at your own pace. The "▶️"
+      button moves to the next frame in the animation while the "◀" button moves
+      to the previous.
+    </p>
 
-  <p class="modal-text">
-    You can also step through the animations quickly by adjusting the slider
-    under "Step Through Animation Frames".
-  </p>
+    <p class="modal-text">
+      You can also step through the animations quickly by adjusting the slider
+      under "Step Through Animation Frames".
+    </p>
 
-  <video
-    class="modal-visual-media"
-    src="./assets/step-features-backtracking.mp4"
-    autoplay
-    loop
-  ></video>
+    <video
+      class="modal-visual-media"
+      src="./assets/step-features-backtracking.mp4"
+      autoplay
+      loop
+    ></video>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -224,18 +235,20 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Conclusion">
   <h1 class="modal-title">That's Everything!</h1>
 
-  <p class="modal-text">
-    That's a quick summary of all the features. If you have any questions you
-    can contact the developer through email at mark.lee.2018@uni.strath.ac.uk
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      That's a quick summary of all the features. If you have any questions you
+      can contact the developer through email at mark.lee.2018@uni.strath.ac.uk
+    </p>
 
-  <p class="modal-text">
-    You can also checkout the
-    <a href="https://github.com/MarkLee7916/AI-Search-Algorithm-Visualisation"
-      >source code</a
-    >
-    on GitHub when it is released.
-  </p>
+    <p class="modal-text">
+      You can also checkout the
+      <a href="https://github.com/MarkLee7916/AI-Search-Algorithm-Visualisation"
+        >source code</a
+      >
+      on GitHub when it is released.
+    </p>
+  </span>
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
   </button>

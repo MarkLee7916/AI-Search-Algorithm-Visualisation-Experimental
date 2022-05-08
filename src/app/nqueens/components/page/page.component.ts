@@ -4,6 +4,7 @@ import {
   assertNonNull,
   AVERAGE_OF_VW_AND_VH,
   getValueFromRangeEvent,
+  isWidthGreaterThan,
   parseLocalStorageItem,
   safeGetArrayIndex,
   wait,
@@ -53,6 +54,8 @@ export class PageComponent implements OnInit {
 
   // An enumeration of the slides in the tutorial menu
   readonly tutorialModalSlides = Object.values(TutorialModalSlide);
+
+  readonly isWidthGreaterThan = isWidthGreaterThan;
 
   // Enumerations corresponding to the dropdown menu options
   readonly pruningAlgoItems = Object.values(PruningAlgoItem);

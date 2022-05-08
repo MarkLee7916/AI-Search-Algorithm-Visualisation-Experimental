@@ -1,18 +1,14 @@
 <div class="page" [style.opacity]="modalDisplayed === Modal.None ? '1' : '0.1'">
   <div class="screen-wide-menu">
-    <div class="range-container">
-      <p>Set Board Size</p>
-      <input
-        type="range"
-        class="range"
-        id="change-board-size"
-        [defaultValue]="boardSize"
-        min="3"
-        [max]="10"
-        (input)="setBoardSize($event)"
-      />
-      <p>{{ boardSize }}</p>
-    </div>
+    <app-dropdown
+      *ngIf="isWidthGreaterThan(1000)"
+      [currentItem]="userInteractionModeItem"
+      [items]="userInteractionModeItems"
+      commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm and asks you to predict what it will do next."
+      label="Interaction Mode"
+      (itemChangedEmitter)="setUserInteractionModeItem($event)"
+    >
+    </app-dropdown>
     <app-dropdown
       [currentItem]="checkingItem"
       [items]="checkingItems"
@@ -46,15 +42,6 @@
   </div>
 
   <div class="screen-wide-menu">
-    <app-dropdown
-      [currentItem]="userInteractionModeItem"
-      [items]="userInteractionModeItems"
-      commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm and asks you to predict what it will do next."
-      label="Interaction Mode"
-      (itemChangedEmitter)="setUserInteractionModeItem($event)"
-    >
-    </app-dropdown>
-
     <app-animation
       *ngIf="!isInQuizMode()"
       [isAnimationRunning]="isAnimationRunning"
@@ -80,13 +67,12 @@
       />
       <p>{{ quizDelayMs }}ms</p>
     </div>
-
-    <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
   </div>
 
   <div class="board-commentary-container">
     <p class="commentary">{{ getCommentary() }}</p>
     <div class="screen-wide-menu">
+      <input type="range" class="range invisible" />
       <div class="board">
         <div
           [class]="getRowClass(rowIndex)"
@@ -108,6 +94,22 @@
           >
           </app-tile>
         </div>
+      </div>
+      <div id="grid-buttons">
+        <div class="range-container">
+          <p>Set Board Size</p>
+          <input
+            type="range"
+            class="range"
+            id="change-board-size"
+            [defaultValue]="boardSize"
+            min="3"
+            [max]="10"
+            (input)="setBoardSize($event)"
+          />
+          <p>{{ boardSize }}</p>
+        </div>
+        <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
       </div>
     </div>
   </div>
