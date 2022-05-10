@@ -90,7 +90,6 @@
         <app-dropdown
           [currentItem]="userInteractionModeItem"
           [items]="userInteractionModeItems"
-          commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm and asks you to predict what it will do next."
           label="Interaction Mode"
           (itemChangedEmitter)="setUserInteractionModeItem($event)"
         >
