@@ -1,6 +1,8 @@
 export const AVERAGE_OF_VW_AND_VH =
   window.innerHeight + window.innerWidth / 200;
 
+export const IS_TOUCHSCREEN_DEVICE = matchMedia('(hover: none)').matches;
+
 export function randomIntBetween(lower: number, upper: number): number {
   return Math.round(Math.floor(Math.random() * (upper - lower)) + lower);
 }

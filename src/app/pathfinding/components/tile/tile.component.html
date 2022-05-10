@@ -25,7 +25,7 @@
   </p>
 </div>
 
-<div class="tile-tooltip" *ngIf="willDisplayTooltipOnMouseOver && isMouseOver">
+<div class="tile-tooltip" *ngIf="shouldDisplayTileTooltip()">
   <p>Calculated Distance From Start: {{ getDistDisplayStr() }}</p>
   <p>Estimated Distance To Goal: {{ heuristicDist }}</p>
   <p>Cost of passing through: {{ weight }}</p>

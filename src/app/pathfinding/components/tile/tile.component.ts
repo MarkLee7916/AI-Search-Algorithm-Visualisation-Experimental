@@ -8,6 +8,7 @@ import {
 import { Pos, TileAnimationFrame } from 'src/app/pathfinding/models/grid';
 import { TileDisplayItem } from 'src/app/pathfinding/models/dropdownItemEnums';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
+import { IS_TOUCHSCREEN_DEVICE } from 'src/app/shared/genericUtils';
 
 @Component({
   selector: 'app-tile',
@@ -181,5 +182,13 @@ export class TileComponent {
 
   closeCustomWeightInput(): void {
     this.closeCustomWeightInputEmitter.emit();
+  }
+
+  shouldDisplayTileTooltip(): boolean {
+    return (
+      !IS_TOUCHSCREEN_DEVICE &&
+      this.willDisplayTooltipOnMouseOver &&
+      this.isMouseOver
+    );
   }
 }
