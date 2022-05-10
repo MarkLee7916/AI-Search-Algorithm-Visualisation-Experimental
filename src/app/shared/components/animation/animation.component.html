@@ -25,7 +25,7 @@
       id="play-btn"
       class="media-control-symbol"
       (click)="prepareToAnimateAlgo()"
-      *ngIf="!isAnimationRunning"
+      [style.display]="isAnimationRunning ? 'none' : 'block'"
       src="./assets/play-button.png"
     />
 
@@ -33,7 +33,7 @@
       id="pause-btn"
       class="media-control-symbol"
       (click)="setAnimationRunningEmitter.emit(false)"
-      *ngIf="isAnimationRunning"
+      [style.display]="isAnimationRunning ? 'block' : 'none'"
       src="./assets/pause-button.png"
     />
 
