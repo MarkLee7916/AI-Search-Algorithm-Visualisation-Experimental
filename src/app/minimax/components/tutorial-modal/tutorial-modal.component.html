@@ -1,33 +1,35 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Intro">
   <h1 class="modal-title">Welcome to Minimax Visualiser!</h1>
 
-  <p class="modal-text">
-    This is a project that aims to help students learn about minimax through
-    visualising it on an abstract tree diagram. This app works by animating the
-    process it goes through as it searches for the optimal route through the
-    tree. It was written by Mark Lee as his final year project for BSc Computer
-    Science at the University of Strathclyde.
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      This is a project that aims to help students learn about minimax through
+      visualising it on an abstract tree diagram. This app works by animating
+      the process it goes through as it searches for the optimal route through
+      the tree. It was written by Mark Lee as his final year project for BSc
+      Computer Science at the University of Strathclyde.
+    </p>
 
-  <p class="modal-text">
-    These slides will guide you through the features of the application. You can
-    navigate through the slides using the buttons at the bottom left and bottom
-    right corners of the current slide.
-  </p>
+    <p class="modal-text">
+      These slides will guide you through the features of the application. You
+      can navigate through the slides using the buttons at the bottom left and
+      bottom right corners of the current slide.
+    </p>
 
-  <p class="modal-text">
-    A general tip for using algorithm visualisation tools: it's better to try
-    and actively learn than passively learn. When stepping through an algorithm,
-    try and predict what it will do next. If you're right, then it shows you
-    understand the algorithm. If you're wrong, it's worth wondering why that is
-    and comparing your result with the actual one.
-  </p>
+    <p class="modal-text">
+      A general tip for using algorithm visualisation tools: it's better to try
+      and actively learn than passively learn. When stepping through an
+      algorithm, try and predict what it will do next. If you're right, then it
+      shows you understand the algorithm. If you're wrong, it's worth wondering
+      why that is and comparing your result with the actual one.
+    </p>
 
-  <p class="modal-text">
-    As part of this project I've also implemented visualisers for
-    <a [routerLink]="'/n-queens'">Constraint Satisfaction</a> and
-    <a [routerLink]="'/pathfinding'">Pathfinding</a>
-  </p>
+    <p class="modal-text">
+      As part of this project I've also implemented visualisers for
+      <a [routerLink]="'/n-queens'">Constraint Satisfaction</a> and
+      <a [routerLink]="'/pathfinding'">Pathfinding</a>
+    </p>
+  </span>
   <button class="modal-left-of-bottom-right-btn" (click)="nextSlide()">
     Next Slide
   </button>
