@@ -14,39 +14,35 @@
   </div>
 
   <div id="media-control-container">
-    <button
+    <img
       id="step-back-btn"
       class="media-control-symbol"
       (click)="decrementAnimationIndex()"
-    >
-      ◀
-    </button>
+      src="./assets/step-back-button.png"
+    />
 
-    <button
+    <img
       id="play-btn"
       class="media-control-symbol"
       (click)="prepareToAnimateAlgo()"
       *ngIf="!isAnimationRunning"
-    >
-      ⏯
-    </button>
+      src="./assets/play-button.png"
+    />
 
-    <button
+    <img
       id="pause-btn"
       class="media-control-symbol"
       (click)="setAnimationRunningEmitter.emit(false)"
       *ngIf="isAnimationRunning"
-    >
-      ⏸
-    </button>
+      src="./assets/pause-button.png"
+    />
 
-    <button
+    <img
       id="step-forward-btn"
       class="media-control-symbol"
       (click)="incrementAnimationIndex()"
-    >
-      ▶️
-    </button>
+      src="./assets/step-forward-button.png"
+    />
   </div>
 
   <div class="range-container">

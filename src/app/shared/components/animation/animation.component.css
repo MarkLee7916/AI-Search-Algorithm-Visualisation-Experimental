@@ -18,8 +18,10 @@
 
 .media-control-symbol {
   border: none;
-  font-size: 50px;
+  height: 55px;
+  width: 50px;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .media-control-symbol:hover {
