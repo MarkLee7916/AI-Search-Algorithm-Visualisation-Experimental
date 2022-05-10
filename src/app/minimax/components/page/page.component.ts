@@ -3,6 +3,7 @@ import {
   addItemToLocalStorage,
   arrayOfRandomIntsBetween,
   assertDefined,
+  isWidthGreaterThan,
   parseLocalStorageItem,
   randomIntBetween,
   safeGetArrayIndex,
@@ -12,7 +13,6 @@ import {
   treeAnimationFrameToSVGAnimationframe,
   SVGTreeAnimationFrame,
   SVG_HEIGHT,
-  SVG_TRANSFORM_SCALE,
   SVG_WIDTH,
   DataHiddenForUserGuess,
   SVGNode,
@@ -46,9 +46,6 @@ export class PageComponent implements OnInit {
   // Width of SVG canvas in pixels
   readonly SVG_WIDTH = SVG_WIDTH;
 
-  // Scales the SVG canvas to the page's height
-  readonly SVG_TRANSFORM_SCALE = SVG_TRANSFORM_SCALE;
-
   // Tests if a given node has no children
   readonly isLeafNode = isLeafNode;
 
@@ -60,6 +57,8 @@ export class PageComponent implements OnInit {
 
   // A enumeration of the items in the page's user interaction mode dropdown menu
   readonly userInteractionModeItems = Object.values(UserInteractionModeItem);
+
+  readonly isWidthGreaterThan = isWidthGreaterThan;
 
   // The list of animation frames corresponding to the current problem config
   animationFrames: SVGTreeAnimationFrame[] = [];
@@ -106,7 +105,6 @@ export class PageComponent implements OnInit {
     if (parseLocalStorageItem('pruningHeuristicItem') !== null) {
       this.pruningHeuristicItem = parseLocalStorageItem('pruningHeuristicItem');
       this.leafValues = parseLocalStorageItem('leafValues');
-      this.animationIndex = parseLocalStorageItem('animationIndex');
       this.commentaryType = parseLocalStorageItem('commentaryType');
       this.userInteractionModeItem = parseLocalStorageItem(
         'userInteractionModeItem'
@@ -355,7 +353,6 @@ export class PageComponent implements OnInit {
   saveDropdownOptions(): void {
     addItemToLocalStorage('pruningHeuristicItem', this.pruningHeuristicItem);
     addItemToLocalStorage('leafValues', this.leafValues);
-    addItemToLocalStorage('animationIndex', this.animationIndex);
     addItemToLocalStorage('commentaryType', this.commentaryType);
     addItemToLocalStorage(
       'userInteractionModeItem',

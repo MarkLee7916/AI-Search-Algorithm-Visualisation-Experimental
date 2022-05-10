@@ -39,19 +39,21 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Animating">
   <h1 class="modal-title">Animating the Algorithm</h1>
 
-  <p class="modal-text">
-    To animate an algorithm simply press the "⏯" button. While an algorithm is
-    being animated this button will change to "⏸", which pauses the animation.
-    You can configure the speed of the animation by adjusting the slider under
-    "Set Animation Delay".
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      To animate an algorithm simply press the "⏯" button. While an algorithm is
+      being animated this button will change to "⏸", which pauses the animation.
+      You can configure the speed of the animation by adjusting the slider under
+      "Set Animation Delay".
+    </p>
 
-  <video
-    class="modal-visual-media"
-    src="./assets/running-minimax.mp4"
-    autoplay
-    loop
-  ></video>
+    <video
+      class="modal-visual-media"
+      src="./assets/running-minimax.mp4"
+      autoplay
+      loop
+    ></video>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -70,23 +72,25 @@
 >
   <h1 class="modal-title">Stepping Through Animations</h1>
 
-  <p class="modal-text">
-    You can step through animations to view them at your own pace. The "▶️"
-    button moves to the next frame in the animation while the "◀" button moves
-    to the previous.
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      You can step through animations to view them at your own pace. The "▶️"
+      button moves to the next frame in the animation while the "◀" button moves
+      to the previous.
+    </p>
 
-  <p class="modal-text">
-    You can also step through the animations quickly by adjusting the slider
-    under "Step Through Animation Frames".
-  </p>
+    <p class="modal-text">
+      You can also step through the animations quickly by adjusting the slider
+      under "Step Through Animation Frames".
+    </p>
 
-  <video
-    class="modal-visual-media"
-    src="./assets/step-features-minimax.mp4"
-    autoplay
-    loop
-  ></video>
+    <video
+      class="modal-visual-media"
+      src="./assets/step-features-minimax.mp4"
+      autoplay
+      loop
+    ></video>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -103,21 +107,24 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.LeafValues">
   <h1 class="modal-title">Leaf Values</h1>
 
-  <p class="modal-text">
-    You can generate a new random list of leaf values by clicking on "New Tree".
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      You can generate a new random list of leaf values by clicking on "New
+      Tree".
+    </p>
 
-  <p class="modal-text">
-    You can add a manual list by clicking "Add Custom Leaf Values" and entering
-    the values as a comma separated list
-  </p>
+    <p class="modal-text">
+      You can add a manual list by clicking "Add Custom Leaf Values" and
+      entering the values as a comma separated list
+    </p>
 
-  <video
-    class="modal-visual-media"
-    src="./assets/enter-custom-leaf-values.mp4"
-    autoplay
-    loop
-  ></video>
+    <video
+      class="modal-visual-media"
+      src="./assets/enter-custom-leaf-values.mp4"
+      autoplay
+      loop
+    ></video>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -134,22 +141,24 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Quiz">
   <h1 class="modal-title">Quiz Mode</h1>
 
-  <p class="modal-text">
-    By default the app is in Visualisation Mode, which is pretty much what you'd
-    expect from a visualiser tool. You can switch it to Quiz Mode, which
-    displays the final frame in the animation and marks some of the values of
-    some of the nodes as '?''. Clicking on a node will bring up a box with two
-    buttons and an input box, which you can use to guess what the value should
-    be. The two buttons are for guessing -∞ and ∞, and the input box is for
-    guessing a concrete number. Press the enter key to submit your answer.
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      By default the app is in Visualisation Mode, which is pretty much what
+      you'd expect from a visualiser tool. You can switch it to Quiz Mode, which
+      displays the final frame in the animation and marks some of the values of
+      some of the nodes as '?''. Clicking on a node will bring up a box with two
+      buttons and an input box, which you can use to guess what the value should
+      be. The two buttons are for guessing -∞ and ∞, and the input box is for
+      guessing a concrete number. Press the enter key to submit your answer.
+    </p>
 
-  <video
-    class="modal-visual-media"
-    src="./assets/minimax-quiz.mp4"
-    autoplay
-    loop
-  ></video>
+    <video
+      class="modal-visual-media"
+      src="./assets/minimax-quiz.mp4"
+      autoplay
+      loop
+    ></video>
+  </span>
 
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
@@ -166,18 +175,20 @@
 <div class="modal-slide" *ngIf="slides[slideIndex] === Slide.Conclusion">
   <h1 class="modal-title">That's Everything!</h1>
 
-  <p class="modal-text">
-    That's a quick summary of all the features. If you have any questions you
-    can contact the developer through email at mark.lee.2018@uni.strath.ac.uk
-  </p>
+  <span class="modal-content">
+    <p class="modal-text">
+      That's a quick summary of all the features. If you have any questions you
+      can contact the developer through email at mark.lee.2018@uni.strath.ac.uk
+    </p>
 
-  <p class="modal-text">
-    You can also checkout the
-    <a href="https://github.com/MarkLee7916/AI-Search-Algorithm-Visualisation"
-      >source code</a
-    >
-    on GitHub when it is released.
-  </p>
+    <p class="modal-text">
+      You can also checkout the
+      <a href="https://github.com/MarkLee7916/AI-Search-Algorithm-Visualisation"
+        >source code</a
+      >
+      on GitHub when it is released.
+    </p>
+  </span>
   <button class="modal-bottom-left-btn" (click)="prevSlide()">
     Previous Slide
   </button>

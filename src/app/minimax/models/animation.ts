@@ -47,16 +47,13 @@ export type TreeAnimationFrame = {
 };
 
 // Height of SVG canvas in pixels
-export const SVG_HEIGHT = 300;
+export const SVG_HEIGHT = 265;
 
 // Width of SVG canvas in pixels
-export const SVG_WIDTH = 1200;
+export const SVG_WIDTH = 1150;
 
 // Radius of a node displayed on the SVG canvas in pixels
 export const SVG_NODE_RADIUS = 5;
-
-// Scales the SVG canvas to the page's height
-export const SVG_TRANSFORM_SCALE = window.innerHeight / 700;
 
 // The x distance in pixels between the root node and its children when displayed on the screen
 const SVG_INITIAL_X_STEP = 280;
