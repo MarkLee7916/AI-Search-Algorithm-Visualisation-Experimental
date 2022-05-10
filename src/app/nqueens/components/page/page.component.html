@@ -1,15 +1,6 @@
 <div class="page" [style.opacity]="modalDisplayed === Modal.None ? '1' : '0.1'">
   <div class="screen-wide-menu">
     <app-dropdown
-      *ngIf="isWidthGreaterThan(1000)"
-      [currentItem]="userInteractionModeItem"
-      [items]="userInteractionModeItems"
-      commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm and asks you to predict what it will do next."
-      label="Interaction Mode"
-      (itemChangedEmitter)="setUserInteractionModeItem($event)"
-    >
-    </app-dropdown>
-    <app-dropdown
       [currentItem]="checkingItem"
       [items]="checkingItems"
       commentary="'Check when assigning' only verifies an assignment is valid when it is made. 'Forward checking' gets rid of some remaining invalid assignments when an assignment is made."
@@ -96,6 +87,14 @@
         </div>
       </div>
       <div id="grid-buttons">
+        <app-dropdown
+          [currentItem]="userInteractionModeItem"
+          [items]="userInteractionModeItems"
+          commentary="The mode for how you interact with the tool. Visualisation mode is passive; it just displays the visualisation. Quiz mode simulates an algorithm and asks you to predict what it will do next."
+          label="Interaction Mode"
+          (itemChangedEmitter)="setUserInteractionModeItem($event)"
+        >
+        </app-dropdown>
         <div class="range-container">
           <p>Set Board Size</p>
           <input
