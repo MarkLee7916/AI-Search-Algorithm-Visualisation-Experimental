@@ -60,6 +60,7 @@ import {
   addItemToLocalStorage,
   initGenericArray,
   isWidthGreaterThan,
+  IS_TOUCHSCREEN_DEVICE,
   parseLocalStorageItem,
   randomIntBetween,
   removeDuplicates,
@@ -99,13 +100,15 @@ export class PageComponent implements OnInit {
   readonly isWidthGreaterThan = isWidthGreaterThan;
 
   // Lists of enum values that correspond to the dropdown items in the menu
-  readonly tilePlaceItems = Object.values(TilePlaceItem);
   readonly algoItems = Object.values(AlgoItem);
   readonly quizzableAlgoItems = Object.values(QuizzableAlgoItem);
   readonly mazeGenItems = Object.values(MazeGenItem);
   readonly neighboursItems = Object.values(NeighboursItem);
   readonly tileDisplayItems = Object.values(TileDisplayItem);
   readonly userInteractionModeItems = Object.values(UserInteractionModeItem);
+  readonly tilePlaceItems = Object.values(TilePlaceItem).filter(
+    (item) => !IS_TOUCHSCREEN_DEVICE || item !== TilePlaceItem.CustomWeight
+  );
 
   // An enum of tutorial and theory modal slides
   readonly tutorialModalSlides = Object.values(TutorialModalSlide);
