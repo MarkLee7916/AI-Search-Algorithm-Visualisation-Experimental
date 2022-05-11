@@ -165,14 +165,5 @@ describe('N-Queens Page', async () => {
         'rgb(50, 205, 50)'
       );
     });
-
-    // Switch to display domain being changed mode
-    fireEvent.click(screen.getByText(/Display Domains of All Rows/));
-    fireEvent.click(screen.getByText('Display Domain Being Changed'));
-
-    // Expect all tiles to be white
-    Array.from(tiles).forEach((tile) => {
-      expect((tile as HTMLElement).style.backgroundColor).toBe('white');
-    });
   });
 });

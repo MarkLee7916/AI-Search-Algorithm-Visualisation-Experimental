@@ -166,7 +166,7 @@ describe('Minimax Page', () => {
     expect(screen.queryByText('v: 789')).not.toBeNull();
   });
 
-  it('shows legend when hovering over the button', async () => {
+  it('shows legend when clicking on the button', async () => {
     await render(PageComponent, {
       declarations: [
         InfinitySymbolPipe,
@@ -192,11 +192,11 @@ describe('Minimax Page', () => {
     const showLegendBtn = screen.getByText('Show Legend');
 
     // Expect legend tooltip to show when hovering
-    fireEvent.mouseEnter(showLegendBtn);
+    fireEvent.click(showLegendBtn);
     expect(screen.queryByText('🟥 - Not Considered')).not.toBeNull();
 
     // Expect legend tooltip to not show when mouse is taken away
-    fireEvent.mouseLeave(showLegendBtn);
+    fireEvent.click(showLegendBtn);
     expect(screen.queryByText('🟥 - Not Considered')).toBeNull();
   });
 
