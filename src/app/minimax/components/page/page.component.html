@@ -21,9 +21,7 @@
 
     <button (click)="updateLeafValuesWithGeneratedList()">New Tree</button>
 
-    <button *ngIf="isWidthGreaterThan(1000)" (click)="toggleLegendDisplay()">
-      Show Legend
-    </button>
+    <button (click)="toggleLegendDisplay()">Show Legend</button>
 
     <div class="legend-tooltip" *ngIf="isLegendDisplayed">
       <p>🟥 - Not Considered</p>
@@ -33,7 +31,10 @@
       <p>β - Beta Value</p>
     </div>
 
-    <button (click)="setModalDisplayed(Modal.EnterLeafValues)">
+    <button
+      (click)="setModalDisplayed(Modal.EnterLeafValues)"
+      *ngIf="isWidthGreaterThan(1000)"
+    >
       Add Custom Leaf Values
     </button>
   </div>
