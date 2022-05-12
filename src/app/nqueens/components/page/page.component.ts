@@ -118,17 +118,16 @@ export class PageComponent implements OnInit {
   }
 
   loadDropdownOptions(): void {
-    if (parseLocalStorageItem('boardSize') !== null) {
-      this.boardSize = parseLocalStorageItem('boardSize');
-      this.pruningAlgoItem = parseLocalStorageItem('pruningAlgoItem');
-      this.varHeuristicItem = parseLocalStorageItem('varHeuristicItem');
-      this.valHeuristicItem = parseLocalStorageItem('valHeuristicItem');
-      this.checkingItem = parseLocalStorageItem('checkingItem');
-      this.animationIndex = parseLocalStorageItem('animationIndex');
-      this.commentaryType = parseLocalStorageItem('commentaryType');
-      this.userInteractionModeItem = parseLocalStorageItem(
-        'userInteractionModeItem'
-      );
+    const nqueensOptions = parseLocalStorageItem('nqueens-options');
+
+    if (nqueensOptions !== null) {
+      this.boardSize = nqueensOptions.boardSize;
+      this.pruningAlgoItem = nqueensOptions.pruningAlgoItem;
+      this.varHeuristicItem = nqueensOptions.varHeuristicItem;
+      this.valHeuristicItem = nqueensOptions.valHeuristicItem;
+      this.checkingItem = nqueensOptions.checkingItem;
+      this.commentaryType = nqueensOptions.commentaryType;
+      this.userInteractionModeItem = nqueensOptions.userInteractionModeItem;
     }
   }
 
@@ -362,17 +361,17 @@ export class PageComponent implements OnInit {
   }
 
   saveDropdownOptions(): void {
-    addItemToLocalStorage('pruningAlgoItem', this.pruningAlgoItem);
-    addItemToLocalStorage('varHeuristicItem', this.varHeuristicItem);
-    addItemToLocalStorage('valHeuristicItem', this.valHeuristicItem);
-    addItemToLocalStorage('checkingItem', this.checkingItem);
-    addItemToLocalStorage('animationIndex', this.animationIndex);
-    addItemToLocalStorage('boardSize', this.boardSize);
-    addItemToLocalStorage('commentaryType', this.commentaryType);
-    addItemToLocalStorage(
-      'userInteractionModeItem',
-      this.userInteractionModeItem
-    );
+    const nqueensOptions = {
+      pruningAlgoItem: this.pruningAlgoItem,
+      varHeuristicItem: this.varHeuristicItem,
+      valHeuristicItem: this.valHeuristicItem,
+      checkingItem: this.checkingItem,
+      boardSize: this.boardSize,
+      commentaryType: this.commentaryType,
+      userInteractionModeItem: this.userInteractionModeItem,
+    };
+
+    addItemToLocalStorage('nqueens-options', nqueensOptions);
   }
 
   @HostListener('window:beforeunload', ['$event'])

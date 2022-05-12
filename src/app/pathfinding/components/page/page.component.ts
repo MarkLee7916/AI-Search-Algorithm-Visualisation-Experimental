@@ -208,16 +208,16 @@ export class PageComponent implements OnInit {
   }
 
   loadDropdownOptions(): void {
-    if (parseLocalStorageItem('algoItem') !== null) {
-      this.algoItem = parseLocalStorageItem('algoItem');
-      this.tileDisplayItem = parseLocalStorageItem('tileDisplayItem');
-      this.neighboursItem = parseLocalStorageItem('neighboursItem');
-      this.tilePlaceItem = parseLocalStorageItem('tilePlaceItem');
-      this.mazeGenItem = parseLocalStorageItem('mazeGenItem');
-      this.commentaryType = parseLocalStorageItem('commentaryType');
-      this.userInteractionModeItem = parseLocalStorageItem(
-        'userInteractionModeItem'
-      );
+    const pathfindingOptions = parseLocalStorageItem('pathfinding-options');
+
+    if (pathfindingOptions !== null) {
+      this.algoItem = pathfindingOptions.algoItem;
+      this.tileDisplayItem = pathfindingOptions.tileDisplayItem;
+      this.neighboursItem = pathfindingOptions.neighboursItem;
+      this.tilePlaceItem = pathfindingOptions.tilePlaceItem;
+      this.mazeGenItem = pathfindingOptions.mazeGenItem;
+      this.commentaryType = pathfindingOptions.commentaryType;
+      this.userInteractionModeItem = pathfindingOptions.userInteractionModeItem;
     }
   }
 
@@ -659,16 +659,17 @@ export class PageComponent implements OnInit {
   }
 
   saveDropdownOptions(): void {
-    addItemToLocalStorage('algoItem', this.algoItem);
-    addItemToLocalStorage('tileDisplayItem', this.tileDisplayItem);
-    addItemToLocalStorage('neighboursItem', this.neighboursItem);
-    addItemToLocalStorage('tilePlaceItem', this.tilePlaceItem);
-    addItemToLocalStorage('mazeGenItem', this.mazeGenItem);
-    addItemToLocalStorage('commentaryType', this.commentaryType);
-    addItemToLocalStorage(
-      'userInteractionModeItem',
-      this.userInteractionModeItem
-    );
+    const pathfindingOptions = {
+      algoItem: this.algoItem,
+      tileDisplayItem: this.tileDisplayItem,
+      neighboursItem: this.neighboursItem,
+      tilePlaceItem: this.tilePlaceItem,
+      mazeGenItem: this.mazeGenItem,
+      commentaryType: this.commentaryType,
+      userInteractionModeItem: this.userInteractionModeItem,
+    };
+
+    addItemToLocalStorage('pathfinding-options', pathfindingOptions);
   }
 
   toggleMouseDown(): void {

@@ -102,13 +102,13 @@ export class PageComponent implements OnInit {
   }
 
   loadDropdownOptions(): void {
-    if (parseLocalStorageItem('pruningHeuristicItem') !== null) {
-      this.pruningHeuristicItem = parseLocalStorageItem('pruningHeuristicItem');
-      this.leafValues = parseLocalStorageItem('leafValues');
-      this.commentaryType = parseLocalStorageItem('commentaryType');
-      this.userInteractionModeItem = parseLocalStorageItem(
-        'userInteractionModeItem'
-      );
+    const minimaxOptions = parseLocalStorageItem('minimax-options');
+
+    if (minimaxOptions !== null) {
+      this.pruningHeuristicItem = minimaxOptions.pruningHeuristicItem;
+      this.leafValues = minimaxOptions.leafValues;
+      this.commentaryType = minimaxOptions.commentaryType;
+      this.userInteractionModeItem = minimaxOptions.userInteractionModeItem;
     }
   }
 
@@ -351,13 +351,14 @@ export class PageComponent implements OnInit {
   }
 
   saveDropdownOptions(): void {
-    addItemToLocalStorage('pruningHeuristicItem', this.pruningHeuristicItem);
-    addItemToLocalStorage('leafValues', this.leafValues);
-    addItemToLocalStorage('commentaryType', this.commentaryType);
-    addItemToLocalStorage(
-      'userInteractionModeItem',
-      this.userInteractionModeItem
-    );
+    const minimaxOptions = {
+      pruningHeuristicItem: this.pruningHeuristicItem,
+      leafValues: this.leafValues,
+      commentaryType: this.commentaryType,
+      userInteractionModeItem: this.userInteractionModeItem,
+    };
+
+    addItemToLocalStorage('minimax-options', minimaxOptions);
   }
 
   @HostListener('window:beforeunload', ['$event'])
