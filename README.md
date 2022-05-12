@@ -4,7 +4,7 @@ This was written as my final year project for Bsc Computing Science at the Unive
 
 ## Running the project
 
-You can access these links: [pathfinding](https://marklee7916.github.io/AI-Search-Algorithm-Visualisation/public/#/pathfinding), [constraint satisfaction](https://marklee7916.github.io/AI-Search-Algorithm-Visualisation/public/#/n-queens) and [adversarial search](https://marklee7916.github.io/AI-Search-Algorithm-Visualisation/public/#/minimax)
+You can access these links: [pathfinding](https://marklee7916.github.io/AI-Search-Algorithm-Visualisation-Experimental/public/#/pathfinding), [constraint satisfaction](https://marklee7916.github.io/AI-Search-Algorithm-Visualisation-Experimental/public/#/n-queens) and [adversarial search](https://marklee7916.github.io/AI-Search-Algorithm-Visualisation-Experimental/public/#/minimax)
 
 ## Documentation
 
