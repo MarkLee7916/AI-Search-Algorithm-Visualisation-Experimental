@@ -144,6 +144,10 @@ export function isWidthGreaterThan(valueInPixels: number): boolean {
   return window.innerWidth > valueInPixels;
 }
 
+export function isHeightGreaterThan(valueInPixels: number): boolean {
+  return window.innerHeight > valueInPixels;
+}
+
 function isObjectRef<T>(item: T): boolean {
   return typeof item === 'object' && item !== null;
 }

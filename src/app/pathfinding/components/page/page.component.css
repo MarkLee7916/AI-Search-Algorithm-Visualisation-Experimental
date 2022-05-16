@@ -9,10 +9,24 @@
   flex-direction: column;
 }
 
+.legend-container {
+  width: 200px;
+}
+
 .legend-container > * {
   font-size: 16px;
   margin-top: 1vh;
   margin-bottom: 1vh;
+}
+
+@media screen and (max-width: 1200px) {
+  .legend-container {
+    width: 150px;
+  }
+
+  .legend-container > * {
+    font-size: 12px;
+  }
 }
 
 #grid-buttons {

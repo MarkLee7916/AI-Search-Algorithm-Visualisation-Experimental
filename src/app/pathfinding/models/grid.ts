@@ -17,6 +17,7 @@ export type GridAnimationFrame = {
   gridDists: number[][];
   numberOfTilesExpanded: number;
   numberOfTilesVisited: number;
+  pathLength: number;
 };
 
 // A position on the grid corresponding to a tile
@@ -72,6 +73,7 @@ export function initBlankGridAnimationFrame(): GridAnimationFrame {
     gridDists: initGenericGrid(HEIGHT, WIDTH, () => Number.POSITIVE_INFINITY),
     numberOfTilesExpanded: 0,
     numberOfTilesVisited: 0,
+    pathLength: 0,
   };
 }
 

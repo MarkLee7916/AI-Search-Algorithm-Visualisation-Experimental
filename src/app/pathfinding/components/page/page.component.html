@@ -77,8 +77,9 @@
         <p>🟦 Expanded</p>
         <p>🟥 In Agenda</p>
         <p>🟨 Final Path</p>
-        <p>⬛ Barrier</p>
-        <p>⬜ Empty space</p>
+        <p *ngIf="isHeightGreaterThan(500)">⬛ Barrier</p>
+        <p *ngIf="isHeightGreaterThan(500)">⬜ Empty space</p>
+        <p *ngIf="isDisplayingWeights()">No number: weight of 1</p>
         <p>⇒ Start tile</p>
         <p>🎯 Goal tile</p>
         <p>
@@ -89,6 +90,15 @@
           Visited:
           {{ getCurrentAnimationFrame().numberOfTilesVisited }}
         </p>
+        <p>
+          Path Length:
+          {{
+            getCurrentAnimationFrame().pathLength === 0
+              ? "N/A"
+              : getCurrentAnimationFrame().pathLength
+          }}
+        </p>
+        <p></p>
       </div>
       <div class="grid" cellspacing="0" cellpadding="0">
         <div

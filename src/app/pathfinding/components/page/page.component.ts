@@ -59,6 +59,7 @@ import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import {
   addItemToLocalStorage,
   initGenericArray,
+  isHeightGreaterThan,
   isWidthGreaterThan,
   IS_TOUCHSCREEN_DEVICE,
   parseLocalStorageItem,
@@ -98,6 +99,7 @@ export class PageComponent implements OnInit {
   // Helper functions for the HTML template to use
   readonly parseLocalStorageItem = parseLocalStorageItem;
   readonly isWidthGreaterThan = isWidthGreaterThan;
+  readonly isHeightGreaterThan = isHeightGreaterThan;
 
   // Lists of enum values that correspond to the dropdown items in the menu
   readonly algoItems = Object.values(AlgoItem);
@@ -674,6 +676,10 @@ export class PageComponent implements OnInit {
 
   toggleMouseDown(): void {
     this.isMouseDown = !this.isMouseDown;
+  }
+
+  isDisplayingWeights(): boolean {
+    return this.tileDisplayItem === TileDisplayItem.Weights;
   }
 
   @HostListener('mousedown', ['$event'])
