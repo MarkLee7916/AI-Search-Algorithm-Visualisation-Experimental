@@ -106,7 +106,7 @@ describe('Pathfinding Page', () => {
     expect(screen.queryByText('Next Slide')).toBeNull();
   });
 
-  fit('adds custom weights and performs proper checks on inputs', async () => {
+  it('adds custom weights and performs proper checks on inputs', async () => {
     await render(PageComponent, {
       declarations: [
         TileComponent,

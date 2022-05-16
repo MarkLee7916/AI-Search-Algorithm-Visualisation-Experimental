@@ -185,29 +185,39 @@ function genGridAnimationFrame(
   pathList: Pos[],
   commentary: string
 ): GridAnimationFrame {
-  const gridAnimationFrames = initBlankGridAnimationFrame();
+  const gridAnimationFrame = initBlankGridAnimationFrame();
 
-  gridAnimationFrames.commentary = commentary;
-  gridAnimationFrames.gridDists = gridDists;
+  gridAnimationFrame.commentary = commentary;
+  gridAnimationFrame.gridDists = gridDists;
+  gridAnimationFrame.numberOfTilesExpanded = getTrueCellCount(gridExpanded);
+  gridAnimationFrame.numberOfTilesVisited = getTrueCellCount(gridVisited);
 
   for (let row = 0; row < HEIGHT; row++) {
     for (let col = 0; col < WIDTH; col++) {
       const pos = { row, col };
 
       if (posListHasPos(pathList, pos)) {
-        gridAnimationFrames.grid[row][col] = TileAnimationFrame.FinalPath;
+        gridAnimationFrame.grid[row][col] = TileAnimationFrame.FinalPath;
       } else if (posBeingExpanded && isSamePos(posBeingExpanded, pos)) {
-        gridAnimationFrames.grid[row][col] = TileAnimationFrame.BeingExpanded;
+        gridAnimationFrame.grid[row][col] = TileAnimationFrame.BeingExpanded;
       } else if (posListHasPos(positionsBeingAddedToAgenda, pos)) {
-        gridAnimationFrames.grid[row][col] =
+        gridAnimationFrame.grid[row][col] =
           TileAnimationFrame.BeingAddedToAgenda;
       } else if (gridExpanded[row][col]) {
-        gridAnimationFrames.grid[row][col] = TileAnimationFrame.Expanded;
+        gridAnimationFrame.grid[row][col] = TileAnimationFrame.Expanded;
       } else if (gridVisited[row][col]) {
-        gridAnimationFrames.grid[row][col] = TileAnimationFrame.Visited;
+        gridAnimationFrame.grid[row][col] = TileAnimationFrame.Visited;
       }
     }
   }
 
-  return gridAnimationFrames;
+  return gridAnimationFrame;
+}
+
+function getTrueCellCount(matrix: boolean[][]): number {
+  return matrix.reduce(
+    (matrixSum, row) =>
+      matrixSum + row.reduce((rowSum, cell) => rowSum + (cell ? 1 : 0), 0),
+    0
+  );
 }

@@ -81,6 +81,14 @@
         <p>⬜ Empty space</p>
         <p>⇒ Start tile</p>
         <p>🎯 Goal tile</p>
+        <p>
+          Expanded:
+          {{ getCurrentAnimationFrame().numberOfTilesExpanded }}
+        </p>
+        <p>
+          Visited:
+          {{ getCurrentAnimationFrame().numberOfTilesVisited }}
+        </p>
       </div>
       <div class="grid" cellspacing="0" cellpadding="0">
         <div
