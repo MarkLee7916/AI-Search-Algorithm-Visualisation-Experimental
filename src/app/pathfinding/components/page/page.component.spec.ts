@@ -9,6 +9,7 @@ import {
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HEIGHT, WIDTH } from '../../models/grid';
 import { PathfindingRoutingModule } from '../../pathfinding-routing-module';
+import { CustomWeightInputComponent } from '../custom-weight-input/custom-weight-input.component';
 import { TileComponent } from '../tile/tile.component';
 import { TutorialModalComponent } from '../tutorial-modal/tutorial-modal.component';
 import { PageComponent } from './page.component';
@@ -103,6 +104,81 @@ describe('Pathfinding Page', () => {
     expect(screen.queryByText('Finish Tutorial')).toBeNull();
     expect(screen.queryByText('Previous Slide')).toBeNull();
     expect(screen.queryByText('Next Slide')).toBeNull();
+  });
+
+  fit('adds custom weights and performs proper checks on inputs', async () => {
+    await render(PageComponent, {
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
+      imports: [
+        CommonModule,
+        PathfindingRoutingModule,
+        BrowserModule,
+        SharedModule,
+      ],
+      routes: [
+        {
+          path: 'pathfinding',
+          component: PageComponent,
+        },
+      ],
+    });
+
+    // Switch to placing custom weights
+    fireEvent.click(screen.getByText('Barrier ▼'));
+    fireEvent.click(screen.getByText('Custom Weight'));
+
+    // Click on a tile, displaying custom weight menu
+    fireEvent.mouseDown(document.getElementsByClassName('tile')[0]);
+
+    // Get the box for entering custom weights into and the buttom for submitting
+    const customWeightInputBox = screen.getByRole('textbox');
+    const submitCustomWeightBtn = screen.getByText('Add Custom Weight');
+
+    // Attempt to submit a negative value and expect error message
+    fireEvent.change(customWeightInputBox, { target: { value: '-1' } });
+    fireEvent.click(submitCustomWeightBtn);
+    expect(
+      screen.queryByText('Input must be a positive number!')
+    ).not.toBeNull();
+
+    // Attempt to submit 0 and expect error message
+    fireEvent.change(customWeightInputBox, { target: { value: '0' } });
+    fireEvent.click(submitCustomWeightBtn);
+    expect(
+      screen.queryByText('Input must be a positive number!')
+    ).not.toBeNull();
+
+    // Attempt to submit a piece of text with no numbers and expect error message
+    fireEvent.change(customWeightInputBox, { target: { value: 'mommaa' } });
+    fireEvent.click(submitCustomWeightBtn);
+    expect(
+      screen.queryByText('Input must be a positive number!')
+    ).not.toBeNull();
+
+    // Attempt to submit an empty string and expect error message
+    fireEvent.change(customWeightInputBox, { target: { value: '' } });
+    fireEvent.click(submitCustomWeightBtn);
+    expect(
+      screen.queryByText('Input must be a positive number!')
+    ).not.toBeNull();
+
+    // Attempt to submit a weight and expect it to be displayed on the screen
+    fireEvent.change(customWeightInputBox, { target: { value: '42' } });
+    fireEvent.click(submitCustomWeightBtn);
+    expect(screen.queryAllByText('42')).not.toBeNull();
+
+    // Click on a tile, displaying custom weight menu
+    fireEvent.mouseDown(document.getElementsByClassName('tile')[0]);
+
+    // Enter a weight but close the menu without submitting and expect the weight not to be on the grid
+    fireEvent.change(customWeightInputBox, { target: { value: '49' } });
+    fireEvent.click(screen.getByText('Close'));
+    expect(screen.queryByText('49')).toBeNull();
   });
 
   it('draws walls on grid properly', async () => {
