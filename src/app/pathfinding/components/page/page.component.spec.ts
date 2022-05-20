@@ -212,7 +212,7 @@ describe('Pathfinding Page', () => {
     fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Get number of final animation frame
-    const animationFrameStr = screen.getByText(/\//).innerHTML;
+    const animationFrameStr = screen.getByText(/2 \//).innerHTML;
     const finalAnimationFrameNum =
       parseInt(filterStr(animationFrameStr, isCharNumeric).substring(1), 10) -
       1;
@@ -361,7 +361,7 @@ describe('Pathfinding Page', () => {
     fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Get number of final animation frame
-    const animationFrameStr = screen.getByText(/\//).innerHTML;
+    const animationFrameStr = screen.getByText(/2 \//).innerHTML;
     const finalAnimationFrameNum =
       parseInt(filterStr(animationFrameStr, isCharNumeric).substring(1), 10) -
       1;
@@ -413,7 +413,7 @@ describe('Pathfinding Page', () => {
     fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Get number of final animation frame
-    const animationFrameStr = screen.getByText(/\//).innerHTML;
+    const animationFrameStr = screen.getByText(/2 \//).innerHTML;
     const finalAnimationFrameNum =
       parseInt(filterStr(animationFrameStr, isCharNumeric).substring(1), 10) -
       1;
@@ -484,7 +484,7 @@ describe('Pathfinding Page', () => {
     fireEvent.click(assertNonNull(document.getElementById('step-forward-btn')));
 
     // Get number of final animation frame
-    const animationFrameStr = screen.getByText(/\//).innerHTML;
+    const animationFrameStr = screen.getByText(/2 \//).innerHTML;
     const finalAnimationFrameNum =
       parseInt(filterStr(animationFrameStr, isCharNumeric).substring(1), 10) -
       1;
@@ -593,7 +593,9 @@ describe('Pathfinding Page', () => {
     // Get number of final animation frame for BFS
     const finalAnimationFrameNumBFS =
       parseInt(
-        filterStr(screen.getByText(/\//).innerHTML, isCharNumeric).substring(1),
+        filterStr(screen.getByText(/1 \//).innerHTML, isCharNumeric).substring(
+          1
+        ),
         10
       ) - 1;
 
@@ -607,7 +609,9 @@ describe('Pathfinding Page', () => {
     // Get number of final animation frame for GBFS
     const finalAnimationFrameNumGBFS =
       parseInt(
-        filterStr(screen.getByText(/\//).innerHTML, isCharNumeric).substring(1),
+        filterStr(screen.getByText(/2 \//).innerHTML, isCharNumeric).substring(
+          1
+        ),
         10
       ) - 1;
 
