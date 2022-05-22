@@ -14,7 +14,7 @@ export class CustomWeightInputComponent {
   // Event emitter for when the user enters a custom weight and submits it
   @Output() readonly submitCustomWeightEmitter = new EventEmitter<number>();
 
-  // Event emitter for when the user enters a custom weight and submits it
+  // Event emitter for when the user closes the custom weight input
   @Output() readonly closeCustomWeightInputEmitter = new EventEmitter<void>();
 
   hasUserEnteredInvalidInput = false;
