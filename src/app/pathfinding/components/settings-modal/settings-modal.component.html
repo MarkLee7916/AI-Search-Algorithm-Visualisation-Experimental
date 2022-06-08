@@ -1,0 +1,14 @@
+<div class="modal-slide">
+  <h1 class="modal-title">Additional Settings</h1>
+
+  <div id="additional-settings-menu" class="modal-content">
+    <div *ngFor="let neighbour of neighbourVisitOrder" class="neighbour-card">
+      <div class="neighbour-text">{{ neighbourToText.get(neighbour) }}</div>
+      <div class="change-order-container">
+        <button>▲</button>
+        <button>▼</button>
+      </div>
+    </div>
+  </div>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">Close</button>
+</div>

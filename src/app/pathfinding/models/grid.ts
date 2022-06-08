@@ -23,6 +23,9 @@ export type GridAnimationFrame = {
 // A position on the grid corresponding to a tile
 export type Pos = { row: number; col: number };
 
+// A transformation to get a positions neighbour i.e top left, right
+export type Neighbour = { vertical: number; horizontal: number };
+
 // An implementation for generating the neighbours of a tile
 export type GenNeighboursImpl = (pos: Pos) => Pos[];
 

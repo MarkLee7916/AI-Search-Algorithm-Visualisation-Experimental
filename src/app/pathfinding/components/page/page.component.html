@@ -177,6 +177,10 @@
         <button (click)="setModalDisplayed(Modal.Tutorial)">Tutorial</button>
 
         <button (click)="setModalDisplayed(Modal.Theory)">Theory</button>
+
+        <button (click)="setModalDisplayed(Modal.Settings)">
+          Additional Settings
+        </button>
       </div>
     </div>
   </div>
@@ -208,3 +212,9 @@
   (deleteSaveEmitter)="deleteSavedGridState($event)"
   (hideEmitter)="hideModal()"
 ></app-load-saved-grid-modal>
+
+<app-settings-modal
+  *ngIf="modalDisplayed === Modal.Settings"
+  [neighbourVisitOrder]="neighbourVisitOrder"
+  (hideEmitter)="hideModal()"
+></app-settings-modal>

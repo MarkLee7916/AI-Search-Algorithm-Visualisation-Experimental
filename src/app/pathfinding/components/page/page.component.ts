@@ -156,6 +156,17 @@ export class PageComponent implements OnInit {
     [NeighboursItem.NonDiagonals, genNonDiagonalNeighbours],
   ]);
 
+  neighbourVisitOrder = [
+    { vertical: -1, horizontal: -1 },
+    { vertical: -1, horizontal: 0 },
+    { vertical: -1, horizontal: 1 },
+    { vertical: 0, horizontal: -1 },
+    { vertical: 0, horizontal: 1 },
+    { vertical: 1, horizontal: -1 },
+    { vertical: 1, horizontal: 0 },
+    { vertical: 1, horizontal: 1 },
+  ];
+
   // A HEIGHT * WIDTH matrix where each cell corresponds to a grid weight in the UI
   gridWeights = initBlankGridWeights();
 
@@ -712,5 +723,6 @@ enum Modal {
   Theory,
   SaveGrid,
   LoadGrid,
+  Settings,
   None,
 }
