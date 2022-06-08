@@ -12,6 +12,13 @@ export function removeDuplicates(list: string[]): string[] {
   return Array.from(new Set<string>(list));
 }
 
+export function swap<T>(array: T[], i: number, j: number): void {
+  const temp = array[i];
+
+  array[i] = array[j];
+  array[j] = temp;
+}
+
 export function arrayOfRandomIntsBetween(
   lower: number,
   upper: number,

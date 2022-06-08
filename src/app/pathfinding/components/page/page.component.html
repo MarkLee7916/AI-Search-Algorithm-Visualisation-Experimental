@@ -216,5 +216,6 @@
 <app-settings-modal
   *ngIf="modalDisplayed === Modal.Settings"
   [neighbourVisitOrder]="neighbourVisitOrder"
+  (updateNeighbourVisitOrderEmitter)="updateNeighbourVisitOrder($event)"
   (hideEmitter)="hideModal()"
 ></app-settings-modal>

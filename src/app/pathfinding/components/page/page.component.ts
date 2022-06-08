@@ -49,6 +49,7 @@ import {
   initBlankGridWeights,
   initGridPositions,
   isSamePos,
+  Neighbour,
   Pos,
   TileAnimationFrame,
   WIDTH,
@@ -345,6 +346,10 @@ export class PageComponent implements OnInit {
 
       placeImpl.bind(this)(pos);
     }
+  }
+
+  updateNeighbourVisitOrder(neighbourVisitOrder: Neighbour[]): void {
+    this.neighbourVisitOrder = neighbourVisitOrder;
   }
 
   // Generate a maze using whatever algorithm and placement item the user has selected

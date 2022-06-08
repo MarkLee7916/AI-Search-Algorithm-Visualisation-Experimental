@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import cloneDeep from 'clone-deep';
 import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal/abstract-modal.component';
+import { swap } from 'src/app/shared/genericUtils';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import { Neighbour } from '../../models/grid';
 
@@ -28,4 +30,24 @@ export class SettingsModalComponent extends AbstractModalComponent {
     [{ vertical: 1, horizontal: 0 }, 'Bottom'],
     [{ vertical: 1, horizontal: 1 }, 'Bottom Right'],
   ]);
+
+  pushNeighbourUpInOrder(index: number): void {
+    if (index > 0) {
+      this.swapNeighboursInOrdering(index - 1, index);
+    }
+  }
+
+  pushNeighbourDownInOrder(index: number): void {
+    if (index < this.neighbourVisitOrder.length - 1) {
+      this.swapNeighboursInOrdering(index, index + 1);
+    }
+  }
+
+  swapNeighboursInOrdering(i: number, j: number): void {
+    const newNeighbourVisitOrder = cloneDeep(this.neighbourVisitOrder);
+
+    swap(newNeighbourVisitOrder, i, j);
+
+    this.updateNeighbourVisitOrderEmitter.emit(newNeighbourVisitOrder);
+  }
 }
