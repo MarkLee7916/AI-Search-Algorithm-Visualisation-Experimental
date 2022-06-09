@@ -33,10 +33,7 @@ import {
   DEFAULT_GOAL_POS,
   DEFAULT_START_POS,
   DEFAULT_WEIGHT,
-  genAllDirectionNeighbours,
-  genDiagonalNeighbours,
-  GenNeighboursImpl,
-  genNonDiagonalNeighbours,
+  FilterNeighboursImpl,
   genRandomWeight,
   genUniquePosId,
   genUniqueRowId,
@@ -49,6 +46,9 @@ import {
   initBlankGridWeights,
   initGridPositions,
   isSamePos,
+  keepAllNeighbours,
+  keepDiagonalNeigbours,
+  keepNonDiagonalNeigbours,
   Neighbour,
   Pos,
   TileAnimationFrame,
@@ -150,11 +150,11 @@ export class PageComponent implements OnInit {
 
   readonly neighboursItemToImpl = new UncheckedObjMap<
     NeighboursItem,
-    GenNeighboursImpl
+    FilterNeighboursImpl
   >([
-    [NeighboursItem.AllDirections, genAllDirectionNeighbours],
-    [NeighboursItem.Diagonals, genDiagonalNeighbours],
-    [NeighboursItem.NonDiagonals, genNonDiagonalNeighbours],
+    [NeighboursItem.AllDirections, keepAllNeighbours],
+    [NeighboursItem.Diagonals, keepDiagonalNeigbours],
+    [NeighboursItem.NonDiagonals, keepNonDiagonalNeigbours],
   ]);
 
   neighbourVisitOrder = [
@@ -245,15 +245,19 @@ export class PageComponent implements OnInit {
     }
   }
 
-  // Update animation frames if the problem definitions has changed
+  // Update animation frames if the problem definition has changed
   updateAnimationFramesIfNeeded(): void {
+    const neighboursToAdd = this.neighboursItemToImpl.get(this.neighboursItem)(
+      this.neighbourVisitOrder
+    );
+
     if (this.needToUpdateAnimationFrames) {
       this.animationFrames = this.algoItemToImpl.get(this.algoItem)(
         this.startPos,
         this.goalPos,
         this.gridWeights,
         this.gridBarriers,
-        this.neighboursItemToImpl.get(this.neighboursItem)
+        neighboursToAdd
       );
 
       this.needToUpdateAnimationFrames = false;
@@ -350,6 +354,7 @@ export class PageComponent implements OnInit {
 
   updateNeighbourVisitOrder(neighbourVisitOrder: Neighbour[]): void {
     this.neighbourVisitOrder = neighbourVisitOrder;
+    this.markAnimationFramesForUpdate();
   }
 
   // Generate a maze using whatever algorithm and placement item the user has selected
@@ -728,6 +733,6 @@ enum Modal {
   Theory,
   SaveGrid,
   LoadGrid,
-  Settings,
+  NeighbourVisitOrder,
   None,
 }

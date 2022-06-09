@@ -1,11 +1,11 @@
 import { PriorityQueue, Queue, Stack } from '../models/agendaDataStructures';
 import { ObjMap } from '../../shared/models/objMap';
 import {
-  GenNeighboursImpl,
   GridAnimationFrame,
   GridBarriers,
   GridWeights,
   initBlankGridWeights,
+  Neighbour,
   Pos,
 } from '../models/grid';
 import { genericUnidirectionalSearch } from './genericPathfindingAlgos';
@@ -22,7 +22,7 @@ export type ConcreteAlgoImpl = (
   goalPos: Pos,
   gridWeights: GridWeights,
   gridBarriers: GridBarriers,
-  genNeighbours: GenNeighboursImpl
+  neighbours: Neighbour[]
 ) => GridAnimationFrame[];
 
 // A grid of weights where every weight is equal to 1, used to simulate unweighted algos
@@ -34,7 +34,7 @@ export function unidirectionalBFS(
   goalPos: Pos,
   _: GridWeights,
   gridBarriers: GridBarriers,
-  genNeighbours: GenNeighboursImpl
+  neighbours: Neighbour[]
 ): GridAnimationFrame[] {
   return genericUnidirectionalSearch(
     startPos,
@@ -42,7 +42,7 @@ export function unidirectionalBFS(
     new Queue<Pos>(),
     blankGridWeights,
     gridBarriers,
-    genNeighbours,
+    neighbours,
     new ObjMap<Pos, number>([])
   );
 }
@@ -53,7 +53,7 @@ export function unidirectionalDFS(
   goalPos: Pos,
   _: GridWeights,
   gridBarriers: GridBarriers,
-  genNeighbours: GenNeighboursImpl
+  neighbours: Neighbour[]
 ): GridAnimationFrame[] {
   return genericUnidirectionalSearch(
     startPos,
@@ -61,7 +61,7 @@ export function unidirectionalDFS(
     new Stack<Pos>(),
     blankGridWeights,
     gridBarriers,
-    genNeighbours,
+    neighbours,
     new ObjMap<Pos, number>([])
   );
 }
@@ -72,7 +72,7 @@ export function unidirectionalDijkstras(
   goalPos: Pos,
   gridWeights: GridWeights,
   gridBarriers: GridBarriers,
-  genNeighbours: GenNeighboursImpl
+  neighbours: Neighbour[]
 ): GridAnimationFrame[] {
   const distsMap = new ObjMap<Pos, number>([]);
 
@@ -82,7 +82,7 @@ export function unidirectionalDijkstras(
     new PriorityQueue<Pos>(genDijkstraCmp(distsMap)),
     gridWeights,
     gridBarriers,
-    genNeighbours,
+    neighbours,
     distsMap
   );
 }
@@ -93,7 +93,7 @@ export function unidirectionalAstar(
   goalPos: Pos,
   gridWeights: GridWeights,
   gridBarriers: GridBarriers,
-  genNeighbours: GenNeighboursImpl
+  neighbours: Neighbour[]
 ): GridAnimationFrame[] {
   const distsMap = new ObjMap<Pos, number>([]);
 
@@ -103,7 +103,7 @@ export function unidirectionalAstar(
     new PriorityQueue<Pos>(genAstarCmp(distsMap, goalPos)),
     gridWeights,
     gridBarriers,
-    genNeighbours,
+    neighbours,
     distsMap
   );
 }
@@ -114,7 +114,7 @@ export function unidirectionalGBFS(
   goalPos: Pos,
   _: GridWeights,
   gridBarriers: GridBarriers,
-  genNeighbours: GenNeighboursImpl
+  neighbours: Neighbour[]
 ): GridAnimationFrame[] {
   const distsMap = new ObjMap<Pos, number>([]);
 
@@ -124,7 +124,7 @@ export function unidirectionalGBFS(
     new PriorityQueue<Pos>(genManhattanCmp(goalPos)),
     blankGridWeights,
     gridBarriers,
-    genNeighbours,
+    neighbours,
     distsMap
   );
 }
@@ -135,7 +135,7 @@ export function unidirectionalRandom(
   goalPos: Pos,
   _: GridWeights,
   gridBarriers: GridBarriers,
-  genNeighbours: GenNeighboursImpl
+  neighbours: Neighbour[]
 ): GridAnimationFrame[] {
   const distsMap = new ObjMap<Pos, number>([]);
 
@@ -145,7 +145,7 @@ export function unidirectionalRandom(
     new PriorityQueue<Pos>(genRandomCmp()),
     blankGridWeights,
     gridBarriers,
-    genNeighbours,
+    neighbours,
     distsMap
   );
 }

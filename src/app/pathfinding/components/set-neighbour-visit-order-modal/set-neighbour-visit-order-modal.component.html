@@ -1,0 +1,27 @@
+<div class="modal-slide">
+  <h1 class="modal-title">Set Neighbour Visit Order</h1>
+
+  <div id="set-neighbour-visit-order-modal-menu" class="modal-content">
+    <div
+      *ngFor="let neighbour of neighbourVisitOrder; let neighbourIndex = index"
+      class="neighbour-card"
+    >
+      <div class="neighbour-text">{{ neighbourToText.get(neighbour) }}</div>
+      <div class="change-order-container">
+        <button
+          class="change-order-item"
+          (click)="pushNeighbourUpInOrder(neighbourIndex)"
+        >
+          ▲
+        </button>
+        <button
+          class="change-order-item"
+          (click)="pushNeighbourDownInOrder(neighbourIndex)"
+        >
+          ▼
+        </button>
+      </div>
+    </div>
+  </div>
+  <button class="modal-bottom-right-btn" (click)="hideModal()">Close</button>
+</div>

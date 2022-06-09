@@ -178,8 +178,8 @@
 
         <button (click)="setModalDisplayed(Modal.Theory)">Theory</button>
 
-        <button (click)="setModalDisplayed(Modal.Settings)">
-          Additional Settings
+        <button (click)="setModalDisplayed(Modal.NeighbourVisitOrder)">
+          Set Neighbour Visit Order
         </button>
       </div>
     </div>
@@ -213,9 +213,9 @@
   (hideEmitter)="hideModal()"
 ></app-load-saved-grid-modal>
 
-<app-settings-modal
-  *ngIf="modalDisplayed === Modal.Settings"
+<app-set-neighbour-visit-order-modal
+  *ngIf="modalDisplayed === Modal.NeighbourVisitOrder"
   [neighbourVisitOrder]="neighbourVisitOrder"
   (updateNeighbourVisitOrderEmitter)="updateNeighbourVisitOrder($event)"
   (hideEmitter)="hideModal()"
-></app-settings-modal>
+></app-set-neighbour-visit-order-modal>

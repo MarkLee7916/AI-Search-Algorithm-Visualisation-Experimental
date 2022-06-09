@@ -10,7 +10,7 @@ import { TheoryModalComponent } from './components/theory-modal/theory-modal.com
 import { SaveGridModalComponent } from './components/save-grid-modal/save-grid-modal.component';
 import { LoadSavedGridModalComponent } from './components/load-saved-grid-modal/load-saved-grid-modal.component';
 import { CustomWeightInputComponent } from './components/custom-weight-input/custom-weight-input.component';
-import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
+import { SetNeighbourVisitOrderModalComponent } from './components/set-neighbour-visit-order-modal/set-neighbour-visit-order-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { SettingsModalComponent } from './components/settings-modal/settings-mod
     SaveGridModalComponent,
     LoadSavedGridModalComponent,
     CustomWeightInputComponent,
-    SettingsModalComponent,
+    SetNeighbourVisitOrderModalComponent,
   ],
   imports: [
     CommonModule,

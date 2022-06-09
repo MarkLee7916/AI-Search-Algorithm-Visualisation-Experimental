@@ -1,7 +1,7 @@
 import { Agenda } from '../models/agendaDataStructures';
 import {
   formatPosForDisplayAsCoord,
-  GenNeighboursImpl,
+  genNeighbourPositions,
   GridAnimationFrame,
   GridBarriers,
   GridWeights,
@@ -9,6 +9,7 @@ import {
   initBlankGridAnimationFrame,
   isPosOnGrid,
   isSamePos,
+  Neighbour,
   Pos,
   posListHasPos,
   TileAnimationFrame,
@@ -24,7 +25,7 @@ export function genericUnidirectionalSearch(
   agenda: Agenda<Pos>,
   gridWeights: GridWeights,
   gridBarriers: GridBarriers,
-  genNeighbours: GenNeighboursImpl,
+  neighbours: Neighbour[],
   distsMap: ObjMap<Pos, number>
 ): GridAnimationFrame[] {
   const pathMap = new ObjMap<Pos, Pos>([]);
@@ -66,7 +67,7 @@ export function genericUnidirectionalSearch(
       return gridAnimationFrames;
     }
 
-    const validNeighbours = genNeighbours(pos).filter(
+    const validNeighbours = genNeighbourPositions(pos, neighbours).filter(
       (neighPos) =>
         isPosOnGrid(neighPos) && !gridBarriers[neighPos.row][neighPos.col]
     );

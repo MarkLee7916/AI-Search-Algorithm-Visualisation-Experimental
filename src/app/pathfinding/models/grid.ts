@@ -27,7 +27,7 @@ export type Pos = { row: number; col: number };
 export type Neighbour = { vertical: number; horizontal: number };
 
 // An implementation for generating the neighbours of a tile
-export type GenNeighboursImpl = (pos: Pos) => Pos[];
+export type FilterNeighboursImpl = (neighbours: Neighbour[]) => Neighbour[];
 
 // The weights of the grid, where each weight is greater than zero
 export type GridWeights = number[][];
@@ -80,6 +80,18 @@ export function initBlankGridAnimationFrame(): GridAnimationFrame {
   };
 }
 
+export function genNeighbourPositions(
+  pos: Pos,
+  neighbours: Neighbour[]
+): Pos[] {
+  return neighbours.map(({ vertical, horizontal }) => {
+    return {
+      row: pos.row + vertical,
+      col: pos.col + horizontal,
+    };
+  });
+}
+
 // Compute the GridPositions matrix
 export function initGridPositions(): GridPositions {
   return initGenericGrid(HEIGHT, WIDTH, (row, col) => ({ row, col }));
@@ -110,29 +122,20 @@ export function genUniqueRowId(_: number, positions: Pos[]): string {
   return positions.map((pos) => genUniquePosId(_, pos)).toString();
 }
 
-// Generate a list of neighbours diagonally adjacent to a given position
-export function genDiagonalNeighbours({ row, col }: Pos): Pos[] {
-  return [
-    { row: row - 1, col: col - 1 },
-    { row: row - 1, col: col + 1 },
-    { row: row + 1, col: col - 1 },
-    { row: row + 1, col: col + 1 },
-  ].filter((pos) => isPosOnGrid(pos));
+export function keepAllNeighbours(neighbours: Neighbour[]): Neighbour[] {
+  return neighbours.slice();
 }
 
-// Generate a list of neighbours horizontally or vertically adjacent to a given position
-export function genNonDiagonalNeighbours({ row, col }: Pos): Pos[] {
-  return [
-    { row, col: col - 1 },
-    { row: row - 1, col },
-    { row, col: col + 1 },
-    { row: row + 1, col },
-  ].filter((pos) => isPosOnGrid(pos));
+export function keepDiagonalNeigbours(neighbours: Neighbour[]): Neighbour[] {
+  return neighbours.filter(
+    ({ vertical, horizontal }) => vertical !== 0 && horizontal !== 0
+  );
 }
 
-// Generate a list of neighbours diagonally, horizontally or vertically adjacent to a given position
-export function genAllDirectionNeighbours(pos: Pos): Pos[] {
-  return genDiagonalNeighbours(pos).concat(genNonDiagonalNeighbours(pos));
+export function keepNonDiagonalNeigbours(neighbours: Neighbour[]): Neighbour[] {
+  return neighbours.filter(
+    ({ vertical, horizontal }) => vertical === 0 || horizontal === 0
+  );
 }
 
 // Return true if a position lies within the bounds of the grid

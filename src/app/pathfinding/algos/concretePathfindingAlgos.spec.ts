@@ -1,8 +1,8 @@
 import {
   DEFAULT_GOAL_POS,
   DEFAULT_START_POS,
-  genDiagonalNeighbours,
-  genNonDiagonalNeighbours,
+  genDiagonalNeighboursFunction,
+  genNonDiagonalNeighboursFunction,
   HEIGHT,
   initBlankGridBarriers,
   initBlankGridWeights,
@@ -29,7 +29,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         testcase.goalPos,
         testcase.gridWeights,
         testcase.gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -57,7 +57,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         testcase.goalPos,
         testcase.gridWeights,
         testcase.gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -81,7 +81,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -105,7 +105,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -122,7 +122,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighbours
+        genDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -141,7 +141,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         testcase.goalPos,
         testcase.gridWeights,
         testcase.gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -169,7 +169,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         testcase.goalPos,
         testcase.gridWeights,
         testcase.gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -193,7 +193,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -217,7 +217,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -234,7 +234,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighbours
+        genDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -251,7 +251,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -275,7 +275,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -292,7 +292,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighbours
+        genDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -316,7 +316,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -333,7 +333,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighbours
+        genDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -348,7 +348,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -374,7 +374,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -391,7 +391,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighbours
+        genDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -406,7 +406,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -432,7 +432,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -449,7 +449,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighbours
+        genDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];
@@ -464,7 +464,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighbours
+        genNonDiagonalNeighboursFunction
       );
 
       const finalFrame = output[output.length - 1];

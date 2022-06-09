@@ -6,14 +6,14 @@ import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import { Neighbour } from '../../models/grid';
 
 @Component({
-  selector: 'app-settings-modal',
-  templateUrl: './settings-modal.component.html',
+  selector: 'app-set-neighbour-visit-order-modal',
+  templateUrl: './set-neighbour-visit-order-modal.component.html',
   styleUrls: [
-    './settings-modal.component.css',
+    './set-neighbour-visit-order-modal.component.css',
     '../../../shared/components/abstract-modal/abstract-modal.component.css',
   ],
 })
-export class SettingsModalComponent extends AbstractModalComponent {
+export class SetNeighbourVisitOrderModalComponent extends AbstractModalComponent {
   @Input() readonly neighbourVisitOrder!: Neighbour[];
 
   @Output() readonly updateNeighbourVisitOrderEmitter = new EventEmitter<

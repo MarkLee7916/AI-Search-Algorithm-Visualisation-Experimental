@@ -1,11 +1,7 @@
-#additional-settings-menu {
+#set-neighbour-visit-order-modal-menu {
   margin-top: 5vh;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
 }
 
 .neighbour-card {
@@ -16,6 +12,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .neighbour-text {
@@ -27,7 +26,16 @@
   margin-right: 10px;
 }
 
-.change-order-container > * {
+.change-order-item {
   border: none;
-  width: 20px;
+  width: 30px;
+  height: 30px;
+  font-size: 28px;
 }
+
+.change-order-item:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  opacity: 0.5;
+}
+

@@ -1,6 +1,6 @@
 import {
   formatPosForDisplayAsCoord,
-  genAllDirectionNeighbours,
+  genAllDirectionNeighboursFunction,
   genRandomWeight,
   genUniquePosId,
   HEIGHT,
@@ -65,7 +65,7 @@ describe('grid', () => {
 
   describe('genAllDirectionNeighbours', () => {
     it('generates the right neighbours', () => {
-      const neighbours = genAllDirectionNeighbours({ row: 0, col: 0 });
+      const neighbours = genAllDirectionNeighboursFunction({ row: 0, col: 0 });
 
       expect(posListHasPos(neighbours, { row: 0, col: 0 })).toBeFalse();
       expect(posListHasPos(neighbours, { row: -1, col: 0 })).toBeFalse();
