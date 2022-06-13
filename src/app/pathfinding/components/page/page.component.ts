@@ -217,11 +217,11 @@ export class PageComponent implements OnInit {
     this.loadSavedGridState(
       '**Auto-Generated** Grid before app was last closed'
     );
-    this.loadDropdownOptions();
+    this.loadUserOptions();
     this.updateAnimationFramesIfNeeded();
   }
 
-  loadDropdownOptions(): void {
+  loadUserOptions(): void {
     const pathfindingOptions = parseLocalStorageItem('pathfinding-options');
 
     if (pathfindingOptions !== null) {
@@ -232,6 +232,7 @@ export class PageComponent implements OnInit {
       this.mazeGenItem = pathfindingOptions.mazeGenItem;
       this.commentaryType = pathfindingOptions.commentaryType;
       this.userInteractionModeItem = pathfindingOptions.userInteractionModeItem;
+      this.neighbourVisitOrder = pathfindingOptions.neighbourVisitOrder;
     }
   }
 
@@ -681,7 +682,7 @@ export class PageComponent implements OnInit {
     };
   }
 
-  saveDropdownOptions(): void {
+  saveUserOptions(): void {
     const pathfindingOptions = {
       algoItem: this.algoItem,
       tileDisplayItem: this.tileDisplayItem,
@@ -690,6 +691,7 @@ export class PageComponent implements OnInit {
       mazeGenItem: this.mazeGenItem,
       commentaryType: this.commentaryType,
       userInteractionModeItem: this.userInteractionModeItem,
+      neighbourVisitOrder: this.neighbourVisitOrder,
     };
 
     addItemToLocalStorage('pathfinding-options', pathfindingOptions);
@@ -714,7 +716,7 @@ export class PageComponent implements OnInit {
     this.saveCurrentGridState(
       '**Auto-Generated** Grid before app was last closed'
     );
-    this.saveDropdownOptions();
+    this.saveUserOptions();
 
     event.preventDefault();
   }
