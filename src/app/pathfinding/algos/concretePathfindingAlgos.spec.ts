@@ -1,11 +1,11 @@
 import {
   DEFAULT_GOAL_POS,
   DEFAULT_START_POS,
-  genDiagonalNeighboursFunction,
-  genNonDiagonalNeighboursFunction,
   HEIGHT,
   initBlankGridBarriers,
   initBlankGridWeights,
+  keepDiagonalNeigbours,
+  keepNonDiagonalNeigbours,
   TileAnimationFrame,
   WIDTH,
 } from '../models/grid';
@@ -20,6 +20,17 @@ import {
 } from './conretePathfindingAlgos';
 
 describe('Concrete Pathfinding Algorithms', () => {
+  const NEIGHBOUR_VISIT_ORDER = [
+    { vertical: -1, horizontal: -1 },
+    { vertical: -1, horizontal: 0 },
+    { vertical: -1, horizontal: 1 },
+    { vertical: 0, horizontal: -1 },
+    { vertical: 0, horizontal: 1 },
+    { vertical: 1, horizontal: -1 },
+    { vertical: 1, horizontal: 0 },
+    { vertical: 1, horizontal: 1 },
+  ];
+
   describe('dijkstra', () => {
     it('finds the shortest weighted path for dijkstra quiz case', () => {
       const testcase = genDijsktraQuizCase();
@@ -29,7 +40,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         testcase.goalPos,
         testcase.gridWeights,
         testcase.gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -57,7 +68,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         testcase.goalPos,
         testcase.gridWeights,
         testcase.gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -81,7 +92,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -105,7 +116,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -122,7 +133,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighboursFunction
+        keepDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -141,7 +152,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         testcase.goalPos,
         testcase.gridWeights,
         testcase.gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -169,7 +180,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         testcase.goalPos,
         testcase.gridWeights,
         testcase.gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -193,7 +204,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -217,7 +228,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -234,7 +245,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighboursFunction
+        keepDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -251,7 +262,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -275,7 +286,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -292,7 +303,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighboursFunction
+        keepDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -316,7 +327,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -333,7 +344,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighboursFunction
+        keepDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -348,7 +359,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -374,7 +385,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -391,7 +402,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighboursFunction
+        keepDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -406,7 +417,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -432,7 +443,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         gridBarriers,
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -449,7 +460,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         { row: 1, col: 8 },
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genDiagonalNeighboursFunction
+        keepDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];
@@ -464,7 +475,7 @@ describe('Concrete Pathfinding Algorithms', () => {
         DEFAULT_GOAL_POS,
         initBlankGridWeights(),
         initBlankGridBarriers(),
-        genNonDiagonalNeighboursFunction
+        keepNonDiagonalNeigbours(NEIGHBOUR_VISIT_ORDER)
       );
 
       const finalFrame = output[output.length - 1];

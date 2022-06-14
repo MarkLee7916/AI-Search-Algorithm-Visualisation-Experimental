@@ -1,11 +1,9 @@
 import {
   formatPosForDisplayAsCoord,
-  genAllDirectionNeighboursFunction,
   genRandomWeight,
   genUniquePosId,
   HEIGHT,
   isPosOnGrid,
-  Pos,
   posListHasPos,
   WIDTH,
 } from './grid';
@@ -60,19 +58,6 @@ describe('grid', () => {
       const idsNoDuplicates = Array.from(new Set<number>(ids));
 
       expect(ids.length).toBe(idsNoDuplicates.length);
-    });
-  });
-
-  describe('genAllDirectionNeighbours', () => {
-    it('generates the right neighbours', () => {
-      const neighbours = genAllDirectionNeighboursFunction({ row: 0, col: 0 });
-
-      expect(posListHasPos(neighbours, { row: 0, col: 0 })).toBeFalse();
-      expect(posListHasPos(neighbours, { row: -1, col: 0 })).toBeFalse();
-      expect(posListHasPos(neighbours, { row: 0, col: -1 })).toBeFalse();
-      expect(posListHasPos(neighbours, { row: 0, col: 1 })).toBeTrue();
-      expect(posListHasPos(neighbours, { row: 1, col: 0 })).toBeTrue();
-      expect(posListHasPos(neighbours, { row: 1, col: 1 })).toBeTrue();
     });
   });
 
