@@ -4,7 +4,7 @@
   <div id="set-neighbour-visit-order-modal-menu" class="modal-content">
     <div
       *ngFor="let neighbour of neighbourVisitOrder; let neighbourIndex = index"
-      class="neighbour-card"
+      [class]="getNeighbourCardClass(neighbourIndex)"
     >
       <div class="neighbour-text">{{ neighbourToText.get(neighbour) }}</div>
       <div class="change-order-container">

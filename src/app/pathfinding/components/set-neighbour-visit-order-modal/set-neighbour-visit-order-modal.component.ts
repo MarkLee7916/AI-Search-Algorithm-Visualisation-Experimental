@@ -31,23 +31,55 @@ export class SetNeighbourVisitOrderModalComponent extends AbstractModalComponent
     [{ vertical: 1, horizontal: 1 }, 'Bottom Right'],
   ]);
 
+  neighbourCardMovingDownIndex: number | null = null;
+
+  neighbourCardMovingUpIndex: number | null = null;
+
   pushNeighbourUpInOrder(index: number): void {
-    if (index > 0) {
+    if (
+      index > 0 &&
+      this.neighbourCardMovingDownIndex === null &&
+      this.neighbourCardMovingUpIndex === null
+    ) {
       this.swapNeighboursInOrdering(index - 1, index);
     }
   }
 
   pushNeighbourDownInOrder(index: number): void {
-    if (index < this.neighbourVisitOrder.length - 1) {
+    if (
+      index < this.neighbourVisitOrder.length - 1 &&
+      this.neighbourCardMovingDownIndex === null &&
+      this.neighbourCardMovingUpIndex === null
+    ) {
       this.swapNeighboursInOrdering(index, index + 1);
     }
   }
 
-  swapNeighboursInOrdering(i: number, j: number): void {
+  swapNeighboursInOrdering(indexGoingUp: number, indexGoingDown: number): void {
     const newNeighbourVisitOrder = cloneDeep(this.neighbourVisitOrder);
 
-    swap(newNeighbourVisitOrder, i, j);
+    this.neighbourCardMovingDownIndex = indexGoingDown;
+    this.neighbourCardMovingUpIndex = indexGoingUp;
 
-    this.updateNeighbourVisitOrderEmitter.emit(newNeighbourVisitOrder);
+    setTimeout(() => {
+      swap(newNeighbourVisitOrder, indexGoingUp, indexGoingDown);
+      this.updateNeighbourVisitOrderEmitter.emit(newNeighbourVisitOrder);
+      this.neighbourCardMovingDownIndex = null;
+      this.neighbourCardMovingUpIndex = null;
+    }, 1000);
+  }
+
+  getNeighbourCardClass(index: number): string {
+    let classStr = 'neighbour-card';
+
+    if (index === this.neighbourCardMovingDownIndex) {
+      classStr += ' move-card-down';
+    }
+
+    if (index === this.neighbourCardMovingUpIndex) {
+      classStr += ' move-card-up';
+    }
+
+    return classStr;
   }
 }

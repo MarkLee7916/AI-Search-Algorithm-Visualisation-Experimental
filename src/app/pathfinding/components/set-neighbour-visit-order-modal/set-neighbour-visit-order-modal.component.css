@@ -39,3 +39,33 @@
   opacity: 0.5;
 }
 
+.move-card-down {
+  animation-name: move-down;
+  animation-duration: 1s;
+}
+
+.move-card-up {
+  animation-name: move-up;
+  animation-duration: 1s;
+}
+
+@keyframes move-down {
+  0% {
+    transform: translateY(0px);
+  }
+
+  100% {
+    transform: translateY(-64px);
+  }
+}
+
+@keyframes move-up {
+  0% {
+    transform: translateY(0px);
+  }
+
+  100% {
+    transform: translateY(64px);
+  }
+}
+
