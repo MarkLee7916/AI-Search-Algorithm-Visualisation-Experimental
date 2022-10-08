@@ -30,6 +30,7 @@ import {
   QuizzableAlgoItem,
 } from 'src/app/pathfinding/models/dropdownItemEnums';
 import {
+  adaptDimensionsToCurrGrid,
   DEFAULT_GOAL_POS,
   DEFAULT_START_POS,
   DEFAULT_WEIGHT,
@@ -49,6 +50,7 @@ import {
   keepAllNeighbours,
   keepDiagonalNeigbours,
   keepNonDiagonalNeigbours,
+  movePositionWithinBoundsOfGrid,
   Neighbour,
   Pos,
   TileAnimationFrame,
@@ -630,56 +632,11 @@ export class PageComponent implements OnInit {
     const gridWeights = parseLocalStorageItem(saveName + 'gridWeights');
 
     if (startPos && goalPos && gridBarriers && gridWeights) {
-      this.setStartPos(this.movePositionWithinBoundsOfGrid(startPos));
-      this.setGoalPos(this.movePositionWithinBoundsOfGrid(goalPos));
-      this.setGridBarriers(this.adaptDimensionsToCurrGrid(gridBarriers, false));
-      this.setGridWeights(this.adaptDimensionsToCurrGrid(gridWeights, 1));
+      this.setStartPos(movePositionWithinBoundsOfGrid(startPos));
+      this.setGoalPos(movePositionWithinBoundsOfGrid(goalPos));
+      this.setGridBarriers(adaptDimensionsToCurrGrid(gridBarriers, false));
+      this.setGridWeights(adaptDimensionsToCurrGrid(gridWeights, 1));
     }
-  }
-
-  adaptDimensionsToCurrGrid<T>(grid: T[][], emptyValue: T): T[][] {
-    grid = this.padOutGridColumns(grid, emptyValue);
-    grid = this.padOutGridRows(grid, emptyValue);
-    grid = grid.slice(0, HEIGHT);
-    grid = grid.map((row) => row.slice(0, WIDTH));
-
-    return grid;
-  }
-
-  padOutGridColumns<T>(grid: T[][], emptyValue: T): T[][] {
-    while (grid[0].length < WIDTH) {
-      grid = this.appendEmptyColumnToGrid(grid, emptyValue);
-    }
-
-    return grid;
-  }
-
-  padOutGridRows<T>(grid: T[][], emptyValue: T): T[][] {
-    while (grid.length < HEIGHT) {
-      grid = this.appendEmptyRowToGrid(grid, emptyValue);
-    }
-
-    return grid;
-  }
-
-  appendEmptyColumnToGrid<T>(grid: T[][], emptyValue: T): T[][] {
-    return grid.map((row) => row.concat(emptyValue));
-  }
-
-  appendEmptyRowToGrid<T>(grid: T[][], emptyValue: T): T[][] {
-    const gridCopy = cloneDeep(grid);
-    const emptyRow = initGenericArray(grid[0].length, () => emptyValue);
-
-    gridCopy.push(emptyRow);
-
-    return gridCopy;
-  }
-
-  movePositionWithinBoundsOfGrid(pos: Pos): Pos {
-    return {
-      row: pos.row >= HEIGHT ? HEIGHT - 1 : pos.row,
-      col: pos.col >= WIDTH ? WIDTH - 1 : pos.col,
-    };
   }
 
   saveUserOptions(): void {

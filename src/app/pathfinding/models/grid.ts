@@ -1,4 +1,9 @@
-import { initGenericGrid, randomIntBetween } from '../../shared/genericUtils';
+import cloneDeep from 'clone-deep';
+import {
+  initGenericArray,
+  initGenericGrid,
+  randomIntBetween,
+} from '../../shared/genericUtils';
 
 // An animation state a tile can be in
 export const enum TileAnimationFrame {
@@ -143,11 +148,59 @@ export function isPosOnGrid({ row, col }: Pos): boolean {
   return row >= 0 && row < HEIGHT && col >= 0 && col < WIDTH;
 }
 
+export function adaptDimensionsToCurrGrid<T>(
+  grid: T[][],
+  emptyValue: T
+): T[][] {
+  grid = padOutGridColumns(grid, emptyValue);
+  grid = padOutGridRows(grid, emptyValue);
+  grid = grid.slice(0, HEIGHT);
+  grid = grid.map((row) => row.slice(0, WIDTH));
+
+  return grid;
+}
+
+export function movePositionWithinBoundsOfGrid(pos: Pos): Pos {
+  return {
+    row: pos.row >= HEIGHT ? HEIGHT - 1 : pos.row,
+    col: pos.col >= WIDTH ? WIDTH - 1 : pos.col,
+  };
+}
+
 // The minimum value a randomly generated weight can be
 const WEIGHT_LOWER_BOUND = 2;
 
 // The maximum value a randomly generated weight can be
 const WEIGHT_UPPER_BOUND = 30;
+
+function padOutGridColumns<T>(grid: T[][], emptyValue: T): T[][] {
+  while (grid[0].length < WIDTH) {
+    grid = appendEmptyColumnToGrid(grid, emptyValue);
+  }
+
+  return grid;
+}
+
+function padOutGridRows<T>(grid: T[][], emptyValue: T): T[][] {
+  while (grid.length < HEIGHT) {
+    grid = appendEmptyRowToGrid(grid, emptyValue);
+  }
+
+  return grid;
+}
+
+function appendEmptyColumnToGrid<T>(grid: T[][], emptyValue: T): T[][] {
+  return grid.map((row) => row.concat(emptyValue));
+}
+
+function appendEmptyRowToGrid<T>(grid: T[][], emptyValue: T): T[][] {
+  const gridCopy = cloneDeep(grid);
+  const emptyRow = initGenericArray(grid[0].length, () => emptyValue);
+
+  gridCopy.push(emptyRow);
+
+  return gridCopy;
+}
 
 // Get the length of a side of the grid in tiles, taking the user's screen dimensions into account
 function computeGridLenFromScreenLen(
