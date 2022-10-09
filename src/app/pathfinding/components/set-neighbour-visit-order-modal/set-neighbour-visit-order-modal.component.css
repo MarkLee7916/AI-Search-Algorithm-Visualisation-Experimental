@@ -41,12 +41,12 @@
 
 .move-card-down {
   animation-name: move-down;
-  animation-duration: 1s;
+  animation-duration: 1.1s;
 }
 
 .move-card-up {
   animation-name: move-up;
-  animation-duration: 1s;
+  animation-duration: 1.1s;
 }
 
 @keyframes move-down {
