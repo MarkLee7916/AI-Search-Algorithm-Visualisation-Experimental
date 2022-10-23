@@ -58,6 +58,17 @@ export const DEFAULT_START_POS = { row: 1, col: 1 };
 // The position of the goal tile when app is initialised
 export const DEFAULT_GOAL_POS = { row: HEIGHT - 2, col: WIDTH - 2 };
 
+export const DEFAULT_NEIGHBOUR_VISIT_ORDER = [
+  { vertical: -1, horizontal: -1 },
+  { vertical: -1, horizontal: 0 },
+  { vertical: -1, horizontal: 1 },
+  { vertical: 0, horizontal: -1 },
+  { vertical: 0, horizontal: 1 },
+  { vertical: 1, horizontal: -1 },
+  { vertical: 1, horizontal: 0 },
+  { vertical: 1, horizontal: 1 },
+];
+
 // Generate a random weight value within the valid bounds
 export function genRandomWeight(): number {
   return randomIntBetween(WEIGHT_LOWER_BOUND, WEIGHT_UPPER_BOUND);

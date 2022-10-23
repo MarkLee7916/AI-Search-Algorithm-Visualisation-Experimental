@@ -42,3 +42,18 @@ export enum TileDisplayItem {
   Dists = 'Display Start Distance',
   Heuristics = 'Display Heuristic Distance',
 }
+
+export const DEFAULT_TILE_PLACE_ITEM = TilePlaceItem.Barrier;
+
+export const DEFAULT_MAZE_GEN_ITEM = MazeGenItem.Random;
+
+export const DEFAULT_USER_INTERACTION_MODE_ITEM =
+  UserInteractionModeItem.Visualise;
+
+export const DEFAULT_ALGO_ITEM = AlgoItem.Dijkstras;
+
+export const DEFAULT_QUIZZABLE_ALGO_ITEM = QuizzableAlgoItem.Dijkstras;
+
+export const DEFAULT_NEIGHBOURS_ITEM = NeighboursItem.NonDiagonals;
+
+export const DEFAULT_TILE_DISPLAY_ITEM = TileDisplayItem.Weights;

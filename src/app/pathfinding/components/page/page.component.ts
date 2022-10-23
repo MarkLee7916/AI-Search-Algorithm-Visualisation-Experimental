@@ -28,10 +28,17 @@ import {
   TileDisplayItem,
   UserInteractionModeItem,
   QuizzableAlgoItem,
+  DEFAULT_TILE_PLACE_ITEM,
+  DEFAULT_USER_INTERACTION_MODE_ITEM,
+  DEFAULT_MAZE_GEN_ITEM,
+  DEFAULT_ALGO_ITEM,
+  DEFAULT_NEIGHBOURS_ITEM,
+  DEFAULT_TILE_DISPLAY_ITEM,
 } from 'src/app/pathfinding/models/dropdownItemEnums';
 import {
   adaptDimensionsToCurrGrid,
   DEFAULT_GOAL_POS,
+  DEFAULT_NEIGHBOUR_VISIT_ORDER,
   DEFAULT_START_POS,
   DEFAULT_WEIGHT,
   FilterNeighboursImpl,
@@ -61,7 +68,6 @@ import { computeManhattanDist } from 'src/app/pathfinding/algos/cmps';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import {
   addItemToLocalStorage,
-  initGenericArray,
   isHeightGreaterThan,
   isWidthGreaterThan,
   IS_TOUCHSCREEN_DEVICE,
@@ -159,17 +165,6 @@ export class PageComponent implements OnInit {
     [NeighboursItem.NonDiagonals, keepNonDiagonalNeigbours],
   ]);
 
-  neighbourVisitOrder = [
-    { vertical: -1, horizontal: -1 },
-    { vertical: -1, horizontal: 0 },
-    { vertical: -1, horizontal: 1 },
-    { vertical: 0, horizontal: -1 },
-    { vertical: 0, horizontal: 1 },
-    { vertical: 1, horizontal: -1 },
-    { vertical: 1, horizontal: 0 },
-    { vertical: 1, horizontal: 1 },
-  ];
-
   // A HEIGHT * WIDTH matrix where each cell corresponds to a grid weight in the UI
   gridWeights = initBlankGridWeights();
 
@@ -196,13 +191,15 @@ export class PageComponent implements OnInit {
   // Keeps track of whether user has their mouse held down
   isMouseDown = false;
 
+  neighbourVisitOrder = DEFAULT_NEIGHBOUR_VISIT_ORDER;
+
   // Items corresponding to the dropdown menus
-  tilePlaceItem = TilePlaceItem.Barrier;
-  userInteractionModeItem = UserInteractionModeItem.Visualise;
-  mazeGenItem = MazeGenItem.Random;
-  algoItem = AlgoItem.BFS;
-  neighboursItem = NeighboursItem.NonDiagonals;
-  tileDisplayItem = TileDisplayItem.Weights;
+  tilePlaceItem = DEFAULT_TILE_PLACE_ITEM;
+  userInteractionModeItem = DEFAULT_USER_INTERACTION_MODE_ITEM;
+  mazeGenItem = DEFAULT_MAZE_GEN_ITEM;
+  algoItem = DEFAULT_ALGO_ITEM;
+  neighboursItem = DEFAULT_NEIGHBOURS_ITEM;
+  tileDisplayItem = DEFAULT_TILE_DISPLAY_ITEM;
 
   // The current modal being displayed
   modalDisplayed = Modal.Tutorial;
@@ -226,16 +223,16 @@ export class PageComponent implements OnInit {
   loadUserOptions(): void {
     const pathfindingOptions = parseLocalStorageItem('pathfinding-options');
 
-    if (pathfindingOptions !== null) {
-      this.algoItem = pathfindingOptions.algoItem;
-      this.tileDisplayItem = pathfindingOptions.tileDisplayItem;
-      this.neighboursItem = pathfindingOptions.neighboursItem;
-      this.tilePlaceItem = pathfindingOptions.tilePlaceItem;
-      this.mazeGenItem = pathfindingOptions.mazeGenItem;
-      this.commentaryType = pathfindingOptions.commentaryType;
-      this.userInteractionModeItem = pathfindingOptions.userInteractionModeItem;
-      this.neighbourVisitOrder = pathfindingOptions.neighbourVisitOrder;
-    }
+    this.algoItem = pathfindingOptions.algoItem ?? DEFAULT_ALGO_ITEM;
+    this.mazeGenItem = pathfindingOptions.mazeGenItem ?? DEFAULT_MAZE_GEN_ITEM;
+    this.tileDisplayItem =
+      pathfindingOptions.tileDisplayItem ?? DEFAULT_TILE_DISPLAY_ITEM;
+    this.neighboursItem =
+      pathfindingOptions.neighboursItem ?? DEFAULT_NEIGHBOURS_ITEM;
+    this.tilePlaceItem =
+      pathfindingOptions.tilePlaceItem ?? DEFAULT_TILE_PLACE_ITEM;
+    this.neighbourVisitOrder =
+      pathfindingOptions.neighbourVisitOrder ?? DEFAULT_NEIGHBOUR_VISIT_ORDER;
   }
 
   updatePosToPlaceCustomWeightAt(pos: Pos | null): void {
@@ -646,8 +643,6 @@ export class PageComponent implements OnInit {
       neighboursItem: this.neighboursItem,
       tilePlaceItem: this.tilePlaceItem,
       mazeGenItem: this.mazeGenItem,
-      commentaryType: this.commentaryType,
-      userInteractionModeItem: this.userInteractionModeItem,
       neighbourVisitOrder: this.neighbourVisitOrder,
     };
 
