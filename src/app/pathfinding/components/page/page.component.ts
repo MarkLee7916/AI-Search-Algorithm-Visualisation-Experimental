@@ -73,7 +73,7 @@ import {
   IS_TOUCHSCREEN_DEVICE,
   parseLocalStorageItem,
   randomIntBetween,
-  removeDuplicates,
+  removeStrDuplicates,
   removeItemFromArray,
   safeGetArrayIndex,
 } from 'src/app/shared/genericUtils';
@@ -91,8 +91,6 @@ import { TheoryModalSlide } from '../theory-modal/theory-modal.component';
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.css'],
-
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageComponent implements OnInit {
   // A grid where each tile is a Pos object corresponding to its position
@@ -618,7 +616,7 @@ export class PageComponent implements OnInit {
     const saveNames = parseLocalStorageItem(SAVE_NAMES_STR);
 
     saveNames.unshift(saveName);
-    addItemToLocalStorage(SAVE_NAMES_STR, removeDuplicates(saveNames));
+    addItemToLocalStorage(SAVE_NAMES_STR, removeStrDuplicates(saveNames));
   }
 
   deleteSavedGridState(saveName: string): void {

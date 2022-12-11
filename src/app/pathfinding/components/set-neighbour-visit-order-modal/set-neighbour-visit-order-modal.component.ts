@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import cloneDeep from 'clone-deep';
 import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal/abstract-modal.component';
 import { swap } from 'src/app/shared/genericUtils';
@@ -12,6 +18,7 @@ import { Neighbour } from '../../models/grid';
     './set-neighbour-visit-order-modal.component.css',
     '../../../shared/components/abstract-modal/abstract-modal.component.css',
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SetNeighbourVisitOrderModalComponent extends AbstractModalComponent {
   @Input() readonly neighbourVisitOrder!: Neighbour[];

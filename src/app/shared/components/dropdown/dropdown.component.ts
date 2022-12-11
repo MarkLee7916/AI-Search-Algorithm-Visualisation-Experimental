@@ -6,7 +6,6 @@ import {
   HostListener,
   Input,
   Output,
-  Renderer2,
 } from '@angular/core';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal/abstract-modal.component';
 
 @Component({
@@ -8,6 +8,7 @@ import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal
     '../../../shared/components/abstract-modal/abstract-modal.component.css',
     './theory-modal.component.css',
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TheoryModalComponent extends AbstractModalComponent {
   readonly Slide = TheoryModalSlide;

@@ -1,14 +1,13 @@
 export const AVERAGE_OF_VW_AND_VH =
   window.innerHeight + window.innerWidth / 200;
 
-export const IS_TOUCHSCREEN_DEVICE =
-  'ontouchstart' in window || navigator.maxTouchPoints > 0;
+export const IS_TOUCHSCREEN_DEVICE = false;
 
 export function randomIntBetween(lower: number, upper: number): number {
   return Math.round(Math.floor(Math.random() * (upper - lower)) + lower);
 }
 
-export function removeDuplicates(list: string[]): string[] {
+export function removeStrDuplicates(list: string[]): string[] {
   return Array.from(new Set<string>(list));
 }
 

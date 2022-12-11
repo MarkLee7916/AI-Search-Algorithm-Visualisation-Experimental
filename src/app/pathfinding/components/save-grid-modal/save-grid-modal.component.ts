@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal/abstract-modal.component';
 
 @Component({
@@ -8,6 +13,7 @@ import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal
     './save-grid-modal.component.css',
     '../../../shared/components/abstract-modal/abstract-modal.component.css',
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SaveGridModalComponent extends AbstractModalComponent {
   @Output() readonly newSaveEmitter = new EventEmitter<string>();

@@ -14,7 +14,6 @@ import { IS_TOUCHSCREEN_DEVICE } from 'src/app/shared/genericUtils';
   selector: 'app-tile',
   templateUrl: './tile.component.html',
   styleUrls: ['./tile.component.css'],
-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TileComponent {

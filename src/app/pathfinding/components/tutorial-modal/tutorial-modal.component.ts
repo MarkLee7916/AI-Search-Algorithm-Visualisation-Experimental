@@ -13,7 +13,6 @@ import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal
   styleUrls: [
     '../../../shared/components/abstract-modal/abstract-modal.component.css',
   ],
-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TutorialModalComponent extends AbstractModalComponent {

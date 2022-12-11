@@ -1,6 +1,13 @@
 <div class="modal-slide">
   <h1 class="modal-title">Set Neighbour Visit Order</h1>
 
+  <p class="modal-centered-text">
+    This will define the order the algorithms will visit tiles in the case where
+    they see no difference between them, leaving it up to implementation detail.
+    For example for Dijkstra's if the two tiles were the same weighted distance
+    from the start.
+  </p>
+
   <div id="set-neighbour-visit-order-modal-menu" class="modal-content">
     <div
       *ngFor="let neighbour of neighbourVisitOrder; let neighbourIndex = index"

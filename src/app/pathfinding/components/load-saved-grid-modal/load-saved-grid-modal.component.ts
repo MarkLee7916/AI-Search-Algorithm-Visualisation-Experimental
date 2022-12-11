@@ -1,4 +1,10 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  Input,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal/abstract-modal.component';
 
 @Component({
@@ -8,6 +14,7 @@ import { AbstractModalComponent } from 'src/app/shared/components/abstract-modal
     './load-saved-grid-modal.component.css',
     '../../../shared/components/abstract-modal/abstract-modal.component.css',
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadSavedGridModalComponent extends AbstractModalComponent {
   @Input() readonly saveNames!: string[];
