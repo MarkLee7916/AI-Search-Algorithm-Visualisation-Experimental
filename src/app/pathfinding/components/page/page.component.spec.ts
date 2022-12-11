@@ -14,6 +14,8 @@ import { TileComponent } from '../tile/tile.component';
 import { TutorialModalComponent } from '../tutorial-modal/tutorial-modal.component';
 import { PageComponent } from './page.component';
 
+// TODO: use default variables to select dropdowns to make tests less brittle
+
 describe('Pathfinding Page', () => {
   beforeEach(() => {
     localStorage.clear();
@@ -21,7 +23,12 @@ describe('Pathfinding Page', () => {
 
   it('moves animation frames properly when buttons pressed', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -59,7 +66,12 @@ describe('Pathfinding Page', () => {
 
   it('moves through tutorial modal slides properly', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -183,7 +195,12 @@ describe('Pathfinding Page', () => {
 
   it('draws walls on grid properly', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -231,7 +248,12 @@ describe('Pathfinding Page', () => {
 
   it('shows tooltip when hovering over a tile unless on first animation frame', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -262,7 +284,12 @@ describe('Pathfinding Page', () => {
 
   it('displays infinity symbol when displaying start distance on first frame', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -287,7 +314,12 @@ describe('Pathfinding Page', () => {
 
   it('Generates Weight Mazes', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -328,7 +360,12 @@ describe('Pathfinding Page', () => {
 
   it('can find path even though goal is surrounded by non-diagonals when in diagonal adjacency mode', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -380,7 +417,12 @@ describe('Pathfinding Page', () => {
 
   it('can find path even though goal is surrounded by non-diagonals when in all directions mode', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -432,7 +474,12 @@ describe('Pathfinding Page', () => {
 
   it('can find path after moving start and goal from surrounded position', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -503,7 +550,12 @@ describe('Pathfinding Page', () => {
 
   it('clears barriers and weights', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -575,7 +627,12 @@ describe('Pathfinding Page', () => {
 
   it('changes algorithm', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,
@@ -600,7 +657,7 @@ describe('Pathfinding Page', () => {
       ) - 1;
 
     // Switch to GBFS
-    fireEvent.click(screen.getByText(/Breadth First Search/));
+    fireEvent.click(screen.getByText(/Dijkstra/));
     fireEvent.click(screen.getByText('Greedy Best First Search'));
 
     // Move a step in animation, forcing algorithm to recompute
@@ -626,7 +683,12 @@ describe('Pathfinding Page', () => {
 
   it('Quiz mode works correctly', async () => {
     await render(PageComponent, {
-      declarations: [TileComponent, PageComponent, TutorialModalComponent],
+      declarations: [
+        TileComponent,
+        PageComponent,
+        TutorialModalComponent,
+        CustomWeightInputComponent,
+      ],
       imports: [
         CommonModule,
         PathfindingRoutingModule,

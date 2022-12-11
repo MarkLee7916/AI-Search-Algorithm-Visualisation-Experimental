@@ -219,16 +219,19 @@ export class PageComponent implements OnInit {
   loadUserOptions(): void {
     const pathfindingOptions = parseLocalStorageItem(PATHFINDING_OPTIONS_STR);
 
-    this.algoItem = pathfindingOptions.algoItem ?? DEFAULT_ALGO_ITEM;
-    this.mazeGenItem = pathfindingOptions.mazeGenItem ?? DEFAULT_MAZE_GEN_ITEM;
-    this.tileDisplayItem =
-      pathfindingOptions.tileDisplayItem ?? DEFAULT_TILE_DISPLAY_ITEM;
-    this.neighboursItem =
-      pathfindingOptions.neighboursItem ?? DEFAULT_NEIGHBOURS_ITEM;
-    this.tilePlaceItem =
-      pathfindingOptions.tilePlaceItem ?? DEFAULT_TILE_PLACE_ITEM;
-    this.neighbourVisitOrder =
-      pathfindingOptions.neighbourVisitOrder ?? DEFAULT_NEIGHBOUR_VISIT_ORDER;
+    if (pathfindingOptions) {
+      this.algoItem = pathfindingOptions.algoItem ?? DEFAULT_ALGO_ITEM;
+      this.mazeGenItem =
+        pathfindingOptions.mazeGenItem ?? DEFAULT_MAZE_GEN_ITEM;
+      this.tileDisplayItem =
+        pathfindingOptions.tileDisplayItem ?? DEFAULT_TILE_DISPLAY_ITEM;
+      this.neighboursItem =
+        pathfindingOptions.neighboursItem ?? DEFAULT_NEIGHBOURS_ITEM;
+      this.tilePlaceItem =
+        pathfindingOptions.tilePlaceItem ?? DEFAULT_TILE_PLACE_ITEM;
+      this.neighbourVisitOrder =
+        pathfindingOptions.neighbourVisitOrder ?? DEFAULT_NEIGHBOUR_VISIT_ORDER;
+    }
   }
 
   updatePosToPlaceCustomWeightAt(pos: Pos | null): void {
