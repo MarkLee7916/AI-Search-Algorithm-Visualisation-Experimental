@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   Output,
   Renderer2,
@@ -29,6 +31,8 @@ export class DropdownComponent {
 
   isTooltipDisplayed = false;
 
+  constructor(private elementRef: ElementRef) {}
+
   toggleDropdown(): void {
     this.isDropdownDisplayed = !this.isDropdownDisplayed;
     this.hideTooltip();
@@ -45,5 +49,12 @@ export class DropdownComponent {
 
   hideTooltip(): void {
     this.isTooltipDisplayed = false;
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  onGlobalClick(event: Event): void {
+    if (!this.elementRef.nativeElement?.contains(event.target)) {
+      this.isDropdownDisplayed = false;
+    }
   }
 }

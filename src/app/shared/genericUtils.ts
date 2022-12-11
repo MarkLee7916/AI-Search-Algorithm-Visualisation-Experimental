@@ -138,7 +138,10 @@ export function addItemToLocalStorage(key: string, value: any): void {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function areObjectsEqualDisregardingRefs<T>(obj1: T, obj2: T): boolean {
+export function areObjectsEqualDisregardingRefs(
+  obj1: object,
+  obj2: object
+): boolean {
   return Object.values(obj1).every((_, i) => {
     const val1 = Object.values(obj1)[i];
     const val2 = Object.values(obj2)[i];

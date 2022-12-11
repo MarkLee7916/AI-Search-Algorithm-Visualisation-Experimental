@@ -213,15 +213,13 @@ export class PageComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialiseSaveNameListIfNotInLocalStorage();
-    this.loadSavedGridState(
-      '**Auto-Generated** Grid before app was last closed'
-    );
+    this.loadSavedGridState(AUTO_GENERATED_SAVE_STR);
     this.loadUserOptions();
     this.updateAnimationFramesIfNeeded();
   }
 
   loadUserOptions(): void {
-    const pathfindingOptions = parseLocalStorageItem('pathfinding-options');
+    const pathfindingOptions = parseLocalStorageItem(PATHFINDING_OPTIONS_STR);
 
     this.algoItem = pathfindingOptions.algoItem ?? DEFAULT_ALGO_ITEM;
     this.mazeGenItem = pathfindingOptions.mazeGenItem ?? DEFAULT_MAZE_GEN_ITEM;
@@ -240,8 +238,8 @@ export class PageComponent implements OnInit {
   }
 
   initialiseSaveNameListIfNotInLocalStorage(): void {
-    if (!parseLocalStorageItem('saveNames')) {
-      addItemToLocalStorage('saveNames', []);
+    if (!parseLocalStorageItem(SAVE_NAMES_STR)) {
+      addItemToLocalStorage(SAVE_NAMES_STR, []);
     }
   }
 
@@ -464,6 +462,10 @@ export class PageComponent implements OnInit {
   }
 
   setAlgoItem(algoItem: string): void {
+    if (this.algoItem === algoItem) {
+      return;
+    }
+
     this.algoItem = algoItem as AlgoItem;
     this.markAnimationFramesForUpdate();
 
@@ -481,6 +483,10 @@ export class PageComponent implements OnInit {
   }
 
   setNeighboursItem(neighboursItem: string): void {
+    if (this.neighboursItem === neighboursItem) {
+      return;
+    }
+
     this.neighboursItem = neighboursItem as NeighboursItem;
     this.markAnimationFramesForUpdate();
   }
@@ -601,32 +607,32 @@ export class PageComponent implements OnInit {
   }
 
   saveCurrentGridState(saveName: string): void {
-    addItemToLocalStorage(saveName + 'startPos', this.startPos);
-    addItemToLocalStorage(saveName + 'goalPos', this.goalPos);
-    addItemToLocalStorage(saveName + 'gridWeights', this.gridWeights);
-    addItemToLocalStorage(saveName + 'gridBarriers', this.gridBarriers);
+    addItemToLocalStorage(saveName + START_POS_STR, this.startPos);
+    addItemToLocalStorage(saveName + GOAL_POS_STR, this.goalPos);
+    addItemToLocalStorage(saveName + GRID_WEIGHTS_STR, this.gridWeights);
+    addItemToLocalStorage(saveName + GRID_BARRIERS_STR, this.gridBarriers);
     this.addSaveNameToListOfSaveNames(saveName);
   }
 
   addSaveNameToListOfSaveNames(saveName: string): void {
-    const saveNames = parseLocalStorageItem('saveNames');
+    const saveNames = parseLocalStorageItem(SAVE_NAMES_STR);
 
     saveNames.unshift(saveName);
-    addItemToLocalStorage('saveNames', removeDuplicates(saveNames));
+    addItemToLocalStorage(SAVE_NAMES_STR, removeDuplicates(saveNames));
   }
 
   deleteSavedGridState(saveName: string): void {
-    const saveNames = parseLocalStorageItem('saveNames');
+    const saveNames = parseLocalStorageItem(SAVE_NAMES_STR);
 
     removeItemFromArray(saveNames, saveName);
-    addItemToLocalStorage('saveNames', saveNames);
+    addItemToLocalStorage(SAVE_NAMES_STR, saveNames);
   }
 
   loadSavedGridState(saveName: string): void {
-    const startPos = parseLocalStorageItem(saveName + 'startPos');
-    const goalPos = parseLocalStorageItem(saveName + 'goalPos');
-    const gridBarriers = parseLocalStorageItem(saveName + 'gridBarriers');
-    const gridWeights = parseLocalStorageItem(saveName + 'gridWeights');
+    const startPos = parseLocalStorageItem(saveName + START_POS_STR);
+    const goalPos = parseLocalStorageItem(saveName + GOAL_POS_STR);
+    const gridBarriers = parseLocalStorageItem(saveName + GRID_BARRIERS_STR);
+    const gridWeights = parseLocalStorageItem(saveName + GRID_WEIGHTS_STR);
 
     if (startPos && goalPos && gridBarriers && gridWeights) {
       this.setStartPos(movePositionWithinBoundsOfGrid(startPos));
@@ -646,7 +652,7 @@ export class PageComponent implements OnInit {
       neighbourVisitOrder: this.neighbourVisitOrder,
     };
 
-    addItemToLocalStorage('pathfinding-options', pathfindingOptions);
+    addItemToLocalStorage(PATHFINDING_OPTIONS_STR, pathfindingOptions);
   }
 
   toggleMouseDown(): void {
@@ -663,16 +669,27 @@ export class PageComponent implements OnInit {
     this.isMouseDown = event.buttons === 1;
   }
 
-  @HostListener('window:beforeunload', ['$event'])
-  saveAppStateBeforeClose(event: Event): void {
-    this.saveCurrentGridState(
-      '**Auto-Generated** Grid before app was last closed'
-    );
+  @HostListener('window:pagehide', ['$event'])
+  saveAppStateBeforeClose(): void {
+    this.saveCurrentGridState(AUTO_GENERATED_SAVE_STR);
     this.saveUserOptions();
-
-    event.preventDefault();
   }
 }
+
+const AUTO_GENERATED_SAVE_STR =
+  '**Auto-Generated** Grid before app was last closed';
+
+const PATHFINDING_OPTIONS_STR = 'pathfinding-options';
+
+const SAVE_NAMES_STR = 'saveNames';
+
+const START_POS_STR = 'startPos';
+
+const GOAL_POS_STR = 'goalPos';
+
+const GRID_BARRIERS_STR = 'gridBarriers';
+
+const GRID_WEIGHTS_STR = 'gridWeights';
 
 const enum CommentaryType {
   IncorrectGuess,
