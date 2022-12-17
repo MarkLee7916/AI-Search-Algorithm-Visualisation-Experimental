@@ -88,6 +88,8 @@ import {
 } from '../../models/quizCases';
 import { TheoryModalSlide } from '../theory-modal/theory-modal.component';
 import { MousePressService } from '../../services/mouse-press.service';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 
 @Component({
   selector: 'app-page',
@@ -218,6 +220,13 @@ export class PageComponent implements OnInit {
     this.loadSavedGridState(AUTO_GENERATED_SAVE_STR);
     this.loadUserOptions();
     this.updateAnimationFramesIfNeeded();
+    this.reloadPageOnResize();
+  }
+
+  reloadPageOnResize(): void {
+    fromEvent(window, 'resize')
+      .pipe(debounceTime(1000))
+      .subscribe(() => location.reload());
   }
 
   loadUserOptions(): void {
