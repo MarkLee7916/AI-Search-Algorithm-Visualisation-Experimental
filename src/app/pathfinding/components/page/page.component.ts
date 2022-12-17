@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostListener,
   OnInit,
@@ -208,7 +209,8 @@ export class PageComponent implements OnInit {
 
   constructor(
     public dragAndDropService: TileDragAndDropService,
-    public mousePressService: MousePressService
+    public mousePressService: MousePressService,
+    public changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -290,12 +292,15 @@ export class PageComponent implements OnInit {
   }
 
   // Route a tile click depending on whether we're in quiz mode
+  // Manually run the change detector as tile clicks don't trigger it for performance reasons
   handleTileClick(pos: Pos): void {
     if (this.isInQuizMode()) {
       this.handleUserGuess(pos);
     } else {
       this.placeAtTile(pos);
     }
+
+    this.changeDetectorRef.detectChanges();
   }
 
   // Route a user guess depending on whether it was correct or not

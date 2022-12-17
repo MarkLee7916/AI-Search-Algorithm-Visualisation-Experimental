@@ -1,4 +1,5 @@
 <div
+  #maincontent
   [class]="getClass()"
   [draggable]="!isInQuizMode"
   [style.backgroundColor]="getBackgroundColor()"
@@ -9,9 +10,6 @@
   (dragover)="$event.preventDefault()"
   (dragstart)="handleDrag($event)"
   (drop)="notifyDrop($event)"
-  (mouseenter)="handleMouseOver($event)"
-  (mouseleave)="handleMouseLeave()"
-  (mousedown)="notifyClick($event)"
 >
   <p *ngIf="isStart" id="start-arrow">⇒</p>
 

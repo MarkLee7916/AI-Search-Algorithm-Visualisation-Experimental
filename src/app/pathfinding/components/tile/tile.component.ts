@@ -1,15 +1,24 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
+  OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { Pos, TileAnimationFrame } from 'src/app/pathfinding/models/grid';
 import { TileDisplayItem } from 'src/app/pathfinding/models/dropdownItemEnums';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
-import { IS_TOUCHSCREEN_DEVICE } from 'src/app/shared/genericUtils';
+import {
+  assertNonNull,
+  IS_TOUCHSCREEN_DEVICE,
+} from 'src/app/shared/genericUtils';
 import { MousePressService } from '../../services/mouse-press.service';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-tile',
@@ -17,7 +26,7 @@ import { MousePressService } from '../../services/mouse-press.service';
   styleUrls: ['./tile.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TileComponent {
+export class TileComponent implements AfterViewInit {
   // True if this tile is the source tile the algorithm searches from
   @Input() readonly isStart!: boolean;
 
@@ -60,7 +69,7 @@ export class TileComponent {
   @Output() readonly dropEmitter = new EventEmitter<Event>();
 
   // Event emitter for when the user clicks this tile
-  @Output() readonly clickEmitter = new EventEmitter<Event>();
+  @Output() readonly clickEmitter = new EventEmitter<void>();
 
   // Event emitter for when the user enters a custom weight and submits it
   @Output() readonly submitCustomWeightEmitter = new EventEmitter<number>();
@@ -93,10 +102,30 @@ export class TileComponent {
     TileAnimationFrame.BeingExpanded,
   ];
 
-  // True if the mouse is currently hovering over this tile
   isMouseOver = false;
 
-  constructor(public mousePressService: MousePressService) {}
+  // A reference to the main box that displays the tile
+  @ViewChild('maincontent', { read: ElementRef }) mainContent!: ElementRef;
+
+  constructor(
+    public mousePressService: MousePressService,
+    public changeDetectorRef: ChangeDetectorRef
+  ) {}
+
+  // After view has initialised (so the @ViewChild element is initialised), listen to events
+  // Rxjs is used to avoid triggering change detection
+  ngAfterViewInit(): void {
+    fromEvent(this.mainContent.nativeElement, 'mouseenter').subscribe(
+      this.handleMouseEnter.bind(this)
+    );
+    fromEvent(this.mainContent.nativeElement, 'mouseleave').subscribe(
+      this.handleMouseLeave.bind(this)
+    );
+
+    fromEvent(this.mainContent.nativeElement, 'mousedown').subscribe(
+      this.notifyClick.bind(this)
+    );
+  }
 
   // Get the class of this tile to configure how its displayed in CSS
   getClass(): string {
@@ -144,13 +173,19 @@ export class TileComponent {
     }
   }
 
-  handleMouseOver(event: Event): void {
+  // Handle mouse enter, manually running the change detector as this callback is triggered by rxjs
+  // The detectChanges() call will only run cd for this subtree rather than the full tree for performance
+  handleMouseEnter(): void {
     this.isMouseOver = true;
-    this.notifyClickIfMouseDown(event);
+    this.notifyClickIfMouseDown();
+    this.changeDetectorRef.detectChanges();
   }
 
+  // Handle mouse leave, manually running the change detector as this callback is triggered by rxjs
+  // The detectChanges() call will only run cd for this subtree rather than the full tree for performan
   handleMouseLeave(): void {
     this.isMouseOver = false;
+    this.changeDetectorRef.detectChanges();
   }
 
   handleDrag(event: Event): void {
@@ -166,13 +201,13 @@ export class TileComponent {
     this.dropEmitter.emit(event);
   }
 
-  notifyClick(event: Event): void {
-    this.clickEmitter.emit(event);
+  notifyClick(): void {
+    this.clickEmitter.emit();
   }
 
-  notifyClickIfMouseDown(event: Event): void {
+  notifyClickIfMouseDown(): void {
     if (this.mousePressService.getMouseDown()) {
-      this.notifyClick(event);
+      this.notifyClick();
     }
   }
 
