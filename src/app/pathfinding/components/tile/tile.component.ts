@@ -9,6 +9,7 @@ import { Pos, TileAnimationFrame } from 'src/app/pathfinding/models/grid';
 import { TileDisplayItem } from 'src/app/pathfinding/models/dropdownItemEnums';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
 import { IS_TOUCHSCREEN_DEVICE } from 'src/app/shared/genericUtils';
+import { MousePressService } from '../../services/mouse-press.service';
 
 @Component({
   selector: 'app-tile',
@@ -17,8 +18,6 @@ import { IS_TOUCHSCREEN_DEVICE } from 'src/app/shared/genericUtils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TileComponent {
-  @Input() readonly isMouseDown!: boolean;
-
   // True if this tile is the source tile the algorithm searches from
   @Input() readonly isStart!: boolean;
 
@@ -97,6 +96,8 @@ export class TileComponent {
   // True if the mouse is currently hovering over this tile
   isMouseOver = false;
 
+  constructor(public mousePressService: MousePressService) {}
+
   // Get the class of this tile to configure how its displayed in CSS
   getClass(): string {
     let classStr = 'tile';
@@ -170,7 +171,7 @@ export class TileComponent {
   }
 
   notifyClickIfMouseDown(event: Event): void {
-    if (this.isMouseDown) {
+    if (this.mousePressService.getMouseDown()) {
       this.notifyClick(event);
     }
   }

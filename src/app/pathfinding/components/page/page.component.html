@@ -111,7 +111,6 @@
         >
           <app-tile
             *ngFor="let pos of row; let colIndex = index; trackBy: trackByPos"
-            [isMouseDown]="isMouseDown"
             [isStart]="isStartPos(pos)"
             [isGoal]="isGoalPos(pos)"
             [isBarrier]="gridBarriers[rowIndex][colIndex]"

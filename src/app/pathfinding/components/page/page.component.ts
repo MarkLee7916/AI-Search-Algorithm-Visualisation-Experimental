@@ -86,11 +86,13 @@ import {
   QuizCase,
 } from '../../models/quizCases';
 import { TheoryModalSlide } from '../theory-modal/theory-modal.component';
+import { MousePressService } from '../../services/mouse-press.service';
 
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageComponent implements OnInit {
   // A grid where each tile is a Pos object corresponding to its position
@@ -186,9 +188,6 @@ export class PageComponent implements OnInit {
   // The position in the grid a user is currently adding a custom weight at
   posToPlaceCustomWeightAt: Pos | null = null;
 
-  // Keeps track of whether user has their mouse held down
-  isMouseDown = false;
-
   neighbourVisitOrder = DEFAULT_NEIGHBOUR_VISIT_ORDER;
 
   // Items corresponding to the dropdown menus
@@ -207,7 +206,10 @@ export class PageComponent implements OnInit {
 
   isAnimationRunning = false;
 
-  constructor(public dragAndDropService: TileDragAndDropService) {}
+  constructor(
+    public dragAndDropService: TileDragAndDropService,
+    public mousePressService: MousePressService
+  ) {}
 
   ngOnInit(): void {
     this.initialiseSaveNameListIfNotInLocalStorage();
@@ -284,7 +286,7 @@ export class PageComponent implements OnInit {
       this.updatePositionsFromDrop(draggedFromPos, pos);
     }
 
-    this.toggleMouseDown();
+    this.mousePressService.toggleMouseDown();
   }
 
   // Route a tile click depending on whether we're in quiz mode
@@ -656,18 +658,8 @@ export class PageComponent implements OnInit {
     addItemToLocalStorage(PATHFINDING_OPTIONS_STR, pathfindingOptions);
   }
 
-  toggleMouseDown(): void {
-    this.isMouseDown = !this.isMouseDown;
-  }
-
   isDisplayingWeights(): boolean {
     return this.tileDisplayItem === TileDisplayItem.Weights;
-  }
-
-  @HostListener('mousedown', ['$event'])
-  @HostListener('mouseup', ['$event'])
-  toggleMouseDownFromEvent(event: MouseEvent): void {
-    this.isMouseDown = event.buttons === 1;
   }
 
   @HostListener('window:pagehide', ['$event'])
