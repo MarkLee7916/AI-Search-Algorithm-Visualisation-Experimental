@@ -295,7 +295,8 @@ export class PageComponent implements OnInit {
       case CommentaryType.GuessedAllCorrect:
         return 'All guesses correct! Change the tree values to try again';
       case CommentaryType.GuessExplanation:
-        return 'Click on a node with a "?" symbol and enter your guess for what the value should be in the bottom box, pressing the enter key to submit. You can use the first two buttons to guess ∞ or -∞';
+        return `Animation advanced to final frame! Click on a node with a "?" symbol and enter your guess for what the value should
+                be in the box, pressing the enter key to submit. You can use the buttons to guess ∞ or -∞.`;
       default:
         return 'Incorrect! Try again';
     }
