@@ -1,12 +1,15 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   HostListener,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-dropdown',
@@ -15,7 +18,7 @@ import {
 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DropdownComponent {
+export class DropdownComponent implements OnInit {
   @Input() readonly currentItem!: string;
 
   @Input() readonly items!: string[];
@@ -30,7 +33,23 @@ export class DropdownComponent {
 
   isTooltipDisplayed = false;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(
+    private elementRef: ElementRef,
+    private changeDetector: ChangeDetectorRef
+  ) {}
+
+  // To avoid triggering cd for whole tree, we subscribe to event using rxjs
+  ngOnInit(): void {
+    fromEvent(document, 'click').subscribe(this.onGlobalClick.bind(this));
+  }
+
+  // When state changes internally from an rxjs event, we need to run cd manually to update view
+  onGlobalClick(event: Event): void {
+    if (!this.elementRef.nativeElement?.contains(event.target)) {
+      this.isDropdownDisplayed = false;
+      this.changeDetector.detectChanges();
+    }
+  }
 
   toggleDropdown(): void {
     this.isDropdownDisplayed = !this.isDropdownDisplayed;
@@ -48,12 +67,5 @@ export class DropdownComponent {
 
   hideTooltip(): void {
     this.isTooltipDisplayed = false;
-  }
-
-  @HostListener('document:mousedown', ['$event'])
-  onGlobalClick(event: Event): void {
-    if (!this.elementRef.nativeElement?.contains(event.target)) {
-      this.isDropdownDisplayed = false;
-    }
   }
 }
