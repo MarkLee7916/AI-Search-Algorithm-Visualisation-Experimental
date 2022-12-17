@@ -35,7 +35,7 @@ export class DropdownComponent implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    private changeDetector: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   // To avoid triggering cd for whole tree, we subscribe to event using rxjs
@@ -47,7 +47,7 @@ export class DropdownComponent implements OnInit {
   onGlobalClick(event: Event): void {
     if (!this.elementRef.nativeElement?.contains(event.target)) {
       this.isDropdownDisplayed = false;
-      this.changeDetector.detectChanges();
+      this.changeDetectorRef.detectChanges();
     }
   }
 
