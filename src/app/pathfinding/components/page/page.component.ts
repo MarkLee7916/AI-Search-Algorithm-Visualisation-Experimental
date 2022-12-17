@@ -90,6 +90,15 @@ import { TheoryModalSlide } from '../theory-modal/theory-modal.component';
 import { MousePressService } from '../../services/mouse-press.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import {
+  AUTO_GENERATED_SAVE_STR,
+  PATHFINDING_OPTIONS_STR,
+  SAVE_NAMES_STR,
+  START_POS_STR,
+  GOAL_POS_STR,
+  GRID_WEIGHTS_STR,
+  GRID_BARRIERS_STR,
+} from '../../models/local-storage-constants';
 
 @Component({
   selector: 'app-page',
@@ -682,21 +691,6 @@ export class PageComponent implements OnInit {
     this.saveUserOptions();
   }
 }
-
-const AUTO_GENERATED_SAVE_STR =
-  '**Auto-Generated** Grid before app was last closed';
-
-const PATHFINDING_OPTIONS_STR = 'pathfinding-options';
-
-const SAVE_NAMES_STR = 'saveNames';
-
-const START_POS_STR = 'startPos';
-
-const GOAL_POS_STR = 'goalPos';
-
-const GRID_BARRIERS_STR = 'gridBarriers';
-
-const GRID_WEIGHTS_STR = 'gridWeights';
 
 const enum CommentaryType {
   IncorrectGuess,
