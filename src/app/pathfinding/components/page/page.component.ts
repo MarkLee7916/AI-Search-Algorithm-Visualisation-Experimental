@@ -44,8 +44,6 @@ import {
   DEFAULT_WEIGHT,
   FilterNeighboursImpl,
   genRandomWeight,
-  genUniquePosId,
-  genUniqueRowId,
   GridAnimationFrame,
   GridBarriers,
   GridWeights,
@@ -112,10 +110,6 @@ export class PageComponent implements OnInit {
 
   // An enum for each kind of modal that can be displayed on the screen
   readonly Modal = Modal;
-
-  // Functions to uniquely identify rows and columns to optimise *ngFor calls
-  readonly trackByPos = genUniquePosId;
-  readonly trackByRow = genUniqueRowId;
 
   // Helper functions for the HTML template to use
   readonly parseLocalStorageItem = parseLocalStorageItem;

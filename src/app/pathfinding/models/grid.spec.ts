@@ -1,7 +1,6 @@
 import {
   formatPosForDisplayAsCoord,
   genRandomWeight,
-  genUniquePosId,
   HEIGHT,
   isPosOnGrid,
   posListHasPos,
@@ -42,22 +41,6 @@ describe('grid', () => {
           expect(coordStr[4]).toBe(`${row + 1}`);
         }
       }
-    });
-  });
-
-  describe('genUniquePosId', () => {
-    it('generates unique coord ids', () => {
-      const ids: number[] = [];
-
-      for (let row = 0; row < HEIGHT; row++) {
-        for (let col = 0; col < WIDTH; col++) {
-          ids.push(genUniquePosId(0, { row, col }));
-        }
-      }
-
-      const idsNoDuplicates = Array.from(new Set<number>(ids));
-
-      expect(ids.length).toBe(idsNoDuplicates.length);
     });
   });
 

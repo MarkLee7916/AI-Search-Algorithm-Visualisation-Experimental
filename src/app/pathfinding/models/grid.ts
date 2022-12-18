@@ -128,16 +128,6 @@ export function formatPosForDisplayAsCoord({ row, col }: Pos): string {
   return `(${col + 1}, ${row + 1})`;
 }
 
-// Generate a unique id for each position on the grid
-export function genUniquePosId(_: number, { row, col }: Pos): number {
-  return 0.5 * (row + col) * (row + col + 1) + col;
-}
-
-// Generate a unique id for each row on the grid
-export function genUniqueRowId(_: number, positions: Pos[]): string {
-  return positions.map((pos) => genUniquePosId(_, pos)).toString();
-}
-
 export function keepAllNeighbours(neighbours: Neighbour[]): Neighbour[] {
   return neighbours.slice();
 }

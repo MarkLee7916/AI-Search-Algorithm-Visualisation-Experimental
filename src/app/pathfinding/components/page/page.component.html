@@ -103,14 +103,10 @@
       <div class="grid" cellspacing="0" cellpadding="0">
         <div
           class="row"
-          *ngFor="
-            let row of gridPositions;
-            let rowIndex = index;
-            trackBy: trackByRow
-          "
+          *ngFor="let row of gridPositions; let rowIndex = index"
         >
           <app-tile
-            *ngFor="let pos of row; let colIndex = index; trackBy: trackByPos"
+            *ngFor="let pos of row; let colIndex = index"
             [isStart]="isStartPos(pos)"
             [isGoal]="isGoalPos(pos)"
             [isBarrier]="gridBarriers[rowIndex][colIndex]"
