@@ -388,7 +388,7 @@ export class PageComponent implements OnInit {
     this.gridPositions.forEach((rowPositions) =>
       rowPositions.forEach(({ row, col }) => {
         if (maze[row][col]) {
-          this.handleTileClick({ row, col });
+          this.placeAtTile({ row, col });
         }
       })
     );
