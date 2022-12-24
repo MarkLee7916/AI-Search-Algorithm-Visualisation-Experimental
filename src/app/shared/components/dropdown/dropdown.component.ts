@@ -4,8 +4,8 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
+  NgZone,
   OnInit,
   Output,
 } from '@angular/core';
@@ -35,12 +35,15 @@ export class DropdownComponent implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
+    private zone: NgZone,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   // To avoid triggering cd for whole tree, we subscribe to event using rxjs
   ngOnInit(): void {
-    fromEvent(document, 'click').subscribe(this.onGlobalClick.bind(this));
+    this.zone.runOutsideAngular(() => {
+      fromEvent(document, 'click').subscribe(this.onGlobalClick.bind(this));
+    });
   }
 
   // When state changes internally from an rxjs event, we need to run cd manually to update view

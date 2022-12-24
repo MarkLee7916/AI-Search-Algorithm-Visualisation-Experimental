@@ -6,17 +6,14 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
+  NgZone,
   Output,
   ViewChild,
 } from '@angular/core';
 import { Pos, TileAnimationFrame } from 'src/app/pathfinding/models/grid';
 import { TileDisplayItem } from 'src/app/pathfinding/models/dropdownItemEnums';
 import { UncheckedObjMap } from 'src/app/shared/models/uncheckedObjMap';
-import {
-  assertNonNull,
-  IS_TOUCHSCREEN_DEVICE,
-} from 'src/app/shared/genericUtils';
+import { IS_TOUCHSCREEN_DEVICE } from 'src/app/shared/genericUtils';
 import { MousePressService } from '../../services/mouse-press.service';
 import { fromEvent } from 'rxjs';
 
@@ -109,22 +106,25 @@ export class TileComponent implements AfterViewInit {
 
   constructor(
     public mousePressService: MousePressService,
-    public changeDetectorRef: ChangeDetectorRef
+    public changeDetectorRef: ChangeDetectorRef,
+    public zone: NgZone
   ) {}
 
   // After view has initialised (so the @ViewChild element is initialised), listen to events
   // Rxjs is used to avoid triggering change detection
   ngAfterViewInit(): void {
-    fromEvent(this.mainContent.nativeElement, 'mouseenter').subscribe(
-      this.handleMouseEnter.bind(this)
-    );
-    fromEvent(this.mainContent.nativeElement, 'mouseleave').subscribe(
-      this.handleMouseLeave.bind(this)
-    );
+    this.zone.runOutsideAngular(() => {
+      fromEvent(this.mainContent.nativeElement, 'mouseenter').subscribe(
+        this.handleMouseEnter.bind(this)
+      );
+      fromEvent(this.mainContent.nativeElement, 'mouseleave').subscribe(
+        this.handleMouseLeave.bind(this)
+      );
 
-    fromEvent(this.mainContent.nativeElement, 'mousedown').subscribe(
-      this.notifyClick.bind(this)
-    );
+      fromEvent(this.mainContent.nativeElement, 'mousedown').subscribe(
+        this.notifyClick.bind(this)
+      );
+    });
   }
 
   // Get the class of this tile to configure how its displayed in CSS

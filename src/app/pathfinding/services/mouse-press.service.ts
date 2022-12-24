@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { fromEvent } from 'rxjs';
 
 @Injectable({
@@ -7,9 +7,11 @@ import { fromEvent } from 'rxjs';
 export class MousePressService {
   private isMouseDown = false;
 
-  constructor() {
-    fromEvent(document, 'mousedown').subscribe(this.handlePress.bind(this));
-    fromEvent(document, 'mouseup').subscribe(this.handlePress.bind(this));
+  constructor(private zone: NgZone) {
+    this.zone.runOutsideAngular(() => {
+      fromEvent(document, 'mousedown').subscribe(this.handlePress.bind(this));
+      fromEvent(document, 'mouseup').subscribe(this.handlePress.bind(this));
+    });
   }
 
   public getMouseDown(): boolean {
