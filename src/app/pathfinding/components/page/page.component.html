@@ -105,35 +105,39 @@
           class="row"
           *ngFor="let row of gridPositions; let rowIndex = index"
         >
-          <app-tile
-            *ngFor="let pos of row; let colIndex = index"
-            [isStart]="isStartPos(pos)"
-            [isGoal]="isGoalPos(pos)"
-            [isBarrier]="gridBarriers[rowIndex][colIndex]"
-            [weight]="gridWeights[rowIndex][colIndex]"
-            [dist]="getCurrentAnimationFrame().gridDists[rowIndex][colIndex]"
-            [heuristicDist]="getHeuristicDist(pos)"
-            [displayItem]="tileDisplayItem"
-            [willDisplayTooltipOnMouseOver]="
-              safeGetAnimationIndex() !== 0 && !isPlacingCustomWeights()
-            "
-            [animationFrame]="
-              getCurrentAnimationFrame().grid[rowIndex][colIndex]
-            "
-            [pos]="pos"
-            [isInQuizMode]="isInQuizMode()"
-            [shouldDisplayCustomWeightInput]="
-              isPosToPlaceCustomWeightAt(pos) && isPlacingCustomWeights()
-            "
-            (dragEmitter)="handleTileDrag(pos, $event)"
-            (dropEmitter)="handleTileDrop(pos)"
-            (clickEmitter)="handleTileClick(pos)"
-            (submitCustomWeightEmitter)="placeCustomWeightAt(pos, $event)"
-            (closeCustomWeightInputEmitter)="
-              updatePosToPlaceCustomWeightAt(null)
-            "
-          >
-          </app-tile>
+          <div *ngFor="let pos of row; let colIndex = index">
+            <app-tile
+              [isStart]="isStartPos(pos)"
+              [isGoal]="isGoalPos(pos)"
+              [isBarrier]="gridBarriers[rowIndex][colIndex]"
+              [weight]="gridWeights[rowIndex][colIndex]"
+              [dist]="getCurrentAnimationFrame().gridDists[rowIndex][colIndex]"
+              [heuristicDist]="getHeuristicDist(pos)"
+              [displayItem]="tileDisplayItem"
+              [willDisplayTooltipOnMouseOver]="
+                safeGetAnimationIndex() !== 0 && !isPlacingCustomWeights()
+              "
+              [animationFrame]="
+                getCurrentAnimationFrame().grid[rowIndex][colIndex]
+              "
+              [pos]="pos"
+              [isInQuizMode]="isInQuizMode()"
+              (dragEmitter)="handleTileDrag(pos, $event)"
+              (dropEmitter)="handleTileDrop(pos)"
+              (clickEmitter)="handleTileClick(pos)"
+            >
+            </app-tile>
+
+            <app-custom-weight-input
+              *ngIf="
+                isPosToPlaceCustomWeightAt(pos) && isPlacingCustomWeights()
+              "
+              (submitCustomWeightEmitter)="placeCustomWeightAt(pos, $event)"
+              (closeCustomWeightInputEmitter)="
+                updatePosToPlaceCustomWeightAt(null)
+              "
+            ></app-custom-weight-input>
+          </div>
         </div>
       </div>
       <div id="grid-buttons">

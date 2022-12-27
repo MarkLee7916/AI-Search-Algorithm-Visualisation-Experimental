@@ -439,7 +439,7 @@ export class PageComponent implements OnInit {
 
   placeCustomWeightAt(pos: Pos, customWeight: number): void {
     this.placeWeightAt(pos, customWeight);
-    this.posToPlaceCustomWeightAt = null;
+    this.updatePosToPlaceCustomWeightAt(null);
   }
 
   isStartPos(pos: Pos): boolean {

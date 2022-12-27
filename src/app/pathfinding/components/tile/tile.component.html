@@ -28,9 +28,3 @@
   <p>Estimated Distance To Goal: {{ heuristicDist }}</p>
   <p>Cost of passing through: {{ weight }}</p>
 </div>
-
-<app-custom-weight-input
-  [shouldDisplayCustomWeightInput]="shouldDisplayCustomWeightInput"
-  (submitCustomWeightEmitter)="submitCustomWeight($event)"
-  (closeCustomWeightInputEmitter)="closeCustomWeightInput()"
-></app-custom-weight-input>

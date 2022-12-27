@@ -57,8 +57,6 @@ export class TileComponent implements AfterViewInit {
   // True if app is in quiz mode
   @Input() readonly isInQuizMode!: boolean;
 
-  @Input() readonly shouldDisplayCustomWeightInput!: boolean;
-
   // Event emitter for when the user drags this tile
   @Output() readonly dragEmitter = new EventEmitter<Event>();
 
@@ -67,11 +65,6 @@ export class TileComponent implements AfterViewInit {
 
   // Event emitter for when the user clicks this tile
   @Output() readonly clickEmitter = new EventEmitter<void>();
-
-  // Event emitter for when the user enters a custom weight and submits it
-  @Output() readonly submitCustomWeightEmitter = new EventEmitter<number>();
-
-  @Output() readonly closeCustomWeightInputEmitter = new EventEmitter<void>();
 
   // Map the type of animation on this tile to the colour its background will be displayed in
   readonly animationFrameToColor = new UncheckedObjMap<
@@ -117,14 +110,15 @@ export class TileComponent implements AfterViewInit {
       fromEvent(this.mainContent.nativeElement, 'mouseenter').subscribe(
         this.handleMouseEnter.bind(this)
       );
+
       fromEvent(this.mainContent.nativeElement, 'mouseleave').subscribe(
         this.handleMouseLeave.bind(this)
       );
-
-      fromEvent(this.mainContent.nativeElement, 'mousedown').subscribe(
-        this.notifyClick.bind(this)
-      );
     });
+
+    fromEvent(this.mainContent.nativeElement, 'mousedown').subscribe(
+      this.notifyClick.bind(this)
+    );
   }
 
   // Get the class of this tile to configure how its displayed in CSS
@@ -209,14 +203,6 @@ export class TileComponent implements AfterViewInit {
     if (this.mousePressService.getMouseDown()) {
       this.notifyClick();
     }
-  }
-
-  submitCustomWeight(customWeight: number): void {
-    this.submitCustomWeightEmitter.emit(customWeight);
-  }
-
-  closeCustomWeightInput(): void {
-    this.closeCustomWeightInputEmitter.emit();
   }
 
   shouldDisplayTileTooltip(): boolean {

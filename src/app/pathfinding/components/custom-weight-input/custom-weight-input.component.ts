@@ -16,8 +16,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomWeightInputComponent {
-  @Input() readonly shouldDisplayCustomWeightInput!: boolean;
-
   // Event emitter for when the user enters a custom weight and submits it
   @Output() readonly submitCustomWeightEmitter = new EventEmitter<number>();
 
