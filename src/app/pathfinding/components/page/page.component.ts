@@ -87,7 +87,7 @@ import {
 import { TheoryModalSlide } from '../theory-modal/theory-modal.component';
 import { MousePressService } from '../../services/mouse-press.service';
 import { fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/internal/operators/debounceTime';
+import { debounceTime } from 'rxjs/operators';
 import {
   AUTO_GENERATED_SAVE_STR,
   PATHFINDING_OPTIONS_STR,
