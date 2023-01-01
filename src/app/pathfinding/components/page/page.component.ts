@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
+  NgZone,
   OnInit,
 } from '@angular/core';
 import {
@@ -215,7 +216,8 @@ export class PageComponent implements OnInit {
   constructor(
     public dragAndDropService: TileDragAndDropService,
     public mousePressService: MousePressService,
-    public changeDetectorRef: ChangeDetectorRef
+    public changeDetectorRef: ChangeDetectorRef,
+    public zone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -312,7 +314,9 @@ export class PageComponent implements OnInit {
       this.placeAtTile(pos);
     }
 
-    this.changeDetectorRef.detectChanges();
+    this.zone.run(() => {
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   // Route a user guess depending on whether it was correct or not
